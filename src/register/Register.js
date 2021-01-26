@@ -24,14 +24,15 @@ const Register = (
         passwordChanged(event.target.value)
     const onChangeConfirmationPassword = event =>
         confirmationPasswordChanged(event.target.value)
-    const onClickRegister = () => {
+    const onSubmit = event => {
+        event.preventDefault()
         if (password === confirmationPassword) {
             registerRequest({name, email, password})
         } else {
             passwordDoesNotMatchConfirmationPassword({password, confirmationPassword})
         }
     }
-    return <div className={'Register'}>
+    return <form className={'Register'} onSubmit={onSubmit}>
         <h1>Register</h1>
         <ErrorComponent errors={errors}/>
         <input value={name}
@@ -49,9 +50,9 @@ const Register = (
                type={'password'}
                placeholder={'confirmation password'}
                onChange={onChangeConfirmationPassword}/>
-        <button type={'button'} onClick={onClickRegister}>Register</button>
+        <button type={'submit'}>Register</button>
         <a href={'/login'}>Login</a>
-    </div>
+    </form>
 }
 
 export default Register

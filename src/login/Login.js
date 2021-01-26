@@ -7,10 +7,11 @@ const Login = ({nameOrEmail, password, errors, nameOrEmailChanged, passwordChang
         nameOrEmailChanged(event.target.value)
     const onChangePassword = event =>
         passwordChanged(event.target.value)
-    const onClickLoginRequest = () => {
+    const onSubmit = event => {
+        event.preventDefault()
         loginRequest({nameOrEmail, password})
     }
-    return <div className={'Login'}>
+    return <form className={'Login'} onSubmit={onSubmit}>
         <h1>Login</h1>
         <ErrorComponent errors={errors}/>
         <input value={nameOrEmail}
@@ -21,9 +22,9 @@ const Login = ({nameOrEmail, password, errors, nameOrEmailChanged, passwordChang
                type={'password'}
                placeholder={'password'}
                onChange={onChangePassword}/>
-        <button type={'button'} onClick={onClickLoginRequest}>Login</button>
+        <button type={'submit'}>Login</button>
         <a href={'/register'}>Register</a>
-    </div>
+    </form>
 }
 
 export default Login
