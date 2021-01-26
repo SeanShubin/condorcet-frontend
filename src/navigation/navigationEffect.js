@@ -20,8 +20,14 @@ const fetchPage = environment => function* () {
     } else if (registerUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(registerPageName))
     } else if (dashboardUriPattern.test(uri)) {
-        yield put(navigationDispatch.fetchPageSuccess(dashboardPageName))
-        yield put(dashboardDispatch.fetchNameRequest())
+        const name = environment.loadSecret('name')
+        const password = environment.loadSecret('password')
+        if (name === null || password === null) {
+            yield put(navigationDispatch.redirect(loginPagePath))
+        } else {
+            yield put(navigationDispatch.fetchPageSuccess(dashboardPageName))
+            yield put(dashboardDispatch.fetchNameRequest())
+        }
     } else {
         yield put(navigationDispatch.redirect(loginPagePath))
     }
