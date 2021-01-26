@@ -35,8 +35,8 @@ const loginRequest = ({nameOrEmail, password}) => {
             }
         } else {
             return {
-                status: statusCode.ok,
-                bodyJson: {name: found.name}
+                status: statusCode.unauthorized,
+                bodyJson: {userMessage: `Wrong password for user '${nameOrEmail}'`}
             }
         }
     } else {
