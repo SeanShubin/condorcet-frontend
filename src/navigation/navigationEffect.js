@@ -20,8 +20,8 @@ const fetchPage = environment => function* () {
     } else if (registerUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(registerPageName))
     } else if (dashboardUriPattern.test(uri)) {
-        const name = environment.loadSecret('name')
-        const password = environment.loadSecret('password')
+        const name = environment.sessionStorage.getItem('name')
+        const password = environment.sessionStorage.getItem('password')
         if (name === null || password === null) {
             yield put(navigationDispatch.redirect(loginPagePath))
         } else {

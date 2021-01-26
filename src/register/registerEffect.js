@@ -15,8 +15,8 @@ const registerRequest = environment => function* (event) {
         }
     )
     if (result.ok) {
-        environment.storeSecret('name', name)
-        environment.storeSecret('password', password)
+        environment.sessionStorage.setItem('name', name)
+        environment.sessionStorage.setItem('password', password)
         yield put(navigationDispatch.redirect(dashboardPagePath))
     } else {
         const {userMessage} = yield result.json()

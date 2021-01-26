@@ -31,20 +31,12 @@ const createEnvironment = (
         return {ok, json}
     }
 
-    const storeSecret = (key, value) => {
-        sessionStorage.setItem(key, value)
-    }
-    const loadSecret = key => sessionStorage.getItem(key)
-    const purgeSecrets = () => sessionStorage.clear()
-
     return {
         history,
         fetchText,
         fetchJson,
         fetchApi,
-        storeSecret,
-        loadSecret,
-        purgeSecrets
+        sessionStorage
     }
 }
 

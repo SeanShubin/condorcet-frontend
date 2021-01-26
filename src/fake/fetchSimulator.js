@@ -15,9 +15,10 @@ const composeResponse = ({status, bodyJson}) => {
     return result
 }
 
-const users = []
+const users = JSON.parse(sessionStorage.getItem('users')) || []
 const addUser = ({name, email, password}) => {
     users.push({name, email, password})
+    sessionStorage.setItem('users', JSON.stringify(users))
 }
 const findByName = name => R.find(R.propEq('name', name), users)
 const findByEmail = email => R.find(R.propEq('email', email), users)
@@ -66,7 +67,9 @@ const registerRequest = ({name, email, password}) => {
     }
 }
 
-addUser({name: 'foo', email: 'foo@email.com', password: 'bar'})
+if (R.isEmpty(users)) {
+    addUser({name: 'foo', email: 'foo@email.com', password: 'bar'})
+}
 
 const fetchSimulator = (resource, init) => {
     let result

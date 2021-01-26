@@ -16,8 +16,8 @@ const loginRequest = environment => function* (event) {
         }
     )
     if (result.ok) {
-        environment.storeSecret('name', result.json.name)
-        environment.storeSecret('password', password)
+        environment.sessionStorage.setItem('name', result.json.name)
+        environment.sessionStorage.setItem('password', password)
         yield put(navigationDispatch.redirect(dashboardPagePath))
     } else {
         yield put(loginDispatch.errorAdded(result.json.userMessage))

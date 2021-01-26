@@ -6,12 +6,13 @@ import navigationDispatch from "../navigation/navigationDispatch";
 import {loginPagePath} from "../login/loginConstant";
 
 const logoutRequest = environment => function* (event) {
-    environment.purgeSecrets()
+    environment.sessionStorage.removeItem('name')
+    environment.sessionStorage.removeItem('password')
     yield put(navigationDispatch.redirect(loginPagePath))
 }
 
 const fetchNameRequest = environment => function* (event) {
-    const name = environment.loadSecret('name')
+    const name = environment.sessionStorage.getItem('name')
     yield put(dashboardDispatch.fetchNameSuccess(name))
 }
 
