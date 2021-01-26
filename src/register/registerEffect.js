@@ -7,16 +7,21 @@ import {dashboardPagePath} from "../dashboard/dashboardConstant";
 
 const registerRequest = environment => function* (event) {
     const {name, email, password} = event
-    yield environment.fetchJson(
+    const result = yield environment.fetchApi(
         `/proxy/register-request`,
         {
             method: 'POST',
             body: JSON.stringify({name, email, password})
         }
     )
-    environment.storeSecret('name', name)
-    environment.storeSecret('password', password)
-    yield put(navigationDispatch.redirect(dashboardPagePath))
+    if (result.ok) {
+        environment.storeSecret('name', name)
+        environment.storeSecret('password', password)
+        yield put(navigationDispatch.redirect(dashboardPagePath))
+    } else {
+        const {userMessage} = yield result.json()
+        yield put(registerDispatch.errorAdded(userMessage))
+    }
 }
 
 const genericError = environment => function* (error, event) {

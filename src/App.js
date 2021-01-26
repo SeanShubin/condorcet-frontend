@@ -5,6 +5,7 @@ import createSagaMiddleware from 'redux-saga'
 import {applyMiddleware, compose, createStore} from 'redux'
 import {createBrowserHistory} from 'history';
 import createEnvironment from './environment/environment';
+import fetchSimulator from "./fake/fetchSimulator";
 
 const sagaMiddleware = createSagaMiddleware()
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -15,7 +16,7 @@ const store = createStore(
 )
 const history = createBrowserHistory()
 const environment = createEnvironment({
-  fetch, history, sessionStorage
+  fetch: fetchSimulator, history, sessionStorage
 })
 sagaMiddleware.run(saga(environment))
 initializeEvents.forEach(event => store.dispatch(event))

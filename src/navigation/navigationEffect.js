@@ -5,6 +5,7 @@ import {loginPageName, loginPagePath, loginUriPattern} from "../login/loginConst
 import {registerPageName, registerUriPattern} from "../register/registerConstant";
 import {dashboardPageName, dashboardUriPattern} from "../dashboard/dashboardConstant";
 import {composeErrorEventMessage} from "../library/error-util";
+import dashboardDispatch from "../dashboard/dashboardDispatch";
 
 const redirect = environment => function* (event) {
     const uri = event.uri
@@ -20,6 +21,7 @@ const fetchPage = environment => function* () {
         yield put(navigationDispatch.fetchPageSuccess(registerPageName))
     } else if (dashboardUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(dashboardPageName))
+        yield put(dashboardDispatch.fetchNameRequest())
     } else {
         yield put(navigationDispatch.redirect(loginPagePath))
     }

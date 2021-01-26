@@ -8,16 +8,20 @@ import {dashboardPagePath} from "../dashboard/dashboardConstant";
 const loginRequest = environment => function* (event) {
     // just prototype it for now, will switch to HTTP authentication or JWT later.
     const {nameOrEmail, password} = event
-    const name = yield environment.fetchJson(
+    const result = yield environment.fetchApi(
         `/proxy/login-request`,
         {
             method: 'POST',
             body: JSON.stringify({nameOrEmail, password})
         }
     )
-    environment.storeSecret('name', name)
-    environment.storeSecret('password', password)
-    yield put(navigationDispatch.redirect(dashboardPagePath))
+    if (result.ok) {
+        environment.storeSecret('name', result.json.name)
+        environment.storeSecret('password', password)
+        yield put(navigationDispatch.redirect(dashboardPagePath))
+    } else {
+        yield put(loginDispatch.errorAdded(result.json.userMessage))
+    }
 }
 
 const genericError = environment => function* (error, event) {

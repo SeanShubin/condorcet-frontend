@@ -10,12 +10,18 @@ const logoutRequest = environment => function* (event) {
     yield put(navigationDispatch.redirect(loginPagePath))
 }
 
+const fetchNameRequest = environment => function* (event) {
+    const name = environment.loadSecret('name')
+    yield put(dashboardDispatch.fetchNameSuccess(name))
+}
+
 const genericError = environment => function* (error, event) {
     yield put(dashboardDispatch.errorAdded(composeErrorEventMessage({error, event})))
 }
 
 const dashboardEffect = {
     [dashboardEvent.LOGOUT_REQUEST]: logoutRequest,
+    [dashboardEvent.FETCH_NAME_REQUEST]: fetchNameRequest,
     [dashboardEvent.GENERIC_ERROR]: genericError
 }
 

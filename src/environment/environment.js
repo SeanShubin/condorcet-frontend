@@ -24,6 +24,13 @@ const createEnvironment = (
         }
     }
 
+    const fetchApi = async (resource, init) => {
+        const response = await fetch(resource, init)
+        const json = await response.json()
+        const ok = response.ok
+        return {ok, json}
+    }
+
     const storeSecret = (key, value) => {
         sessionStorage.setItem(key, value)
     }
@@ -34,6 +41,7 @@ const createEnvironment = (
         history,
         fetchText,
         fetchJson,
+        fetchApi,
         storeSecret,
         loadSecret,
         purgeSecrets
