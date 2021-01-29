@@ -1,4 +1,4 @@
-# Sample Program Demonstrating React, Redux, and Sagas
+# Condorcet Frontend
 
 ## Scripts
 
