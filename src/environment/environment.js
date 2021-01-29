@@ -6,7 +6,7 @@ const createEnvironment = (
     }) => {
     return {
         history,
-        fetch,
+        fetch: (resource, init) => fetch(resource, init),
         sessionStorage
     }
 }

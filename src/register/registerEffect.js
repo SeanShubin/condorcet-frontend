@@ -8,7 +8,7 @@ import {dashboardPagePath} from "../dashboard/dashboardConstant";
 const registerRequest = environment => function* (event) {
     const {name, email, password} = event
     const result = yield environment.fetch(
-        `/proxy/register-request`,
+        `/proxy/AddUser`,
         {
             method: 'POST',
             body: JSON.stringify({name, email, password})
@@ -16,11 +16,11 @@ const registerRequest = environment => function* (event) {
     )
     const jsonResult = yield result.json()
     if (result.ok) {
-        environment.sessionStorage.setItem('name', name)
+        environment.sessionStorage.setItem('name', jsonResult.name)
         environment.sessionStorage.setItem('password', password)
         yield put(navigationDispatch.redirect(dashboardPagePath))
     } else {
-        yield put(registerDispatch.errorAdded(jsonResult.userMessage))
+        yield put(registerDispatch.errorAdded(jsonResult.userSafeMessage))
     }
 }
 

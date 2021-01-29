@@ -9,19 +9,20 @@ const loginRequest = environment => function* (event) {
     // just prototype it for now, will switch to HTTP authentication or JWT later.
     const {nameOrEmail, password} = event
     const result = yield environment.fetch(
-        `/proxy/login-request`,
+        `/proxy/Authenticate`,
         {
             method: 'POST',
             body: JSON.stringify({nameOrEmail, password})
         }
     )
     const jsonResult = yield result.json()
+    console.log('loginRequest.jsonResult', jsonResult)
     if (result.ok) {
         environment.sessionStorage.setItem('name', jsonResult.name)
         environment.sessionStorage.setItem('password', password)
         yield put(navigationDispatch.redirect(dashboardPagePath))
     } else {
-        yield put(loginDispatch.errorAdded(jsonResult.userMessage))
+        yield put(loginDispatch.errorAdded(jsonResult.userSafeMessage))
     }
 }
 
