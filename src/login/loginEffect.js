@@ -6,6 +6,7 @@ import navigationDispatch from "../navigation/navigationDispatch";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
 
 const loginRequest = environment => function* (event) {
+    yield put(loginDispatch.clearErrors())
     // just prototype it for now, will switch to HTTP authentication or JWT later.
     const {nameOrEmail, password} = event
     const result = yield environment.fetch(
@@ -16,7 +17,6 @@ const loginRequest = environment => function* (event) {
         }
     )
     const jsonResult = yield result.json()
-    console.log('loginRequest.jsonResult', jsonResult)
     if (result.ok) {
         environment.sessionStorage.setItem('name', jsonResult.name)
         environment.sessionStorage.setItem('password', password)
