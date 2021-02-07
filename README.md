@@ -61,12 +61,17 @@ and be more explicit and intentional about what css styles are applied
 - [React](https://reactjs.org/)
 - [Ramda](https://ramdajs.com/)
 - [React Router](https://reactrouter.com/)
-    - [react-router-dom](https://www.npmjs.com/package/react-router-dom)
+  - [react-router-dom](https://www.npmjs.com/package/react-router-dom)
 - [history](https://github.com/ReactTraining/history/)
 - [Jest](https://jestjs.io/)
-    - [expect api](https://jestjs.io/docs/en/expect)
+  - [expect api](https://jestjs.io/docs/en/expect)
 - [Testing Library](https://testing-library.com)
-    - [queries](https://testing-library.com/docs/dom-testing-library/api-queries)
+  - [queries](https://testing-library.com/docs/dom-testing-library/api-queries)
 - http-proxy-middleware
-    - https://github.com/chimurai/http-proxy-middleware
-    - https://www.npmjs.com/package/http-proxy-middleware
+  - https://github.com/chimurai/http-proxy-middleware
+  - https://www.npmjs.com/package/http-proxy-middleware
+
+## Notes
+
+- should look into Json Web Token
+  - https://afteracademy.com/blog/implement-json-web-token-jwt-authentication-using-access-token-and-refresh-token
