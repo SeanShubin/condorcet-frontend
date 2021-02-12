@@ -32,6 +32,7 @@ const composeSaga = ({effectMap, genericErrorHandler}) => environment => functio
             try {
                 yield* successHandler(...args)
             } catch (error) {
+                console.log(error)
                 yield* errorHandler(error, ...args)
             }
         }
@@ -44,9 +45,9 @@ const createConnected = ({
                              name,
                              model,
                              dispatch,
-                             View,
-                             reducerMap,
-                             effectMap,
+                             View = (() => <div>Component '{name}' undefined</div>),
+                             reducerMap = {},
+                             effectMap = {},
                              genericErrorHandler,
                              componentDependencyMap
                          }) => {

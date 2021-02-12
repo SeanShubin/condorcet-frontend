@@ -6,23 +6,16 @@ import navigationDispatch from "../navigation/navigationDispatch";
 import {loginPagePath} from "../login/loginConstant";
 
 const logoutRequest = environment => function* (event) {
-    environment.sessionStorage.removeItem('name')
-    environment.sessionStorage.removeItem('password')
+    environment.setAccessToken(undefined)
     yield put(navigationDispatch.redirect(loginPagePath))
 }
 
-const fetchNameRequest = environment => function* (event) {
-    const name = environment.sessionStorage.getItem('name')
-    yield put(dashboardDispatch.fetchNameSuccess(name))
-}
-
-const genericError = environment => function* (error, event) {
+const genericError = _ => function* (error, event) {
     yield put(dashboardDispatch.errorAdded(composeErrorEventMessage({error, event})))
 }
 
 const dashboardEffect = {
     [dashboardEvent.LOGOUT_REQUEST]: logoutRequest,
-    [dashboardEvent.FETCH_NAME_REQUEST]: fetchNameRequest,
     [dashboardEvent.GENERIC_ERROR]: genericError
 }
 

@@ -3,9 +3,10 @@ import navigationEvent from './navigationEvent'
 import {put} from 'redux-saga/effects'
 import {loginPageName, loginPagePath, loginUriPattern} from "../login/loginConstant";
 import {registerPageName, registerUriPattern} from "../register/registerConstant";
+import {adminPageName, adminUriPattern} from "../admin/adminConstant";
 import {dashboardPageName, dashboardUriPattern} from "../dashboard/dashboardConstant";
 import {composeErrorEventMessage} from "../library/error-util";
-import dashboardDispatch from "../dashboard/dashboardDispatch";
+import adminDispatch from "../admin/adminDispatch";
 
 const redirect = environment => function* (event) {
     const uri = event.uri
@@ -20,20 +21,16 @@ const fetchPage = environment => function* () {
     } else if (registerUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(registerPageName))
     } else if (dashboardUriPattern.test(uri)) {
-        const name = environment.sessionStorage.getItem('name')
-        const password = environment.sessionStorage.getItem('password')
-        if (name === null || password === null) {
-            yield put(navigationDispatch.redirect(loginPagePath))
-        } else {
-            yield put(navigationDispatch.fetchPageSuccess(dashboardPageName))
-            yield put(dashboardDispatch.fetchNameRequest())
-        }
+        yield put(navigationDispatch.fetchPageSuccess(dashboardPageName))
+    } else if (adminUriPattern.test(uri)) {
+        yield put(navigationDispatch.fetchPageSuccess(adminPageName))
+        yield put(adminDispatch.fetchUsersRequest())
     } else {
         yield put(navigationDispatch.redirect(loginPagePath))
     }
 }
 
-const genericError = environment => function* (error, event) {
+const genericError = _ => function* (error, event) {
     yield put(navigationDispatch.errorAdded(composeErrorEventMessage({error, event})))
 }
 
