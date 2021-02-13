@@ -9,10 +9,20 @@ const createHeaderRow = captions => {
     return <tr>{headerCells}</tr>
 }
 
-const createBodyRow = user => <tr key={user.name}>
-    <td>{user.name}</td>
-    <td>{user.role}</td>
-</tr>
+const createBodyRow = user => {
+    const createOption = role => {
+        return <option key={role}>{role}</option>
+    }
+
+    return <tr key={user.name}>
+        <td>{user.name}</td>
+        <td>
+            <select defaultValue={user.role}>
+                {R.map(createOption, user.allowedRoles)}
+            </select>
+        </td>
+    </tr>
+}
 
 const createBodyRows = users => R.map(createBodyRow, users)
 
