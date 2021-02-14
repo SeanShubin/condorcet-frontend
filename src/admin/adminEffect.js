@@ -15,7 +15,7 @@ const fetchUsersRequest = environment => function* (event) {
 
 const updateUserRoleRequest = environment => function* (event) {
     const body = {
-        user: event.user,
+        name: event.name,
         role: event.role
     }
     const result = yield environment.authenticatedFetch(
@@ -25,10 +25,10 @@ const updateUserRoleRequest = environment => function* (event) {
             body: JSON.stringify(body)
         }
     )
-    const jsonResult = yield result.json()
     if (result.ok) {
         yield put(adminDispatch.fetchUsersRequest())
     } else {
+        const jsonResult = yield result.json()
         yield put(adminDispatch.errorAdded(jsonResult.userSafeMessage))
     }
 }

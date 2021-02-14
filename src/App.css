@@ -33,11 +33,12 @@
 }
 
 .App button {
-    border-radius: 0.5rem;
+    border-radius: 0.7rem;
     border-style: none;
     border-color: var(--border);
     background-color: var(--button-background);
     color: blue;
+    padding: 0.3rem;
 }
 
 .App button:hover {
