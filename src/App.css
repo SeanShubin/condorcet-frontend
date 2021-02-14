@@ -47,6 +47,7 @@
 .App a, select {
     text-decoration: none;
     color: var(--clickable-text);
+    width: 100%;
 }
 
 .App a:hover {
