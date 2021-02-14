@@ -1,15 +1,19 @@
 # Condorcet Frontend
 
+## Prerequisites
+
+Make sure [condorcet-backend](https://github.com/SeanShubin/condorcet-backend) is running
+
 ## Scripts
 
 - `./scripts/prepare.sh`
-    - One time initialization
+  - One time initialization
 - `./scripts/run.sh`
-    - Run application
+  - Run application
 - `./scripts/test.sh`
-    - Run the tests
+  - Run the tests
 - `./scripts/coverage.sh`
-    - Test coverage report
+  - Test coverage report
 
 ## How this project was created
 ```bash
