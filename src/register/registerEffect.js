@@ -6,6 +6,7 @@ import navigationDispatch from "../navigation/navigationDispatch";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
 
 const registerRequest = environment => function* (event) {
+    yield put(registerDispatch.clearErrors())
     const {name, email, password} = event
     const result = yield environment.fetch(
         `/proxy/Register`,

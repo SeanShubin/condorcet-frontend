@@ -10,6 +10,7 @@ const confirmationPasswordChanged = (state, event) => R.set(registerModel.confir
 const passwordDoesNotMatchConfirmationPassword = (state, event) =>
     appendToArray(registerModel.errors, 'password does not match confirmation password', state)
 const errorAdded = (state, event) => appendToArray(registerModel.errors, event.message, state)
+const errorsCleared = (state, event) => R.set(registerModel.errors, [], state)
 
 const registerReducer = {
     [registerEvent.NAME_CHANGED]: nameChanged,
@@ -17,7 +18,8 @@ const registerReducer = {
     [registerEvent.PASSWORD_CHANGED]: passwordChanged,
     [registerEvent.CONFIRMATION_PASSWORD_CHANGED]: confirmationPasswordChanged,
     [registerEvent.PASSWORD_DOES_NOT_MATCH_CONFIRMATION_PASSWORD]: passwordDoesNotMatchConfirmationPassword,
-    [registerEvent.ERROR_ADDED]: errorAdded
+    [registerEvent.ERROR_ADDED]: errorAdded,
+    [registerEvent.CLEAR_ERRORS]: errorsCleared
 }
 
 export default registerReducer

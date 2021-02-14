@@ -17,7 +17,8 @@ const registerDispatch = {
         confirmationPassword
     }),
     registerRequest: ({name, email, password}) => ({type: registerEvent.REGISTER_REQUEST, name, email, password}),
-    errorAdded: message => ({type: registerEvent.ERROR_ADDED, message})
+    errorAdded: message => ({type: registerEvent.ERROR_ADDED, message}),
+    clearErrors: () => ({type: registerEvent.CLEAR_ERRORS})
 }
 
 export default registerDispatch
