@@ -29,7 +29,7 @@
 .App td, th {
     border-collapse: collapse;
     border: 1px solid black;
-    padding: 0.5rem;
+    /*padding: 0.5rem;*/
 }
 
 .App button {
@@ -49,9 +49,15 @@
     text-decoration: none;
     color: var(--clickable-text);
     width: 100%;
+    padding: 0.3rem;
 }
 
-.App a:hover {
+.App a:hover, select:hover {
     color: var(--highlight);
     background-color: var(--highlight-background);
+}
+
+.App span {
+    display: inline-block;
+    padding: 0.3rem;
 }

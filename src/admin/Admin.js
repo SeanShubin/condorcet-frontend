@@ -2,7 +2,7 @@ import './Admin.css'
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 
-const HeaderCell = ({caption}) => <th key={caption}>{caption}</th>
+const HeaderCell = ({caption}) => <th key={caption}><span>{caption}</span></th>
 
 const HeaderRow = ({captions}) => {
     const headerCells = R.map(caption => <HeaderCell key={caption} caption={caption}/>, captions)
@@ -22,7 +22,7 @@ const BodyRow = ({user, updateUserRoleRequest}) => {
     }
 
     return <tr key={user.name}>
-        <td>{user.name}</td>
+        <td><span>{user.name}</span></td>
         <td>
             <select value={user.role} onChange={onChange}>
                 {R.map(role => <RoleOption key={role} role={role}/>, user.allowedRoles)}
