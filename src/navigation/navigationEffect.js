@@ -3,10 +3,10 @@ import navigationEvent from './navigationEvent'
 import {put} from 'redux-saga/effects'
 import {loginPageName, loginPagePath, loginUriPattern} from "../login/loginConstant";
 import {registerPageName, registerUriPattern} from "../register/registerConstant";
-import {adminPageName, adminUriPattern} from "../admin/adminConstant";
+import {manageUsersPageName, manageUsersUriPattern} from "../manageUsers/manageUsersConstant";
 import {dashboardPageName, dashboardUriPattern} from "../dashboard/dashboardConstant";
 import {composeErrorEventMessage} from "../library/error-util";
-import adminDispatch from "../admin/adminDispatch";
+import manageUsersDispatch from "../manageUsers/manageUsersDispatch";
 
 const redirect = environment => function* (event) {
     const uri = event.uri
@@ -22,9 +22,9 @@ const fetchPage = environment => function* () {
         yield put(navigationDispatch.fetchPageSuccess(registerPageName))
     } else if (dashboardUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(dashboardPageName))
-    } else if (adminUriPattern.test(uri)) {
-        yield put(navigationDispatch.fetchPageSuccess(adminPageName))
-        yield put(adminDispatch.fetchUsersRequest())
+    } else if (manageUsersUriPattern.test(uri)) {
+        yield put(navigationDispatch.fetchPageSuccess(manageUsersPageName))
+        yield put(manageUsersDispatch.fetchUsersRequest())
     } else {
         yield put(navigationDispatch.redirect(loginPagePath))
     }

@@ -1,4 +1,4 @@
-import './Admin.css'
+import './ManageUsers.css'
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 
@@ -46,13 +46,13 @@ const UserList = ({users, updateUserRoleRequest}) => {
     </table>
 }
 
-const Admin = ({users, errors, updateUserRoleRequest}) => {
-    return <div className={'Admin'}>
-        <h1>Admin</h1>
+const ManageUsers = ({users, errors, updateUserRoleRequest}) => {
+    return <div className={'ManageUsers'}>
+        <h1>ManageUsers</h1>
         <ErrorComponent errors={errors}/>
         <UserList users={users} updateUserRoleRequest={updateUserRoleRequest}/>
         <a href={'/dashboard'}>dashboard</a>
     </div>
 }
 
-export default Admin
+export default ManageUsers
