@@ -7,6 +7,7 @@ const Dashboard = ({errors, logoutRequest}) => {
         <h1>Dashboard</h1>
         <ErrorComponent errors={errors}/>
         <a href={'/manageUsers'}>manage users</a>
+        <a href={'/tables'}>tables</a>
         <button type={'button'} onClick={logoutRequest}>Logout</button>
     </div>
 }

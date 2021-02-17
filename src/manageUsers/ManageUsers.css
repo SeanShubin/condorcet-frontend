@@ -3,3 +3,18 @@
     justify-content: center;
     grid-gap: 0.5rem;
 }
+
+.ManageUsers select {
+    display: inline-block;
+    border-style: none;
+    width: 100%;
+}
+
+.ManageUsers span {
+    display: inline-block;
+    padding: 0.3rem;
+}
+
+.ManageUsers td, th {
+    text-align: left;
+}

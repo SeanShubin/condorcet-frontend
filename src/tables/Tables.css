@@ -1,0 +1,13 @@
+.Tables {
+    display: grid;
+    justify-content: center;
+    grid-gap: 0.5rem;
+}
+
+.Tables td, th {
+    padding: 0.3rem;
+}
+
+.Tables .tab {
+    padding: 0.3rem;
+}

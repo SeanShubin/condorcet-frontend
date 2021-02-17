@@ -1,19 +1,43 @@
 .App {
     --background: lightgray;
-    --highlight: white;
-    --highlight-background: dodgerblue;
-    --button-background: dodgerblue;
     --border: darkgrey;
-    --clickable-text: blue;
+
+    --action-button-background: dodgerblue;
+    --action-button-foreground: blue;
+    --action-button-background-hover: dodgerblue;
+    --action-button-foreground-hover: white;
+
+    --navigate-text-background: lightgray;
+    --navigate-text-foreground: blue;
+    --navigate-text-background-hover: dodgerblue;
+    --navigate-text-foreground-hover: white;
+
+    --selectable-text-background: lightgray;
+    --selectable-text-foreground: blue;
+    --selectable-text-background-hover: dodgerblue;
+    --selectable-text-foreground-hover: white;
+
+    --selected-text-background: dodgerblue;
+    --selected-text-foreground: blue;
+    --selected-text-background-hover: dodgerblue;
+    --selected-text-foreground-hover: white;
+
+    --edit-background: lightgray;
+    --edit-foreground: black;
+
+    --static-text-background: lightgray;
+    --static-text-foreground: black;
 }
 
 .App {
     margin: 0.5rem;
-    background-color: var(--background);
+    color: var(--static-text-foreground);
+    background-color: var(--static-text-background);
 }
 
-.App input, select {
-    background-color: var(--background);
+.App input {
+    background-color: var(--edit-background);
+    color: var(--edit-foreground);
     border: 1px solid var(--border);
 }
 
@@ -28,36 +52,54 @@
 
 .App td, th {
     border-collapse: collapse;
-    border: 1px solid black;
-    /*padding: 0.5rem;*/
+    border: 1px solid var(--border);
 }
 
 .App button {
     border-radius: 0.7rem;
     border-style: none;
-    border-color: var(--border);
-    background-color: var(--button-background);
-    color: blue;
+    color: var(--action-button-foreground);
+    background-color: var(--action-button-background);
     padding: 0.3rem;
 }
 
 .App button:hover {
-    color: var(--highlight);
+    color: var(--action-button-foreground-hover);
+    background-color: var(--action-button-background-hover);
 }
 
-.App a, select {
+.App a {
     text-decoration: none;
-    color: var(--clickable-text);
-    width: 100%;
-    padding: 0.3rem;
+    color: var(--navigate-text-foreground);
+    background-color: var(--navigate-text-background);
 }
 
-.App a:hover, select:hover {
-    color: var(--highlight);
-    background-color: var(--highlight-background);
+.App a:hover {
+    color: var(--navigate-text-foreground-hover);
+    background-color: var(--navigate-text-background-hover);
 }
 
-.App span {
-    display: inline-block;
-    padding: 0.3rem;
+.App select {
+    color: var(--selectable-text-foreground);
+    background-color: var(--selectable-text-background);
+}
+
+.App select:hover {
+    color: var(--selectable-text-foreground-hover);
+    background-color: var(--selectable-text-background-hover);
+}
+
+.App .tab {
+    color: var(--selectable-text-foreground);
+    background-color: var(--selectable-text-background);
+}
+
+.App .tab.selected {
+    color: var(--selected-text-foreground);
+    background-color: var(--selected-text-background);
+}
+
+.App .tab:hover {
+    color: var(--selectable-text-foreground-hover);
+    background-color: var(--selectable-text-background-hover);
 }

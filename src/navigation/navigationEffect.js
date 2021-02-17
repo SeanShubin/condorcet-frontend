@@ -7,6 +7,7 @@ import {manageUsersPageName, manageUsersUriPattern} from "../manageUsers/manageU
 import {dashboardPageName, dashboardUriPattern} from "../dashboard/dashboardConstant";
 import {composeErrorEventMessage} from "../library/error-util";
 import manageUsersDispatch from "../manageUsers/manageUsersDispatch";
+import {tablesPageName, tablesUriPattern} from "../tables/tablesConstant";
 
 const redirect = environment => function* (event) {
     const uri = event.uri
@@ -25,6 +26,8 @@ const fetchPage = environment => function* () {
     } else if (manageUsersUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(manageUsersPageName))
         yield put(manageUsersDispatch.fetchUsersRequest())
+    } else if (tablesUriPattern.test(uri)) {
+        yield put(navigationDispatch.fetchPageSuccess(tablesPageName))
     } else {
         yield put(navigationDispatch.redirect(loginPagePath))
     }
