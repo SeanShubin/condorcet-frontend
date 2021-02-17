@@ -1,0 +1,23 @@
+.Events {
+    display: grid;
+    justify-content: center;
+    grid-gap: 0.5rem;
+}
+
+.Events td, th {
+    padding: 0.3rem;
+}
+
+.Events .tab {
+    border-left: 1px solid darkgrey;
+    padding: 0.3rem;
+}
+
+.Events .tab:first-child {
+    border-left: none;
+    padding: 0.3rem;
+}
+
+.Events a {
+    padding: 0.3rem;
+}

@@ -6,18 +6,21 @@ import createNavigationConnected from '../navigation/navigationConnected'
 import {composeReducer, composeSaga} from "../library/compose-util";
 import createManageUsersConnected from "../manageUsers/manageUsersConnected";
 import createTablesConnected from "../tables/tablesConnected";
+import createEventsConnected from "../events/eventsConnected";
 
 const loginConnected = createLoginConnected()
 const registerConnected = createRegisterConnected()
 const dashboardConnected = createDashboardConnected()
 const manageUsersConnected = createManageUsersConnected()
 const tablesConnected = createTablesConnected()
+const eventsConnected = createEventsConnected()
 const navigationConnected = createNavigationConnected({
     Login: loginConnected.Component,
     Register: registerConnected.Component,
     Dashboard: dashboardConnected.Component,
     ManageUsers: manageUsersConnected.Component,
-    Tables: tablesConnected.Component
+    Tables: tablesConnected.Component,
+    Events: eventsConnected.Component
 })
 const connectedArray = [
     loginConnected,
@@ -25,7 +28,8 @@ const connectedArray = [
     dashboardConnected,
     navigationConnected,
     manageUsersConnected,
-    tablesConnected
+    tablesConnected,
+    eventsConnected
 ]
 
 const initializeEvents = [

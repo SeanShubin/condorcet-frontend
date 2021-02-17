@@ -9,6 +9,8 @@ import {composeErrorEventMessage} from "../library/error-util";
 import manageUsersDispatch from "../manageUsers/manageUsersDispatch";
 import {tablesPageName, tablesUriPattern} from "../tables/tablesConstant";
 import tablesDispatch from "../tables/tablesDispatch";
+import {eventsPageName, eventsUriPattern} from "../events/eventsConstant";
+import eventsDispatch from "../events/eventsDispatch";
 
 const redirect = environment => function* (event) {
     const uri = event.uri
@@ -30,6 +32,9 @@ const fetchPage = environment => function* () {
     } else if (tablesUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(tablesPageName))
         yield put(tablesDispatch.fetchTableNamesRequest())
+    } else if (eventsUriPattern.test(uri)) {
+        yield put(navigationDispatch.fetchPageSuccess(eventsPageName))
+        yield put(eventsDispatch.fetchTableRequest())
     } else {
         yield put(navigationDispatch.redirect(loginPagePath))
     }
