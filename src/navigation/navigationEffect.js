@@ -8,6 +8,7 @@ import {dashboardPageName, dashboardUriPattern} from "../dashboard/dashboardCons
 import {composeErrorEventMessage} from "../library/error-util";
 import manageUsersDispatch from "../manageUsers/manageUsersDispatch";
 import {tablesPageName, tablesUriPattern} from "../tables/tablesConstant";
+import tablesDispatch from "../tables/tablesDispatch";
 
 const redirect = environment => function* (event) {
     const uri = event.uri
@@ -28,6 +29,7 @@ const fetchPage = environment => function* () {
         yield put(manageUsersDispatch.fetchUsersRequest())
     } else if (tablesUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(tablesPageName))
+        yield put(tablesDispatch.fetchTableNamesRequest())
     } else {
         yield put(navigationDispatch.redirect(loginPagePath))
     }

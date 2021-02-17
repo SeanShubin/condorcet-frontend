@@ -1,19 +1,26 @@
 import './Tables.css'
 import ErrorComponent from "../error/ErrorComponent";
 
-const TableSelector = ({name, selectedName}) => {
+const TableSelector = ({name, selectedName, selectedTableChanged}) => {
+    const onClick = () => {
+        selectedTableChanged(name)
+    }
     let className
     if (selectedName === name) {
         className = 'tab selected'
     } else {
         className = 'tab'
     }
-    return <label className={className}>{name}</label>
+    return <label onClick={onClick} className={className}>{name}</label>
 }
 
-const TableSelectors = ({names, selectedName}) => {
+const TableSelectors = ({names, selectedName, selectedTableChanged}) => {
     return <div>
-        {names.map(name => <TableSelector name={name} selectedName={selectedName}/>)}
+        {names.map(name => <TableSelector
+            key={name}
+            name={name}
+            selectedName={selectedName}
+            selectedTableChanged={selectedTableChanged}/>)}
     </div>
 }
 
@@ -32,13 +39,12 @@ const TableContent = ({headers, rows}) => {
     </table>
 }
 
-const Tables = ({selectedName, names, headers, rows, errors}) => {
-    console.log({selectedName, names, headers, rows, errors})
+const Tables = ({selectedName, names, table, errors, selectedTableChanged}) => {
     return <div className={'Tables'}>
         <h1>Tables</h1>
         <ErrorComponent errors={errors}/>
-        <TableSelectors names={names} selectedName={selectedName}/>
-        <TableContent headers={headers} rows={rows}/>
+        <TableSelectors names={names} selectedName={selectedName} selectedTableChanged={selectedTableChanged}/>
+        <TableContent headers={table.columnNames} rows={table.rows}/>
         <a href={'/dashboard'}>dashboard</a>
     </div>
 }

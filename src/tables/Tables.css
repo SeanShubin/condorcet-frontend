@@ -9,5 +9,15 @@
 }
 
 .Tables .tab {
+    border-left: 1px solid darkgrey;
+    padding: 0.3rem;
+}
+
+.Tables .tab:first-child {
+    border-left: none;
+    padding: 0.3rem;
+}
+
+.Tables a {
     padding: 0.3rem;
 }
