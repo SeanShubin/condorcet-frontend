@@ -1,6 +1,6 @@
 .Tables {
     display: grid;
-    justify-content: center;
+    justify-content: left;
     grid-gap: 0.5rem;
 }
 

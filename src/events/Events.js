@@ -3,15 +3,15 @@ import ErrorComponent from "../error/ErrorComponent";
 
 const TableHeader = ({header}) => <th>{header}</th>
 
-const TableRow = ({row}) => <tr>{row.map(cell => <td>{cell}</td>)}</tr>
+const TableRow = ({row}) => <tr>{row.map((cell, index) => <td key={index}>{`${cell}`}</td>)}</tr>
 
 const TableContent = ({headers, rows}) => {
     return <table>
         <thead>
-        <tr>{headers.map(header => <TableHeader header={header}/>)}</tr>
+        <tr>{headers.map((header, index) => <TableHeader key={index} header={header}/>)}</tr>
         </thead>
         <tbody>
-        {rows.map(row => <TableRow row={row}/>)}
+        {rows.map((row, index) => <TableRow key={index} row={row}/>)}
         </tbody>
     </table>
 }
