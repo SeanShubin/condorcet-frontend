@@ -5,6 +5,7 @@ import {loginPageName, loginPagePath, loginUriPattern} from "../login/loginConst
 import {registerPageName, registerUriPattern} from "../register/registerConstant";
 import {manageUsersPageName, manageUsersUriPattern} from "../manageUsers/manageUsersConstant";
 import {dashboardPageName, dashboardUriPattern} from "../dashboard/dashboardConstant";
+import dashboardDispatch from "../dashboard/dashboardDispatch";
 import {composeErrorEventMessage} from "../library/error-util";
 import manageUsersDispatch from "../manageUsers/manageUsersDispatch";
 import {tablesPageName, tablesUriPattern} from "../tables/tablesConstant";
@@ -26,6 +27,7 @@ const fetchPage = environment => function* () {
         yield put(navigationDispatch.fetchPageSuccess(registerPageName))
     } else if (dashboardUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(dashboardPageName))
+        yield put(dashboardDispatch.fetchCountsRequest())
     } else if (manageUsersUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(manageUsersPageName))
         yield put(manageUsersDispatch.fetchUsersRequest())

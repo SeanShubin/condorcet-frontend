@@ -1,8 +1,9 @@
 import './Dashboard.css'
 import React from 'react';
 import ErrorComponent from "../error/ErrorComponent";
+import {pluralize} from "../library/text-util";
 
-const Dashboard = ({errors, navigate, logoutRequest}) => {
+const Dashboard = ({userCount, electionCount, tableCount, eventCount, errors, navigate, logoutRequest}) => {
     const onClickManageUsers = event => {
         event.preventDefault()
         navigate('/manageUsers')
@@ -15,12 +16,21 @@ const Dashboard = ({errors, navigate, logoutRequest}) => {
         event.preventDefault()
         navigate('/events')
     }
+    const userCountText = `${userCount} ${pluralize({quantity: userCount, singular: 'user', plural: 'users'})}`
+    const electionCountText = `${electionCount} ${pluralize({
+        quantity: electionCount,
+        singular: 'election',
+        plural: 'elections'
+    })}`
+    const tableCountText = `${tableCount} ${pluralize({quantity: tableCount, singular: 'table', plural: 'tables'})}`
+    const eventCountText = `${eventCount} ${pluralize({quantity: eventCount, singular: 'event', plural: 'events'})}`
     return <div className={'Dashboard'}>
         <h1>Dashboard</h1>
         <ErrorComponent errors={errors}/>
-        <a onClick={onClickManageUsers}>manage users</a>
-        <a onClick={onClickTables}>tables</a>
-        <a onClick={onClickEvents}>events</a>
+        <a onClick={onClickManageUsers}>{userCountText}</a>
+        <a>{electionCountText}</a>
+        <a onClick={onClickTables}>{tableCountText}</a>
+        <a onClick={onClickEvents}>{eventCountText}</a>
         <button type={'button'} onClick={logoutRequest}>Logout</button>
     </div>
 }
