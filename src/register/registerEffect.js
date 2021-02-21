@@ -23,12 +23,18 @@ const registerRequest = environment => function* (event) {
     }
 }
 
+const navigate = environment => function* (event) {
+    environment.history.push(event.destination)
+    yield put(navigationDispatch.fetchPageRequest())
+}
+
 const genericError = environment => function* (error, event) {
     yield put(registerDispatch.errorAdded(composeErrorEventMessage({error, event})))
 }
 
 const registerEffect = {
     [registerEvent.REGISTER_REQUEST]: registerRequest,
+    [registerEvent.NAVIGATE]: navigate,
     [registerEvent.GENERIC_ERROR]: genericError
 }
 

@@ -16,12 +16,16 @@ const TableContent = ({headers, rows}) => {
     </table>
 }
 
-const Events = ({table, errors}) => {
+const Events = ({table, navigate, errors}) => {
+    const onClickDashboard = event => {
+        event.preventDefault()
+        navigate('/dashboard')
+    }
     return <div className={'Events'}>
         <h1>Events</h1>
         <ErrorComponent errors={errors}/>
         <TableContent headers={table.columnNames} rows={table.rows}/>
-        <a href={'/dashboard'}>dashboard</a>
+        <a onClick={onClickDashboard}>dashboard</a>
     </div>
 }
 

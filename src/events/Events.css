@@ -1,9 +1,3 @@
-.Events {
-    display: grid;
-    justify-content: center;
-    grid-gap: 0.5rem;
-}
-
 .Events td, th {
     padding: 0.3rem;
 }

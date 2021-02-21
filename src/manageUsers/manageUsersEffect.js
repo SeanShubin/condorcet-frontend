@@ -2,6 +2,7 @@ import manageUsersDispatch from './manageUsersDispatch'
 import manageUsersEvent from './manageUsersEvent'
 import {put} from 'redux-saga/effects'
 import {composeErrorEventMessage} from "../library/error-util";
+import navigationDispatch from "../navigation/navigationDispatch";
 
 const fetchUsersRequest = environment => function* (event) {
     const result = yield environment.authenticatedFetch(`/proxy/ListUsers`)
@@ -33,6 +34,11 @@ const updateUserRoleRequest = environment => function* (event) {
     }
 }
 
+const navigate = environment => function* (event) {
+    environment.history.push(event.destination)
+    yield put(navigationDispatch.fetchPageRequest())
+}
+
 const genericError = _ => function* (error, event) {
     yield put(manageUsersDispatch.errorAdded(composeErrorEventMessage({error, event})))
 }
@@ -40,6 +46,7 @@ const genericError = _ => function* (error, event) {
 const manageUsersEffect = {
     [manageUsersEvent.FETCH_USERS_REQUEST]: fetchUsersRequest,
     [manageUsersEvent.UPDATE_USER_ROLE_REQUEST]: updateUserRoleRequest,
+    [manageUsersEvent.NAVIGATE]: navigate,
     [manageUsersEvent.GENERIC_ERROR]: genericError
 }
 

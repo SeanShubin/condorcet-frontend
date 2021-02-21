@@ -2,7 +2,11 @@ import React from 'react';
 import './Login.css'
 import ErrorComponent from "../error/ErrorComponent";
 
-const Login = ({nameOrEmail, password, errors, nameOrEmailChanged, passwordChanged, loginRequest}) => {
+const Login = ({nameOrEmail, password, errors, navigate, nameOrEmailChanged, passwordChanged, loginRequest}) => {
+    const onClickRegister = event => {
+        event.preventDefault()
+        navigate('/register')
+    }
     const onChangeNameOrEmail = event =>
         nameOrEmailChanged(event.target.value)
     const onChangePassword = event =>
@@ -23,7 +27,7 @@ const Login = ({nameOrEmail, password, errors, nameOrEmailChanged, passwordChang
                placeholder={'password'}
                onChange={onChangePassword}/>
         <button type={'submit'}>Login</button>
-        <a href={'/register'}>Register</a>
+        <a onClick={onClickRegister}>Register</a>
     </form>
 }
 
