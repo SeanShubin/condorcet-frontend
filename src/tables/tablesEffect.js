@@ -9,7 +9,6 @@ const fetchTableNamesRequest = environment => function* () {
     const jsonResult = yield result.json()
     if (result.ok) {
         yield put(tablesDispatch.fetchTableNamesSuccess(jsonResult.tableNames))
-        yield put(tablesDispatch.selectedTableChanged('user'))
     } else {
         yield put(tablesDispatch.errorAdded(jsonResult.userSafeMessage))
     }

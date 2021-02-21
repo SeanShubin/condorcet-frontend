@@ -30,8 +30,12 @@ const fetchPage = environment => function* () {
         yield put(navigationDispatch.fetchPageSuccess(manageUsersPageName))
         yield put(manageUsersDispatch.fetchUsersRequest())
     } else if (tablesUriPattern.test(uri)) {
+        const queryString = environment.history.location.search
+        const params = new URLSearchParams(queryString)
+        const table = params.get('table')
         yield put(navigationDispatch.fetchPageSuccess(tablesPageName))
         yield put(tablesDispatch.fetchTableNamesRequest())
+        yield put(tablesDispatch.selectedTableChanged(table))
     } else if (eventsUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(eventsPageName))
         yield put(eventsDispatch.fetchTableRequest())

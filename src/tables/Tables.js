@@ -1,9 +1,10 @@
 import './Tables.css'
 import ErrorComponent from "../error/ErrorComponent";
+import {tablesPagePath} from "./tablesConstant";
 
-const TableSelector = ({name, selectedName, selectedTableChanged}) => {
+const TableSelector = ({name, selectedName, navigate}) => {
     const onClick = () => {
-        selectedTableChanged(name)
+        navigate(tablesPagePath(name))
     }
     let className
     if (selectedName === name) {
@@ -14,13 +15,13 @@ const TableSelector = ({name, selectedName, selectedTableChanged}) => {
     return <label onClick={onClick} className={className}>{name}</label>
 }
 
-const TableSelectors = ({names, selectedName, selectedTableChanged}) => {
+const TableSelectors = ({names, selectedName, navigate}) => {
     return <div>
         {names.map(name => <TableSelector
             key={name}
             name={name}
             selectedName={selectedName}
-            selectedTableChanged={selectedTableChanged}/>)}
+            navigate={navigate}/>)}
     </div>
 }
 
@@ -39,7 +40,7 @@ const TableContent = ({headers, rows}) => {
     </table>
 }
 
-const Tables = ({selectedName, names, table, errors, navigate, selectedTableChanged}) => {
+const Tables = ({selectedName, names, table, errors, navigate}) => {
     const onClickDashboard = event => {
         event.preventDefault()
         navigate('/dashboard')
@@ -47,7 +48,7 @@ const Tables = ({selectedName, names, table, errors, navigate, selectedTableChan
     return <div className={'Tables'}>
         <h1>Tables</h1>
         <ErrorComponent errors={errors}/>
-        <TableSelectors names={names} selectedName={selectedName} selectedTableChanged={selectedTableChanged}/>
+        <TableSelectors names={names} selectedName={selectedName} navigate={navigate}/>
         <TableContent headers={table.columnNames} rows={table.rows}/>
         <a onClick={onClickDashboard}>dashboard</a>
     </div>
