@@ -1,5 +1,5 @@
 import './App.css';
-import {initializeEvents, reducer, saga, Top} from './top/top'
+import {historyEvent, initializeEvents, reducer, saga, Top} from './top/top'
 import {Provider} from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import {applyMiddleware, compose, createStore} from 'redux'
@@ -14,6 +14,10 @@ const store = createStore(
     composeEnhancers(applyMiddleware(sagaMiddleware))
 )
 const history = createBrowserHistory()
+history.listen(({location, action}) => {
+  const event = historyEvent({location, action})
+  store.dispatch(event)
+})
 const environment = createEnvironment({
   fetch,
   history

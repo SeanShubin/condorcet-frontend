@@ -44,12 +44,17 @@ const fetchPage = environment => function* () {
     }
 }
 
+const history = environment => function* () {
+    yield put(navigationDispatch.fetchPageRequest())
+}
+
 const genericError = _ => function* (error, event) {
     yield put(navigationDispatch.errorAdded(composeErrorEventMessage({error, event})))
 }
 
 const navigationEffect = {
     [navigationEvent.FETCH_PAGE_REQUEST]: fetchPage,
+    [navigationEvent.HISTORY]: history,
     [navigationEvent.REDIRECT]: redirect,
     [navigationEvent.GENERIC_ERROR]: genericError
 }

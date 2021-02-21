@@ -43,11 +43,12 @@ const TableContent = ({headers, rows}) => {
 const Tables = ({selectedName, names, table, errors, navigate}) => {
     const onClickDashboard = event => {
         event.preventDefault()
-        navigate('/dashboard')
+        navigate('/dashboard?')
     }
     return <div className={'Tables'}>
         <h1>Tables</h1>
         <ErrorComponent errors={errors}/>
+        <a onClick={onClickDashboard}>dashboard</a>
         <TableSelectors names={names} selectedName={selectedName} navigate={navigate}/>
         <TableContent headers={table.columnNames} rows={table.rows}/>
         <a onClick={onClickDashboard}>dashboard</a>

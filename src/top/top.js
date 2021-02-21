@@ -35,8 +35,11 @@ const connectedArray = [
 const initializeEvents = [
     navigationDispatch.fetchPageRequest()
 ]
+const historyEvent = ({location, action}) => {
+    return navigationDispatch.history({location, action})
+}
 const Top = navigationConnected.Component
 const reducer = composeReducer(connectedArray)
 const saga = composeSaga(connectedArray)
 
-export {Top, reducer, saga, initializeEvents}
+export {Top, reducer, saga, initializeEvents, historyEvent}
