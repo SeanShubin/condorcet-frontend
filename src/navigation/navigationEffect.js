@@ -32,7 +32,7 @@ const fetchPage = environment => function* () {
     } else if (tablesUriPattern.test(uri)) {
         const queryString = environment.history.location.search
         const params = new URLSearchParams(queryString)
-        const table = params.get('table')
+        const table = params.get('table') || 'user'
         yield put(navigationDispatch.fetchPageSuccess(tablesPageName))
         yield put(tablesDispatch.fetchTableNamesRequest())
         yield put(tablesDispatch.selectedTableChanged(table))

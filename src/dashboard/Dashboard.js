@@ -1,7 +1,6 @@
 import './Dashboard.css'
 import React from 'react';
 import ErrorComponent from "../error/ErrorComponent";
-import {tablesPagePath} from "../tables/tablesConstant";
 
 const Dashboard = ({errors, navigate, logoutRequest}) => {
     const onClickManageUsers = event => {
@@ -10,7 +9,7 @@ const Dashboard = ({errors, navigate, logoutRequest}) => {
     }
     const onClickTables = event => {
         event.preventDefault()
-        navigate(tablesPagePath('user'))
+        navigate('/tables')
     }
     const onClickEvents = event => {
         event.preventDefault()

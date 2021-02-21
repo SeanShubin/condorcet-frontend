@@ -24,6 +24,7 @@ const Events = ({table, navigate, errors}) => {
     return <div className={'Events'}>
         <h1>Events</h1>
         <ErrorComponent errors={errors}/>
+        <a onClick={onClickDashboard}>dashboard</a>
         <TableContent headers={table.columnNames} rows={table.rows}/>
         <a onClick={onClickDashboard}>dashboard</a>
     </div>
