@@ -1,3 +1,7 @@
+.Events h1 {
+    padding-bottom: 0.3em;
+}
+
 .Events td, th {
     padding: 0.3rem;
 }
@@ -14,4 +18,5 @@
 
 .Events a {
     padding: 0.3rem;
+    display: inline-block;
 }
