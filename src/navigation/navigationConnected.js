@@ -7,7 +7,7 @@ import Navigation from './Navigation';
 
 import {createConnected} from "../library/connected-util";
 
-const createNavigationConnected = ({extraState, extraDispatch}) => {
+const createNavigationConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'navigation',
         model: navigationModel,

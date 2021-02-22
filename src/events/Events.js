@@ -16,10 +16,10 @@ const TableContent = ({headers, rows}) => {
     </table>
 }
 
-const Events = ({table, navigate, errors}) => {
+const Events = ({table, setUri, errors}) => {
     const onClickDashboard = event => {
         event.preventDefault()
-        navigate('/dashboard')
+        setUri('/dashboard')
     }
     return <div className={'Events'}>
         <h1>Events</h1>

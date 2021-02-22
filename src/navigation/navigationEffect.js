@@ -19,6 +19,12 @@ const redirect = environment => function* (event) {
     environment.history.go(0)
 }
 
+const setUri = environment => function* (event) {
+    const uri = event.uri
+    environment.history.push(uri)
+    yield put(navigationDispatch.fetchPageRequest())
+}
+
 const fetchPage = environment => function* () {
     const uri = environment.history.location.pathname
     if (loginUriPattern.test(uri)) {
@@ -58,6 +64,7 @@ const navigationEffect = {
     [navigationEvent.FETCH_PAGE_REQUEST]: fetchPage,
     [navigationEvent.HISTORY]: history,
     [navigationEvent.REDIRECT]: redirect,
+    [navigationEvent.SET_URI]: setUri,
     [navigationEvent.GENERIC_ERROR]: genericError
 }
 

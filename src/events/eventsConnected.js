@@ -6,7 +6,7 @@ import eventsReducer from "./eventsReducer";
 import eventsEffect from "./eventsEffect";
 import Events from './Events'
 
-const createEventsConnected = componentDependencyMap => {
+const createEventsConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'events',
         model: eventsModel,
@@ -15,7 +15,8 @@ const createEventsConnected = componentDependencyMap => {
         reducerMap: eventsReducer,
         effectMap: eventsEffect,
         genericErrorHandler: eventsEvent.GENERIC_ERROR,
-        componentDependencyMap
+        extraState,
+        extraDispatch
     })
 }
 

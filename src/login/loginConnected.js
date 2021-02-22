@@ -6,7 +6,7 @@ import loginReducer from "./loginReducer";
 import loginEffect from "./loginEffect";
 import Login from './Login'
 
-const createLoginConnected = componentDependencyMap => {
+const createLoginConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'login',
         model: loginModel,
@@ -15,7 +15,8 @@ const createLoginConnected = componentDependencyMap => {
         reducerMap: loginReducer,
         effectMap: loginEffect,
         genericErrorHandler: loginEvent.GENERIC_ERROR,
-        componentDependencyMap
+        extraState,
+        extraDispatch
     })
 }
 

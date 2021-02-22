@@ -6,7 +6,7 @@ import tablesReducer from "./tablesReducer";
 import tablesEffect from "./tablesEffect";
 import Tables from './Tables'
 
-const createTablesConnected = componentDependencyMap => {
+const createTablesConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'tables',
         model: tablesModel,
@@ -15,7 +15,8 @@ const createTablesConnected = componentDependencyMap => {
         reducerMap: tablesReducer,
         effectMap: tablesEffect,
         genericErrorHandler: tablesEvent.GENERIC_ERROR,
-        componentDependencyMap
+        extraState,
+        extraDispatch
     })
 }
 

@@ -6,7 +6,7 @@ import manageUsersReducer from "./manageUsersReducer";
 import manageUsersEffect from "./manageUsersEffect";
 import ManageUsers from './ManageUsers'
 
-const createManageUsersConnected = componentDependencyMap => {
+const createManageUsersConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'manageUsers',
         model: manageUsersModel,
@@ -15,7 +15,8 @@ const createManageUsersConnected = componentDependencyMap => {
         reducerMap: manageUsersReducer,
         effectMap: manageUsersEffect,
         genericErrorHandler: manageUsersEvent.GENERIC_ERROR,
-        componentDependencyMap
+        extraState,
+        extraDispatch
     })
 }
 

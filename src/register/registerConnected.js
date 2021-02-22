@@ -6,7 +6,7 @@ import registerReducer from "./registerReducer";
 import registerEffect from "./registerEffect";
 import Register from './Register'
 
-const createRegisterConnected = componentDependencyMap => {
+const createRegisterConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'register',
         model: registerModel,
@@ -15,7 +15,8 @@ const createRegisterConnected = componentDependencyMap => {
         reducerMap: registerReducer,
         effectMap: registerEffect,
         genericErrorHandler: registerEvent.GENERIC_ERROR,
-        componentDependencyMap
+        extraState,
+        extraDispatch
     })
 }
 

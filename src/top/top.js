@@ -8,12 +8,16 @@ import createManageUsersConnected from "../manageUsers/manageUsersConnected";
 import createTablesConnected from "../tables/tablesConnected";
 import createEventsConnected from "../events/eventsConnected";
 
-const loginConnected = createLoginConnected()
-const registerConnected = createRegisterConnected()
-const dashboardConnected = createDashboardConnected()
-const manageUsersConnected = createManageUsersConnected()
-const tablesConnected = createTablesConnected()
-const eventsConnected = createEventsConnected()
+const loginConnected = createLoginConnected({})
+const registerConnected = createRegisterConnected({})
+const dashboardConnected = createDashboardConnected({})
+const manageUsersConnected = createManageUsersConnected({})
+const tablesConnected = createTablesConnected({})
+const eventsConnected = createEventsConnected({
+    extraDispatch: {
+        setUri: navigationDispatch.setUri
+    }
+})
 const navigationConnected = createNavigationConnected({
     extraState: {
         Login: loginConnected.Component,

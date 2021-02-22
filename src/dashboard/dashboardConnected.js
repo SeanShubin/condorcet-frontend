@@ -6,7 +6,7 @@ import dashboardReducer from "./dashboardReducer";
 import dashboardEffect from "./dashboardEffect";
 import Dashboard from './Dashboard'
 
-const createDashboardConnected = componentDependencyMap => {
+const createDashboardConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'dashboard',
         model: dashboardModel,
@@ -15,7 +15,8 @@ const createDashboardConnected = componentDependencyMap => {
         reducerMap: dashboardReducer,
         effectMap: dashboardEffect,
         genericErrorHandler: dashboardEvent.GENERIC_ERROR,
-        componentDependencyMap
+        extraState,
+        extraDispatch
     })
 }
 
