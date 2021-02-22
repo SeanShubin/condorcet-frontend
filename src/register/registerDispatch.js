@@ -17,7 +17,6 @@ const registerDispatch = {
         confirmationPassword
     }),
     registerRequest: ({name, email, password}) => ({type: registerEvent.REGISTER_REQUEST, name, email, password}),
-    navigate: destination => ({type: registerEvent.NAVIGATE, destination}),
     errorAdded: message => ({type: registerEvent.ERROR_ADDED, message}),
     clearErrors: () => ({type: registerEvent.CLEAR_ERRORS})
 }

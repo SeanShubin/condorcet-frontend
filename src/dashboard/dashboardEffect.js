@@ -56,15 +56,9 @@ const genericError = _ => function* (error, event) {
     yield put(dashboardDispatch.errorAdded(composeErrorEventMessage({error, event})))
 }
 
-const navigate = environment => function* (event) {
-    environment.history.push(event.destination)
-    yield put(navigationDispatch.fetchPageRequest())
-}
-
 const dashboardEffect = {
     [dashboardEvent.LOGOUT_REQUEST]: logoutRequest,
     [dashboardEvent.FETCH_COUNTS_REQUEST]: fetchCountsRequest,
-    [dashboardEvent.NAVIGATE]: navigate,
     [dashboardEvent.GENERIC_ERROR]: genericError
 }
 

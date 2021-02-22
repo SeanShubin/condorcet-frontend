@@ -23,18 +23,12 @@ const loginRequest = environment => function* (event) {
     }
 }
 
-const navigate = environment => function* (event) {
-    environment.history.push(event.destination)
-    yield put(navigationDispatch.fetchPageRequest())
-}
-
 const genericError = environment => function* (error, event) {
     yield put(loginDispatch.errorAdded(composeErrorEventMessage({error, event})))
 }
 
 const loginEffect = {
     [loginEvent.LOGIN_REQUEST]: loginRequest,
-    [loginEvent.NAVIGATE]: navigate,
     [loginEvent.GENERIC_ERROR]: genericError
 }
 

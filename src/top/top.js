@@ -8,11 +8,31 @@ import createManageUsersConnected from "../manageUsers/manageUsersConnected";
 import createTablesConnected from "../tables/tablesConnected";
 import createEventsConnected from "../events/eventsConnected";
 
-const loginConnected = createLoginConnected({})
-const registerConnected = createRegisterConnected({})
-const dashboardConnected = createDashboardConnected({})
-const manageUsersConnected = createManageUsersConnected({})
-const tablesConnected = createTablesConnected({})
+const loginConnected = createLoginConnected({
+    extraDispatch: {
+        setUri: navigationDispatch.setUri
+    }
+})
+const registerConnected = createRegisterConnected({
+    extraDispatch: {
+        setUri: navigationDispatch.setUri
+    }
+})
+const dashboardConnected = createDashboardConnected({
+    extraDispatch: {
+        setUri: navigationDispatch.setUri
+    }
+})
+const manageUsersConnected = createManageUsersConnected({
+    extraDispatch: {
+        setUri: navigationDispatch.setUri
+    }
+})
+const tablesConnected = createTablesConnected({
+    extraDispatch: {
+        setUri: navigationDispatch.setUri
+    }
+})
 const eventsConnected = createEventsConnected({
     extraDispatch: {
         setUri: navigationDispatch.setUri

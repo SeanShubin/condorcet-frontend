@@ -3,18 +3,18 @@ import React from 'react';
 import ErrorComponent from "../error/ErrorComponent";
 import {pluralize} from "../library/text-util";
 
-const Dashboard = ({userCount, electionCount, tableCount, eventCount, errors, navigate, logoutRequest}) => {
+const Dashboard = ({userCount, electionCount, tableCount, eventCount, errors, setUri, logoutRequest}) => {
     const onClickManageUsers = event => {
         event.preventDefault()
-        navigate('/manageUsers')
+        setUri('/manageUsers')
     }
     const onClickTables = event => {
         event.preventDefault()
-        navigate('/tables')
+        setUri('/tables')
     }
     const onClickEvents = event => {
         event.preventDefault()
-        navigate('/events')
+        setUri('/events')
     }
     const userCountText = `${userCount} ${pluralize({quantity: userCount, singular: 'user', plural: 'users'})}`
     const electionCountText = `${electionCount} ${pluralize({

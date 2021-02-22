@@ -4,7 +4,6 @@ const manageUsersDispatch = {
     fetchUsersRequest: () => ({type: manageUsersEvent.FETCH_USERS_REQUEST}),
     usersChanged: users => ({type: manageUsersEvent.USERS_CHANGED, users}),
     updateUserRoleRequest: ({name, role}) => ({type: manageUsersEvent.UPDATE_USER_ROLE_REQUEST, name, role}),
-    navigate: destination => ({type: manageUsersEvent.NAVIGATE, destination}),
     errorAdded: message => ({type: manageUsersEvent.ERROR_ADDED, message})
 }
 

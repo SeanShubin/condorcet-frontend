@@ -9,7 +9,7 @@ const Register = (
         password,
         confirmationPassword,
         errors,
-        navigate,
+        setUri,
         nameChanged,
         emailChanged,
         passwordChanged,
@@ -19,7 +19,7 @@ const Register = (
     }) => {
     const onClickLogin = event => {
         event.preventDefault()
-        navigate('/login')
+        setUri('/login')
     }
     const onChangeName = event =>
         nameChanged(event.target.value)

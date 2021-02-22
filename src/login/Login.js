@@ -2,10 +2,10 @@ import React from 'react';
 import './Login.css'
 import ErrorComponent from "../error/ErrorComponent";
 
-const Login = ({nameOrEmail, password, errors, navigate, nameOrEmailChanged, passwordChanged, loginRequest}) => {
+const Login = ({nameOrEmail, password, errors, setUri, nameOrEmailChanged, passwordChanged, loginRequest}) => {
     const onClickRegister = event => {
         event.preventDefault()
-        navigate('/register')
+        setUri('/register')
     }
     const onChangeNameOrEmail = event =>
         nameOrEmailChanged(event.target.value)

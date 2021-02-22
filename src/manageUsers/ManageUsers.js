@@ -46,14 +46,15 @@ const UserList = ({users, updateUserRoleRequest}) => {
     </table>
 }
 
-const ManageUsers = ({users, errors, navigate, updateUserRoleRequest}) => {
+const ManageUsers = ({users, errors, setUri, updateUserRoleRequest}) => {
     const onClickDashboard = event => {
         event.preventDefault()
-        navigate('/dashboard')
+        setUri('/dashboard')
     }
     return <div className={'ManageUsers'}>
         <h1>ManageUsers</h1>
         <ErrorComponent errors={errors}/>
+        <a onClick={onClickDashboard}>dashboard</a>
         <UserList users={users} updateUserRoleRequest={updateUserRoleRequest}/>
         <a onClick={onClickDashboard}>dashboard</a>
     </div>
