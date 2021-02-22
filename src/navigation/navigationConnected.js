@@ -7,7 +7,7 @@ import Navigation from './Navigation';
 
 import {createConnected} from "../library/connected-util";
 
-const createNavigationConnected = componentDependencyMap => {
+const createNavigationConnected = ({extraState, extraDispatch}) => {
     return createConnected({
         name: 'navigation',
         model: navigationModel,
@@ -16,7 +16,8 @@ const createNavigationConnected = componentDependencyMap => {
         reducerMap: navigationReducer,
         effectMap: navigationEffect,
         genericErrorHandler: navigationEvent.GENERIC_ERROR,
-        componentDependencyMap
+        extraState,
+        extraDispatch
     })
 }
 

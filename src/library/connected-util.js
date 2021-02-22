@@ -49,10 +49,9 @@ const createConnected = ({
                              reducerMap = {},
                              effectMap = {},
                              genericErrorHandler,
-                             componentDependencyMap
+                             extraState = {},
+                             extraDispatch = {}
                          }) => {
-    const extraState = componentDependencyMap
-    const extraDispatch = {}
     const mapStateToProps = composeMapStateToProps({model, extraState})
     const mapDispatchToProps = composeMapDispatchToProps({dispatch, extraDispatch})
     const Component = connect(mapStateToProps, mapDispatchToProps)(View)

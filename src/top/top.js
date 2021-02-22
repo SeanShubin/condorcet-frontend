@@ -15,12 +15,14 @@ const manageUsersConnected = createManageUsersConnected()
 const tablesConnected = createTablesConnected()
 const eventsConnected = createEventsConnected()
 const navigationConnected = createNavigationConnected({
-    Login: loginConnected.Component,
-    Register: registerConnected.Component,
-    Dashboard: dashboardConnected.Component,
-    ManageUsers: manageUsersConnected.Component,
-    Tables: tablesConnected.Component,
-    Events: eventsConnected.Component
+    extraState: {
+        Login: loginConnected.Component,
+        Register: registerConnected.Component,
+        Dashboard: dashboardConnected.Component,
+        ManageUsers: manageUsersConnected.Component,
+        Tables: tablesConnected.Component,
+        Events: eventsConnected.Component
+    }
 })
 const connectedArray = [
     loginConnected,
