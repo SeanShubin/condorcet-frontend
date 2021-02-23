@@ -9,7 +9,9 @@ import dashboardDispatch from "../dashboard/dashboardDispatch";
 import {composeErrorEventMessage} from "../library/error-util";
 import manageUsersDispatch from "../manageUsers/manageUsersDispatch";
 import {tablesPageName, tablesUriPattern} from "../tables/tablesConstant";
+import {debugTablesPageName, debugTablesUriPattern} from "../debugTables/debugTablesConstant";
 import tablesDispatch from "../tables/tablesDispatch";
+import debugTablesDispatch from "../debugTables/debugTablesDispatch";
 import {eventsPageName, eventsUriPattern} from "../events/eventsConstant";
 import eventsDispatch from "../events/eventsDispatch";
 import {electionsPageName, electionsUriPattern} from "../elections/electionsConstant";
@@ -46,6 +48,13 @@ const fetchPage = environment => function* () {
         yield put(navigationDispatch.fetchPageSuccess(tablesPageName))
         yield put(tablesDispatch.fetchTableNamesRequest())
         yield put(tablesDispatch.selectedTableChanged(table))
+    } else if (debugTablesUriPattern.test(uri)) {
+        const queryString = environment.history.location.search
+        const params = new URLSearchParams(queryString)
+        const table = params.get('table') || 'user'
+        yield put(navigationDispatch.fetchPageSuccess(debugTablesPageName))
+        yield put(debugTablesDispatch.fetchTableNamesRequest())
+        yield put(debugTablesDispatch.selectedTableChanged(table))
     } else if (eventsUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(eventsPageName))
         yield put(eventsDispatch.fetchTableRequest())

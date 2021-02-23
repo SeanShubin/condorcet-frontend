@@ -8,6 +8,7 @@ import createManageUsersConnected from "../manageUsers/manageUsersConnected";
 import createTablesConnected from "../tables/tablesConnected";
 import createEventsConnected from "../events/eventsConnected";
 import createElectionsConnected from "../elections/electionsConnected";
+import createDebugTablesConnected from "../debugTables/debugTablesConnected";
 
 const loginConnected = createLoginConnected({
     extraDispatch: {
@@ -34,6 +35,11 @@ const tablesConnected = createTablesConnected({
         setUri: navigationDispatch.setUri
     }
 })
+const debugTablesConnected = createDebugTablesConnected({
+    extraDispatch: {
+        setUri: navigationDispatch.setUri
+    }
+})
 const eventsConnected = createEventsConnected({
     extraDispatch: {
         setUri: navigationDispatch.setUri
@@ -51,6 +57,7 @@ const navigationConnected = createNavigationConnected({
         Dashboard: dashboardConnected.Component,
         ManageUsers: manageUsersConnected.Component,
         Tables: tablesConnected.Component,
+        DebugTables: debugTablesConnected.Component,
         Events: eventsConnected.Component,
         Elections: electionsConnected.Component
     }
@@ -62,6 +69,7 @@ const connectedArray = [
     navigationConnected,
     manageUsersConnected,
     tablesConnected,
+    debugTablesConnected,
     eventsConnected,
     electionsConnected
 ]

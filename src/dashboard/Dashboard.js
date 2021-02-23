@@ -6,6 +6,7 @@ import {manageUsersPagePath} from "../manageUsers/manageUsersConstant";
 import {electionsPagePath} from "../elections/electionsConstant";
 import {tablesPagePath} from "../tables/tablesConstant";
 import {eventsPagePath} from "../events/eventsConstant";
+import {debugTablesPagePath} from "../debugTables/debugTablesConstant";
 
 const Dashboard = ({userCount, electionCount, tableCount, eventCount, errors, setUri, logoutRequest}) => {
     const onClickManageUsers = event => {
@@ -20,6 +21,10 @@ const Dashboard = ({userCount, electionCount, tableCount, eventCount, errors, se
         event.preventDefault()
         setUri(tablesPagePath)
     }
+    const onClickDebugTables = event => {
+        event.preventDefault()
+        setUri(debugTablesPagePath)
+    }
     const onClickEvents = event => {
         event.preventDefault()
         setUri(eventsPagePath)
@@ -31,6 +36,11 @@ const Dashboard = ({userCount, electionCount, tableCount, eventCount, errors, se
         plural: 'elections'
     })}`
     const tableCountText = `${tableCount} ${pluralize({quantity: tableCount, singular: 'table', plural: 'tables'})}`
+    const debugTableCountText = `${tableCount} ${pluralize({
+        quantity: tableCount,
+        singular: 'debug table',
+        plural: 'debug tables'
+    })}`
     const eventCountText = `${eventCount} ${pluralize({quantity: eventCount, singular: 'event', plural: 'events'})}`
     return <div className={'Dashboard'}>
         <h1>Dashboard</h1>
@@ -38,6 +48,7 @@ const Dashboard = ({userCount, electionCount, tableCount, eventCount, errors, se
         <a onClick={onClickManageUsers}>{userCountText}</a>
         <a onClick={onClickElections}>{electionCountText}</a>
         <a onClick={onClickTables}>{tableCountText}</a>
+        <a onClick={onClickDebugTables}>{debugTableCountText}</a>
         <a onClick={onClickEvents}>{eventCountText}</a>
         <button type={'button'} onClick={logoutRequest}>Logout</button>
     </div>
