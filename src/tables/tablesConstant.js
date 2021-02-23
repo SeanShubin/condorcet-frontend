@@ -1,5 +1,5 @@
 const tablesUriPattern = /^\/tables($|\/)/
 const tablesPageName = 'tables'
-const tablesPagePath = table => `/tables?table=${table}`
+const tablesPagePath = '/tables'
 
 export {tablesUriPattern, tablesPageName, tablesPagePath}

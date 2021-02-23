@@ -39,6 +39,7 @@
     background-color: var(--edit-background);
     color: var(--edit-foreground);
     border: 1px solid var(--border);
+    margin: 0.3rem;
 }
 
 .App input:focus, button:focus, a:focus, select:focus {
@@ -107,4 +108,8 @@
 .App .tab:hover {
     color: var(--selectable-text-foreground-hover);
     background-color: var(--selectable-text-background-hover);
+}
+
+.App pre {
+    white-space: pre-wrap;
 }

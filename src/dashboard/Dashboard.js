@@ -2,19 +2,27 @@ import './Dashboard.css'
 import React from 'react';
 import ErrorComponent from "../error/ErrorComponent";
 import {pluralize} from "../library/text-util";
+import {manageUsersPagePath} from "../manageUsers/manageUsersConstant";
+import {electionsPagePath} from "../elections/electionsConstant";
+import {tablesPagePath} from "../tables/tablesConstant";
+import {eventsPagePath} from "../events/eventsConstant";
 
 const Dashboard = ({userCount, electionCount, tableCount, eventCount, errors, setUri, logoutRequest}) => {
     const onClickManageUsers = event => {
         event.preventDefault()
-        setUri('/manageUsers')
+        setUri(manageUsersPagePath)
+    }
+    const onClickElections = event => {
+        event.preventDefault()
+        setUri(electionsPagePath)
     }
     const onClickTables = event => {
         event.preventDefault()
-        setUri('/tables')
+        setUri(tablesPagePath)
     }
     const onClickEvents = event => {
         event.preventDefault()
-        setUri('/events')
+        setUri(eventsPagePath)
     }
     const userCountText = `${userCount} ${pluralize({quantity: userCount, singular: 'user', plural: 'users'})}`
     const electionCountText = `${electionCount} ${pluralize({
@@ -28,7 +36,7 @@ const Dashboard = ({userCount, electionCount, tableCount, eventCount, errors, se
         <h1>Dashboard</h1>
         <ErrorComponent errors={errors}/>
         <a onClick={onClickManageUsers}>{userCountText}</a>
-        <a>{electionCountText}</a>
+        <a onClick={onClickElections}>{electionCountText}</a>
         <a onClick={onClickTables}>{tableCountText}</a>
         <a onClick={onClickEvents}>{eventCountText}</a>
         <button type={'button'} onClick={logoutRequest}>Logout</button>

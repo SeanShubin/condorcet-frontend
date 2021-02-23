@@ -4,7 +4,8 @@ import {tablesPagePath} from "./tablesConstant";
 
 const TableSelector = ({name, selectedName, setUri}) => {
     const onClick = () => {
-        setUri(tablesPagePath(name))
+        const path = tablesPagePath + '?table=' + name
+        setUri(path)
     }
     let className
     if (selectedName === name) {
