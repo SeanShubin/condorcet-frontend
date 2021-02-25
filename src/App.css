@@ -39,7 +39,6 @@
     background-color: var(--edit-background);
     color: var(--edit-foreground);
     border: 1px solid var(--border);
-    margin: 0.3rem;
 }
 
 .App input:focus, button:focus, a:focus, select:focus {
@@ -77,7 +76,6 @@
     text-decoration: none;
     color: var(--navigate-text-foreground);
     background-color: var(--navigate-text-background);
-    padding: 0.3rem;
 }
 
 .App a:hover {

@@ -1,0 +1,14 @@
+.Election {
+    display: grid;
+    justify-content: center;
+    grid-gap: 0.5rem;
+}
+
+.Election .elements {
+    display: grid;
+    justify-content: left;
+    grid-gap: 0.2rem;
+    grid-template-columns: auto;
+    padding: 0.3rem;
+}
+

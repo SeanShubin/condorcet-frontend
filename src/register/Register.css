@@ -3,3 +3,7 @@
     justify-content: center;
     grid-gap: 0.5rem;
 }
+
+.Register a, button {
+    padding: 0.3rem;
+}

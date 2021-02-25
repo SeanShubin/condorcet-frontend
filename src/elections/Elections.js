@@ -2,8 +2,14 @@ import './Elections.css'
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 
-const ElectionList = ({elections}) => {
-    const createElectionListElement = election => <li key={election.name}>{election.name}</li>
+const ElectionList = ({elections, setUri}) => {
+    const createElectionListElement = election => {
+        const onClick = event => {
+            event.preventDefault()
+            setUri(`/election?election=${election.name}`)
+        }
+        return <li key={election.name}><a onClick={onClick}>{election.name}</a></li>
+    }
     const electionListElements = R.map(createElectionListElement, elections)
     return <ul className={'elements'}>
         {electionListElements}
@@ -37,7 +43,7 @@ const Elections = ({elections, electionName, errors, setUri, electionNameChanged
         <a onClick={onClickDashboard}>dashboard</a>
         <AddElection electionName={electionName} electionNameChanged={electionNameChanged}
                      addElectionRequest={addElectionRequest}/>
-        <ElectionList elections={elections}/>
+        <ElectionList elections={elections} setUri={setUri}/>
         <a onClick={onClickDashboard}>dashboard</a>
     </div>
 }

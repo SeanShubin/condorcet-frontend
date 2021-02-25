@@ -12,6 +12,7 @@ const Navigation = ({
                         Tables,
                         Events,
                         Elections,
+                        Election,
                         DebugTables
                     }) => {
     const pageMap = {
@@ -22,6 +23,7 @@ const Navigation = ({
         tables: Tables,
         events: Events,
         elections: Elections,
+        election: Election,
         debugTables: DebugTables
     }
     const Component = pageMap[page] || PageNotFound

@@ -16,6 +16,8 @@ import {eventsPageName, eventsUriPattern} from "../events/eventsConstant";
 import eventsDispatch from "../events/eventsDispatch";
 import {electionsPageName, electionsUriPattern} from "../elections/electionsConstant";
 import electionsDispatch from "../elections/electionsDispatch";
+import {electionPageName, electionUriPattern} from "../election/electionConstant";
+import electionDispatch from "../election/electionDispatch";
 
 const redirect = environment => function* (event) {
     const uri = event.uri
@@ -61,6 +63,9 @@ const fetchPage = environment => function* () {
     } else if (electionsUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(electionsPageName))
         yield put(electionsDispatch.fetchElectionsRequest())
+    } else if (electionUriPattern.test(uri)) {
+        yield put(navigationDispatch.fetchPageSuccess(electionPageName))
+        yield put(electionDispatch.fetchElectionRequest())
     } else {
         yield put(navigationDispatch.redirect(loginPagePath))
     }
