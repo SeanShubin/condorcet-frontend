@@ -2,12 +2,10 @@ import electionDispatch from './electionDispatch'
 import electionEvent from './electionEvent'
 import {put} from 'redux-saga/effects'
 import {composeErrorEventMessage} from "../library/error-util";
+import navigationDispatch from "../navigation/navigationDispatch";
 
 const fetchElectionRequest = environment => function* (event) {
-    console.log(environment.history.location)
     const name = (new URLSearchParams(environment.history.location.search)).get('election')
-    console.log(name)
-
     const body = {name}
     const result = yield environment.authenticatedFetch(
         `/proxy/GetElection`,
@@ -32,7 +30,7 @@ const deleteElectionRequest = environment => function* (event) {
             body: JSON.stringify(body)
         })
     if (result.ok) {
-        yield put(electionDispatch.fetchElectionRequest())
+        yield put(navigationDispatch.setUri('/elections'))
     } else {
         const jsonResult = yield result.json()
         yield put(electionDispatch.errorAdded(jsonResult.userSafeMessage))
@@ -40,7 +38,7 @@ const deleteElectionRequest = environment => function* (event) {
 }
 
 const updateElectionRequest = environment => function* (event) {
-    const body = {updates: event.updates}
+    const body = event.updates
     const result = yield environment.authenticatedFetch(
         `/proxy/UpdateElection`,
         {
@@ -48,7 +46,11 @@ const updateElectionRequest = environment => function* (event) {
             body: JSON.stringify(body)
         })
     if (result.ok) {
-        yield put(electionDispatch.fetchElectionRequest())
+        if (body.newName) {
+            yield put(navigationDispatch.setUri(`/election?election=${body.newName}`))
+        } else {
+            yield put(electionDispatch.fetchElectionRequest())
+        }
     } else {
         const jsonResult = yield result.json()
         yield put(electionDispatch.errorAdded(jsonResult.userSafeMessage))

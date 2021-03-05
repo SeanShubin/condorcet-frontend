@@ -1,6 +1,7 @@
 import './Elections.css'
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
+import React from "react";
 
 const ElectionList = ({elections, setUri}) => {
     const createElectionListElement = election => {
@@ -40,7 +41,6 @@ const Elections = ({elections, electionName, errors, setUri, electionNameChanged
     return <div className={'Elections'}>
         <h1>Elections</h1>
         <ErrorComponent errors={errors}/>
-        <a onClick={onClickDashboard}>dashboard</a>
         <AddElection electionName={electionName} electionNameChanged={electionNameChanged}
                      addElectionRequest={addElectionRequest}/>
         <ElectionList elections={elections} setUri={setUri}/>

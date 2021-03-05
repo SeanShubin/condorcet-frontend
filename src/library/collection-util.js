@@ -21,4 +21,12 @@ const pairsToObject = pairArray => {
     return R.reduce(mergeDisallowDuplicateKeys, initialValue, objects)
 }
 
-export {appendToArray, mergeDisallowDuplicateKeys}
+const delta = ({fromValue, toValue}) => {
+    const updatedOrAdded = R.fromPairs(R.difference(R.toPairs(toValue), R.toPairs(fromValue)))
+    const removedKeys = R.difference(R.keys(fromValue), R.keys(toValue))
+    const removed = R.fromPairs(R.map(x => R.pair(x, null), removedKeys))
+    const computed = R.merge(updatedOrAdded, removed)
+    return computed
+}
+
+export {appendToArray, mergeDisallowDuplicateKeys, delta}

@@ -1,4 +1,4 @@
-import {mergeDisallowDuplicateKeys} from "./collection-util";
+import {delta, mergeDisallowDuplicateKeys} from "./collection-util";
 import '@testing-library/jest-dom/extend-expect'
 
 const captureException = f => {
@@ -40,4 +40,12 @@ test('mergeDisallowDuplicateKeys, duplicates', () => {
 
     // then
     expect(actual.message).toEqual(expected)
+})
+
+test('delta', () => {
+    const fromValue = {a: 1, b: 2, c: 3, d: 4}
+    const toValue = {a: 1, c: 5, d: 4, e: 6}
+    const expected = {b: null, c: 5, e: 6}
+    const actual = delta({fromValue, toValue})
+    expect(actual).toEqual(expected)
 })

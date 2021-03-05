@@ -22,7 +22,15 @@
     --selected-text-background-hover: dodgerblue;
     --selected-text-foreground-hover: white;
 
-    --edit-background: lightgray;
+    --selected-button-foreground: blue;
+    --selected-button-background: dodgerblue;
+    --not-selected-button-foreground: darkgrey;
+    --not-selected-button-background: lightgray;
+    --selectable-button-border: darkgrey;
+    --disabled-button-foreground: darkgrey;
+    --disabled-button-background: lightgray;
+
+    --edit-background: white;
     --edit-foreground: black;
 
     --static-text-background: lightgray;
@@ -70,6 +78,29 @@
 .App button:hover {
     color: var(--action-button-foreground-hover);
     background-color: var(--action-button-background-hover);
+}
+
+.App button.selected {
+    border-radius: 0.3rem;
+    border: 1px solid var(--selectable-button-border);
+    color: var(--selected-button-foreground);
+    background-color: var(--selected-button-background);
+    padding: 0.3rem;
+}
+
+.App button.not-selected {
+    border-radius: 0.4rem;
+    border: 1px solid var(--selectable-button-border);
+    color: var(--not-selected-button-foreground);
+    background-color: var(--not-selected-button-background);
+    padding: 0.3rem;
+}
+
+.App button:disabled {
+    border: 1px solid var(--selectable-button-border);
+    color: var(--disabled-button-foreground);
+    background-color: var(--disabled-button-background);
+    padding: 0.3rem;
 }
 
 .App a {
