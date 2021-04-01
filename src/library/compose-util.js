@@ -11,8 +11,8 @@ const composeReducer = connectedArray => {
     return newReducer
 
 }
-const composeSaga = connectedArray => environment => function* () {
+const composeSagaFromArray = connectedArray => environment => function* () {
     yield all(R.map(connected => call(connected.saga(environment)), connectedArray))
 }
 
-export {composeReducer, composeSaga}
+export {composeReducer, composeSagaFromArray}

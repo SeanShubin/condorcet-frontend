@@ -23,7 +23,7 @@ const composeReducer = reducerMap => (state, event) => {
     }
 }
 
-const composeSaga = effectMap => environment => function* () {
+const composeSagaFromEffectMap = effectMap => environment => function* () {
     const names = Object.keys(effectMap)
     for (const name of names) {
         const successHandler = effectMap[name](environment)
@@ -53,7 +53,7 @@ const createConnected = ({
     const mapDispatchToProps = composeMapDispatchToProps({dispatch, extraDispatch})
     const Component = connect(mapStateToProps, mapDispatchToProps)(View)
     const reducer = composeReducer(reducerMap)
-    const saga = composeSaga(effectMap)
+    const saga = composeSagaFromEffectMap(effectMap)
     return {
         name,
         Component,
@@ -64,4 +64,4 @@ const createConnected = ({
     }
 }
 
-export {createConnected, composeMapStateToProps}
+export {createConnected, composeMapStateToProps, composeSagaFromEffectMap}

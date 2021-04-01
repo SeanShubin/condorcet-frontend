@@ -3,7 +3,7 @@ import createLoginConnected from '../login/loginConnected'
 import createRegisterConnected from '../register/registerConnected'
 import createDashboardConnected from '../dashboard/dashboardConnected'
 import createNavigationConnected from '../navigation/navigationConnected'
-import {composeReducer, composeSaga} from "../library/compose-util";
+import {composeReducer, composeSagaFromArray} from "../library/compose-util";
 import createManageUsersConnected from "../manageUsers/manageUsersConnected";
 import createTablesConnected from "../tables/tablesConnected";
 import createEventsConnected from "../events/eventsConnected";
@@ -90,6 +90,6 @@ const historyEvent = ({location, action}) => {
 }
 const Top = navigationConnected.Component
 const reducer = composeReducer(connectedArray)
-const saga = composeSaga(connectedArray)
+const saga = composeSagaFromArray(connectedArray)
 
 export {Top, reducer, saga, initializeEvents, historyEvent}
