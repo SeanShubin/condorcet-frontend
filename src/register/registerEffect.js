@@ -1,7 +1,6 @@
 import registerDispatch from './registerDispatch'
 import registerEvent from './registerEvent'
 import {put} from 'redux-saga/effects'
-import {composeErrorEventMessage} from "../library/error-util";
 import navigationDispatch from "../navigation/navigationDispatch";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
 
@@ -23,13 +22,8 @@ const registerRequest = environment => function* (event) {
     }
 }
 
-const genericError = environment => function* (error, event) {
-    yield put(registerDispatch.errorAdded(composeErrorEventMessage({error, event})))
-}
-
 const registerEffect = {
-    [registerEvent.REGISTER_REQUEST]: registerRequest,
-    [registerEvent.GENERIC_ERROR]: genericError
+    [registerEvent.REGISTER_REQUEST]: registerRequest
 }
 
 export default registerEffect

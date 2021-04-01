@@ -1,4 +1,3 @@
-import navigationEvent from "./navigationEvent";
 import navigationDispatch from './navigationDispatch';
 import navigationModel from "./navigationModel";
 import navigationReducer from './navigationReducer'
@@ -15,7 +14,6 @@ const createNavigationConnected = ({extraState = {}, extraDispatch = {}}) => {
         View: Navigation,
         reducerMap: navigationReducer,
         effectMap: navigationEffect,
-        genericErrorHandler: navigationEvent.GENERIC_ERROR,
         extraState,
         extraDispatch
     })

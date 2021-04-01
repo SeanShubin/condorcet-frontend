@@ -23,17 +23,15 @@ const composeReducer = reducerMap => (state, event) => {
     }
 }
 
-const composeSaga = ({effectMap, genericErrorHandler}) => environment => function* () {
+const composeSaga = effectMap => environment => function* () {
     const names = Object.keys(effectMap)
     for (const name of names) {
         const successHandler = effectMap[name](environment)
-        const errorHandler = effectMap[genericErrorHandler](environment)
         const handler = function* (...args) {
             try {
                 yield* successHandler(...args)
             } catch (error) {
-                console.log(error)
-                yield* errorHandler(error, ...args)
+                environment.genericError({name, args, error})
             }
         }
 
@@ -48,7 +46,6 @@ const createConnected = ({
                              View = (() => <div>Component '{name}' undefined</div>),
                              reducerMap = {},
                              effectMap = {},
-                             genericErrorHandler,
                              extraState = {},
                              extraDispatch = {}
                          }) => {
@@ -56,7 +53,7 @@ const createConnected = ({
     const mapDispatchToProps = composeMapDispatchToProps({dispatch, extraDispatch})
     const Component = connect(mapStateToProps, mapDispatchToProps)(View)
     const reducer = composeReducer(reducerMap)
-    const saga = composeSaga({effectMap, genericErrorHandler})
+    const saga = composeSaga(effectMap)
     return {
         name,
         Component,

@@ -1,7 +1,6 @@
 import dashboardDispatch from './dashboardDispatch'
 import dashboardEvent from './dashboardEvent'
 import {put} from 'redux-saga/effects'
-import {composeErrorEventMessage} from "../library/error-util";
 import navigationDispatch from "../navigation/navigationDispatch";
 import {loginPagePath} from "../login/loginConstant";
 import loginDispatch from "../login/loginDispatch";
@@ -52,14 +51,9 @@ const fetchCountsRequest = environment => function* (event) {
     yield put(dashboardDispatch.fetchCountsSuccess(allCounts))
 }
 
-const genericError = _ => function* (error, event) {
-    yield put(dashboardDispatch.errorAdded(composeErrorEventMessage({error, event})))
-}
-
 const dashboardEffect = {
     [dashboardEvent.LOGOUT_REQUEST]: logoutRequest,
-    [dashboardEvent.FETCH_COUNTS_REQUEST]: fetchCountsRequest,
-    [dashboardEvent.GENERIC_ERROR]: genericError
+    [dashboardEvent.FETCH_COUNTS_REQUEST]: fetchCountsRequest
 }
 
 export default dashboardEffect

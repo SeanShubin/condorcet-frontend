@@ -1,7 +1,6 @@
 import electionDispatch from './electionDispatch'
 import electionEvent from './electionEvent'
 import {put} from 'redux-saga/effects'
-import {composeErrorEventMessage} from "../library/error-util";
 import navigationDispatch from "../navigation/navigationDispatch";
 
 const fetchElectionRequest = environment => function* (event) {
@@ -57,15 +56,10 @@ const updateElectionRequest = environment => function* (event) {
     }
 }
 
-const genericError = _ => function* (error, event) {
-    yield put(electionDispatch.errorAdded(composeErrorEventMessage({error, event})))
-}
-
 const electionEffect = {
     [electionEvent.FETCH_ELECTION_REQUEST]: fetchElectionRequest,
     [electionEvent.DELETE_ELECTION_REQUEST]: deleteElectionRequest,
-    [electionEvent.UPDATE_ELECTION_REQUEST]: updateElectionRequest,
-    [electionEvent.GENERIC_ERROR]: genericError
+    [electionEvent.UPDATE_ELECTION_REQUEST]: updateElectionRequest
 }
 
 export default electionEffect

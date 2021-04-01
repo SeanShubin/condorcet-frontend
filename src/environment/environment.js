@@ -1,9 +1,11 @@
 import createAuthentication from "./authentication";
+import {inspect} from 'util'
 
 const createEnvironment = (
     {
         fetch,
-        history
+        history,
+        console
     }) => {
     const fetchWithBetterJsonErrorMessage = async (resource, init) => {
         const response = await fetch(resource, init)
@@ -24,6 +26,13 @@ const createEnvironment = (
             text: response.text
         }
     }
+    const genericError = ({name, args, error}) => {
+        const showHidden = false
+        const depth = null // no depth limit, go all the way down
+        const colorize = true
+        const argsString = inspect(args, showHidden, depth, colorize)
+        console.log(`error with effect ${name} and arguments ${argsString}`, error)
+    }
     const {
         authenticatedFetch,
         setAccessToken
@@ -32,7 +41,8 @@ const createEnvironment = (
         authenticatedFetch,
         setAccessToken,
         history,
-        fetch: fetchWithBetterJsonErrorMessage
+        fetch: fetchWithBetterJsonErrorMessage,
+        genericError
     }
 }
 

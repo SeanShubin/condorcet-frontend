@@ -1,5 +1,4 @@
 import {createConnected} from '../library/connected-util'
-import debugTablesEvent from "./debugTablesEvent";
 import debugTablesDispatch from './debugTablesDispatch'
 import debugTablesModel from "./debugTablesModel";
 import debugTablesReducer from "./debugTablesReducer";
@@ -14,7 +13,6 @@ const createDebugTablesConnected = ({extraState = {}, extraDispatch = {}}) => {
         View: DebugTables,
         reducerMap: debugTablesReducer,
         effectMap: debugTablesEffect,
-        genericErrorHandler: debugTablesEvent.GENERIC_ERROR,
         extraState,
         extraDispatch
     })

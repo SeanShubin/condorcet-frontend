@@ -1,7 +1,6 @@
 import electionsDispatch from './electionsDispatch'
 import electionsEvent from './electionsEvent'
 import {put} from 'redux-saga/effects'
-import {composeErrorEventMessage} from "../library/error-util";
 
 const fetchElectionsRequest = environment => function* (event) {
     const result = yield environment.authenticatedFetch(`/proxy/ListElections`)
@@ -33,14 +32,9 @@ const addElectionRequest = environment => function* (event) {
     }
 }
 
-const genericError = _ => function* (error, event) {
-    yield put(electionsDispatch.errorAdded(composeErrorEventMessage({error, event})))
-}
-
 const electionsEffect = {
     [electionsEvent.FETCH_ELECTIONS_REQUEST]: fetchElectionsRequest,
-    [electionsEvent.ADD_ELECTION_REQUEST]: addElectionRequest,
-    [electionsEvent.GENERIC_ERROR]: genericError
+    [electionsEvent.ADD_ELECTION_REQUEST]: addElectionRequest
 }
 
 export default electionsEffect

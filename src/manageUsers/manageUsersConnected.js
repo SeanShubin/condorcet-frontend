@@ -1,5 +1,4 @@
 import {createConnected} from '../library/connected-util'
-import manageUsersEvent from "./manageUsersEvent";
 import manageUsersDispatch from './manageUsersDispatch'
 import manageUsersModel from "./manageUsersModel";
 import manageUsersReducer from "./manageUsersReducer";
@@ -14,7 +13,6 @@ const createManageUsersConnected = ({extraState = {}, extraDispatch = {}}) => {
         View: ManageUsers,
         reducerMap: manageUsersReducer,
         effectMap: manageUsersEffect,
-        genericErrorHandler: manageUsersEvent.GENERIC_ERROR,
         extraState,
         extraDispatch
     })

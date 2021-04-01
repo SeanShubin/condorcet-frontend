@@ -1,5 +1,4 @@
 import {createConnected} from '../library/connected-util'
-import registerEvent from "./registerEvent";
 import registerDispatch from './registerDispatch'
 import registerModel from "./registerModel";
 import registerReducer from "./registerReducer";
@@ -14,7 +13,6 @@ const createRegisterConnected = ({extraState = {}, extraDispatch = {}}) => {
         View: Register,
         reducerMap: registerReducer,
         effectMap: registerEffect,
-        genericErrorHandler: registerEvent.GENERIC_ERROR,
         extraState,
         extraDispatch
     })

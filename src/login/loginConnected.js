@@ -1,5 +1,4 @@
 import {createConnected} from '../library/connected-util'
-import loginEvent from "./loginEvent";
 import loginDispatch from './loginDispatch'
 import loginModel from "./loginModel";
 import loginReducer from "./loginReducer";
@@ -14,7 +13,6 @@ const createLoginConnected = ({extraState = {}, extraDispatch = {}}) => {
         View: Login,
         reducerMap: loginReducer,
         effectMap: loginEffect,
-        genericErrorHandler: loginEvent.GENERIC_ERROR,
         extraState,
         extraDispatch
     })

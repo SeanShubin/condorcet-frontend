@@ -20,7 +20,8 @@ history.listen(({location, action}) => {
 })
 const environment = createEnvironment({
   fetch,
-  history
+  history,
+  console
 })
 sagaMiddleware.run(saga(environment))
 initializeEvents.forEach(event => store.dispatch(event))

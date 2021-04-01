@@ -1,5 +1,4 @@
 import {createConnected} from '../library/connected-util'
-import tablesEvent from "./tablesEvent";
 import tablesDispatch from './tablesDispatch'
 import tablesModel from "./tablesModel";
 import tablesReducer from "./tablesReducer";
@@ -14,7 +13,6 @@ const createTablesConnected = ({extraState = {}, extraDispatch = {}}) => {
         View: Tables,
         reducerMap: tablesReducer,
         effectMap: tablesEffect,
-        genericErrorHandler: tablesEvent.GENERIC_ERROR,
         extraState,
         extraDispatch
     })

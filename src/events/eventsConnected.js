@@ -1,5 +1,4 @@
 import {createConnected} from '../library/connected-util'
-import eventsEvent from "./eventsEvent";
 import eventsDispatch from './eventsDispatch'
 import eventsModel from "./eventsModel";
 import eventsReducer from "./eventsReducer";
@@ -14,7 +13,6 @@ const createEventsConnected = ({extraState = {}, extraDispatch = {}}) => {
         View: Events,
         reducerMap: eventsReducer,
         effectMap: eventsEffect,
-        genericErrorHandler: eventsEvent.GENERIC_ERROR,
         extraState,
         extraDispatch
     })

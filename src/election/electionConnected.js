@@ -1,5 +1,4 @@
 import {createConnected} from '../library/connected-util'
-import electionEvent from "./electionEvent";
 import electionDispatch from './electionDispatch'
 import electionModel from "./electionModel";
 import electionReducer from "./electionReducer";
@@ -14,7 +13,6 @@ const createElectionConnected = ({extraState = {}, extraDispatch = {}}) => {
         View: Election,
         reducerMap: electionReducer,
         effectMap: electionEffect,
-        genericErrorHandler: electionEvent.GENERIC_ERROR,
         extraState,
         extraDispatch
     })

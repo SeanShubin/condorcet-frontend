@@ -6,7 +6,6 @@ import {registerPageName, registerUriPattern} from "../register/registerConstant
 import {manageUsersPageName, manageUsersUriPattern} from "../manageUsers/manageUsersConstant";
 import {dashboardPageName, dashboardUriPattern} from "../dashboard/dashboardConstant";
 import dashboardDispatch from "../dashboard/dashboardDispatch";
-import {composeErrorEventMessage} from "../library/error-util";
 import manageUsersDispatch from "../manageUsers/manageUsersDispatch";
 import {tablesPageName, tablesUriPattern} from "../tables/tablesConstant";
 import {debugTablesPageName, debugTablesUriPattern} from "../debugTables/debugTablesConstant";
@@ -75,16 +74,11 @@ const history = environment => function* () {
     yield put(navigationDispatch.fetchPageRequest())
 }
 
-const genericError = _ => function* (error, event) {
-    yield put(navigationDispatch.errorAdded(composeErrorEventMessage({error, event})))
-}
-
 const navigationEffect = {
     [navigationEvent.FETCH_PAGE_REQUEST]: fetchPage,
     [navigationEvent.HISTORY]: history,
     [navigationEvent.REDIRECT]: redirect,
-    [navigationEvent.SET_URI]: setUri,
-    [navigationEvent.GENERIC_ERROR]: genericError
+    [navigationEvent.SET_URI]: setUri
 }
 
 export default navigationEffect

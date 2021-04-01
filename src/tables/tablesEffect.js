@@ -1,7 +1,6 @@
 import tablesDispatch from './tablesDispatch'
 import tablesEvent from './tablesEvent'
 import {put} from 'redux-saga/effects'
-import {composeErrorEventMessage} from "../library/error-util";
 
 const fetchTableNamesRequest = environment => function* () {
     const result = yield environment.authenticatedFetch(`/proxy/ListTables`)
@@ -34,15 +33,10 @@ const selectedTableChanged = environment => function* (event) {
     yield put(tablesDispatch.fetchTableRequest(event.selectedName))
 }
 
-const genericError = _ => function* (error, event) {
-    yield put(tablesDispatch.errorAdded(composeErrorEventMessage({error, event})))
-}
-
 const tablesEffect = {
     [tablesEvent.FETCH_TABLE_NAMES_REQUEST]: fetchTableNamesRequest,
     [tablesEvent.FETCH_TABLE_REQUEST]: fetchTableRequest,
-    [tablesEvent.SELECTED_TABLE_CHANGED]: selectedTableChanged,
-    [tablesEvent.GENERIC_ERROR]: genericError
+    [tablesEvent.SELECTED_TABLE_CHANGED]: selectedTableChanged
 }
 
 export default tablesEffect
