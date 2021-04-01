@@ -1,6 +1,11 @@
 import '@testing-library/jest-dom/extend-expect'
-import {composeReducer} from "./compose-util";
+import {composeReducer, composeSagaFromArray} from "./compose-util";
+import {applyMiddleware, createStore} from 'redux'
+import createSagaMiddleware from 'redux-saga'
+
+
 import * as R from 'ramda'
+import {composeSagaFromEffectMap} from "./connected-util";
 
 test('compose reducer', () => {
     // given
@@ -47,4 +52,63 @@ test('compose reducer', () => {
         R.set(barLens, 'new bar')
     )({})
     expect(newStateB).toEqual(expectedState)
+})
+
+test('compose saga', () => {
+    // given
+    const fooEvent = {type: 'foo', payload: 'foo content'}
+    const barEvent = {type: 'bar', payload: 'bar content'}
+    const events = []
+    const recordEvent = (source, event) => {
+        events.push({source, event})
+    }
+    const environment = {
+        recordEvent
+    }
+    const fooEffect = environment => function* (event) {
+        environment.recordEvent('fooEffect', event)
+    }
+    const barEffect = environment => function* (event) {
+        environment.recordEvent('barEffect', event)
+    }
+    const fooEffectMap = {
+        foo: fooEffect
+    }
+    const barEffectMap = {
+        bar: barEffect
+    }
+    const fooConnected = {
+        saga: composeSagaFromEffectMap(fooEffectMap)
+    }
+    const barConnected = {
+        saga: composeSagaFromEffectMap(barEffectMap)
+    }
+    const connectedArray = [fooConnected, barConnected]
+    const reducer = (state, event) => state
+    const state = {}
+    const sagaMiddleware = createSagaMiddleware()
+    const store = createStore(
+        reducer,
+        state,
+        applyMiddleware(sagaMiddleware)
+    )
+    const saga = composeSagaFromArray(connectedArray)(environment)
+    sagaMiddleware.run(saga)
+    const expected = [
+        {
+            source: 'fooEffect',
+            event: {type: 'foo', payload: 'foo content'}
+        },
+        {
+            source: 'barEffect',
+            event: {type: 'bar', payload: 'bar content'}
+        }
+    ]
+
+    // when
+    store.dispatch(fooEvent)
+    store.dispatch(barEvent)
+
+    // then
+    expect(events).toEqual(expected)
 })
