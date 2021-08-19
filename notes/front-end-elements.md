@@ -1,0 +1,30 @@
+# Front End Elements
+
+- page id
+  - h1
+- text input
+  - input
+- action
+  - button
+- action disabled
+  - button
+- navigation
+  - anchor
+- header
+  - th
+- text
+  - label
+- options
+  - select
+- toggle selected
+  - button
+- toggle not selected
+  - button
+- toggle selected disabled
+  - button
+- toggle not selected disabled
+  - button
+- tab selected
+  - label
+- tab not selected
+  - label

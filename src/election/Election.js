@@ -162,9 +162,9 @@ const Election = (
                    value={electionWithEdits.isOpen}
                    changeValue={updateIsOpen}/>
         </div>
-        <button onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
-        <button onClick={fetchElectionRequest} disabled={!hasPendingEdits}>Discard Changes</button>
-        <button onClick={deleteElectionClicked} disabled={hasPendingEdits}>Delete Election</button>
+        <button type={"submit"} onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
+        <button type={"submit"} onClick={fetchElectionRequest} disabled={!hasPendingEdits}>Discard Changes</button>
+        <button type={"submit"} onClick={deleteElectionClicked} disabled={hasPendingEdits}>Delete Election</button>
         <a onClick={onClickElections}>elections</a>
         <a onClick={onClickDashboard}>dashboard</a>
     </div>

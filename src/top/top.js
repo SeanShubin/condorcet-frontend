@@ -10,6 +10,7 @@ import createEventsConnected from "../events/eventsConnected";
 import createElectionsConnected from "../elections/electionsConnected";
 import createDebugTablesConnected from "../debugTables/debugTablesConnected";
 import createElectionConnected from "../election/electionConnected";
+import createStyleConnected from "../style/styleConnected";
 
 const loginConnected = createLoginConnected({
     extraDispatch: {
@@ -56,6 +57,11 @@ const electionConnected = createElectionConnected({
         setUri: navigationDispatch.setUri
     }
 })
+const styleConnected = createStyleConnected({
+    extraDispatch: {
+        setUri: navigationDispatch.setUri
+    }
+})
 const navigationConnected = createNavigationConnected({
     extraState: {
         Login: loginConnected.Component,
@@ -66,7 +72,8 @@ const navigationConnected = createNavigationConnected({
         DebugTables: debugTablesConnected.Component,
         Events: eventsConnected.Component,
         Elections: electionsConnected.Component,
-        Election: electionConnected.Component
+        Election: electionConnected.Component,
+        Style: styleConnected.Component
     }
 })
 const connectedArray = [
@@ -79,7 +86,8 @@ const connectedArray = [
     debugTablesConnected,
     eventsConnected,
     electionsConnected,
-    electionConnected
+    electionConnected,
+    styleConnected
 ]
 
 const initializeEvents = [

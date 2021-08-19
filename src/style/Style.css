@@ -1,0 +1,18 @@
+.Style {
+    display: grid;
+    justify-content: center;
+    grid-gap: 0.5rem;
+    grid-auto-columns: auto;
+}
+
+.Style .example {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.Style .example fieldset {
+    display: grid;
+    justify-content: center;
+    grid-gap: 0.5rem;
+    margin: 1rem;
+}

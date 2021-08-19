@@ -1,4 +1,5 @@
 import ErrorComponent from '../error/ErrorComponent';
+import React from "react";
 
 const PageNotFound = ({page}) => <h1>{`Page '${page}' not found`}</h1>
 
@@ -13,7 +14,8 @@ const Navigation = ({
                         Events,
                         Elections,
                         Election,
-                        DebugTables
+                        DebugTables,
+                        Style
                     }) => {
     const pageMap = {
         login: Login,
@@ -24,7 +26,8 @@ const Navigation = ({
         events: Events,
         elections: Elections,
         election: Election,
-        debugTables: DebugTables
+        debugTables: DebugTables,
+        style: Style
     }
     const Component = pageMap[page] || PageNotFound
     return <div className={'Navigation'}>

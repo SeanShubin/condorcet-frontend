@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Button</title>
+    <style>
+        * {
+            background: lightgray;
+        }
+
+        button {
+            border: 1px solid darkgray;
+        }
+
+        .action {
+            border-radius: 0.7rem;
+            color: blue;
+            background: dodgerblue;
+        }
+
+        .action:disabled {
+            color: darkgray;
+            background: lightgray;
+        }
+
+        .selected {
+            border-radius: 0.3rem;
+            color: blue;
+            background: dodgerblue;
+        }
+
+        .not-selected {
+            border-radius: 0.3rem;
+            color: blue;
+            background: lightgray;
+        }
+
+        .selected:disabled {
+            background: darkgray;
+            color: lightgray;
+        }
+
+        .not-selected:disabled {
+            background: lightgray;
+            color: darkgray;
+        }
+    </style>
+</head>
+<body>
+<button class="action">Enabled Action</button>
+<button class="action" disabled>Disabled Action</button>
+<button class="selected">Enabled Selected</button>
+<button class="not-selected">Enabled Not Selected</button>
+<button class="selected" disabled>Disabled Selected</button>
+<button class="not-selected" disabled>Disabled Not Selected</button>
+</body>
+</html>

@@ -28,6 +28,7 @@ const Login = ({nameOrEmail, password, errors, setUri, nameOrEmailChanged, passw
                onChange={onChangePassword}/>
         <button type={'submit'}>Login</button>
         <a onClick={onClickRegister}>Register</a>
+        <a href={'/style'}>Style</a>
     </form>
 }
 

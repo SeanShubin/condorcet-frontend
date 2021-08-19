@@ -41,7 +41,7 @@ const composeSagaFromEffectMap = effectMap => environment => function* () {
 
 const createConnected = ({
                              name,
-                             model,
+                             model = {},
                              dispatch,
                              View = (() => <div>Component '{name}' undefined</div>),
                              reducerMap = {},

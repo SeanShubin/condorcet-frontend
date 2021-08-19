@@ -1,46 +1,63 @@
 .App {
-    --background: lightgray;
-    --border: darkgrey;
+    --inactive1: lightgray;
+    --inactive2: darkgray;
+    --inactive3: black;
+    --active1: white;
+    --active2: dodgerblue;
+    --active3: blue;
 
-    --action-button-background: dodgerblue;
-    --action-button-foreground: blue;
-    --action-button-background-hover: dodgerblue;
-    --action-button-foreground-hover: white;
+    --background: var(--inactive1);
+    --border: var(--inactive2);
 
-    --navigate-text-background: lightgray;
-    --navigate-text-foreground: blue;
-    --navigate-text-background-hover: dodgerblue;
-    --navigate-text-foreground-hover: white;
+    --action-button-border: var(--inactive2);
+    --action-button-background: var(--active2);
+    --action-button-foreground: var(--active3);
+    --action-button-background-hover: var(--active2);
+    --action-button-foreground-hover: var(--active1);
+    --action-disabled-button-foreground: var(--inactive2);
+    --action-disabled-button-background: var(--inactive1);
 
-    --selectable-text-background: lightgray;
-    --selectable-text-foreground: blue;
-    --selectable-text-background-hover: dodgerblue;
-    --selectable-text-foreground-hover: white;
+    --navigate-text-background: var(--inactive1);
+    --navigate-text-foreground: var(--active3);
+    --navigate-text-background-hover: var(--active2);
+    --navigate-text-foreground-hover: var(--active1);
 
-    --selected-text-background: dodgerblue;
-    --selected-text-foreground: blue;
-    --selected-text-background-hover: dodgerblue;
-    --selected-text-foreground-hover: white;
+    --selectable-text-background: var(--inactive1);
+    --selectable-text-foreground: var(--active3);
+    --selectable-text-background-hover: var(--active2);
+    --selectable-text-foreground-hover: var(--active1);
 
-    --selected-button-foreground: blue;
-    --selected-button-background: dodgerblue;
-    --not-selected-button-foreground: darkgrey;
-    --not-selected-button-background: lightgray;
-    --selectable-button-border: darkgrey;
-    --disabled-button-foreground: darkgrey;
-    --disabled-button-background: lightgray;
+    --selected-text-background: var(--active2);
+    --selected-text-foreground: var(--active3);
+    --selected-text-background-hover: var(--active2);
+    --selected-text-foreground-hover: var(--active1);
 
-    --edit-background: white;
-    --edit-foreground: black;
+    --toggle-button-border: var(--inactive2);
+    --toggle-selected-button-foreground: var(--active3);
+    --toggle-selected-button-background: var(--active2);
+    --toggle-not-selected-button-foreground: var(--active3);
+    --toggle-not-selected-button-background: var(--inactive1);
+    --toggle-selected-disabled-button-foreground: var(--inactive1);
+    --toggle-selected-disabled-button-background: var(--inactive2);
+    --toggle-not-selected-disabled-button-foreground: var(--inactive2);
+    --toggle-not-selected-disabled-button-background: var(--inactive1);
 
-    --static-text-background: lightgray;
-    --static-text-foreground: black;
+    --edit-background: var(--active1);
+    --edit-foreground: var(--inactive3);
+
+    --static-text-background: var(--inactive1);
+    --static-text-foreground: var(--inactive3);
 }
 
 .App {
     margin: 0.5rem;
     color: var(--static-text-foreground);
     background-color: var(--static-text-background);
+}
+
+.App h1 {
+    font-size: 2rem;
+    font-weight: bold;
 }
 
 .App input {
@@ -53,10 +70,6 @@
     outline-style: solid;
 }
 
-.App h1 {
-    font-size: 2rem;
-    font-weight: bold;
-}
 
 .App td, th {
     border-collapse: collapse;
@@ -68,10 +81,24 @@
 }
 
 .App button {
-    border-radius: 0.7rem;
+    border-radius: 0.3rem;
     border-style: none;
     color: var(--action-button-foreground);
     background-color: var(--action-button-background);
+    padding: 0.3rem;
+}
+
+.App button[type=submit] {
+    border-radius: 0.7rem;
+    border: 1px solid var(--action-button-border);
+    color: var(--action-button-foreground);
+    background-color: var(--action-button-background);
+    padding: 0.3rem;
+}
+
+.App button[type=submit]:disabled {
+    color: var(--action-disabled-button-foreground);
+    background-color: var(--action-disabled-button-background);
     padding: 0.3rem;
 }
 
@@ -81,25 +108,30 @@
 }
 
 .App button.selected {
-    border-radius: 0.3rem;
-    border: 1px solid var(--selectable-button-border);
-    color: var(--selected-button-foreground);
-    background-color: var(--selected-button-background);
+    border: 1px solid var(--toggle-button-border);
+    color: var(--toggle-selected-button-foreground);
+    background-color: var(--toggle-selected-button-background);
     padding: 0.3rem;
 }
 
 .App button.not-selected {
-    border-radius: 0.4rem;
-    border: 1px solid var(--selectable-button-border);
-    color: var(--not-selected-button-foreground);
-    background-color: var(--not-selected-button-background);
+    border: 1px solid var(--toggle-button-border);
+    color: var(--toggle-not-selected-button-foreground);
+    background-color: var(--toggle-not-selected-button-background);
     padding: 0.3rem;
 }
 
-.App button:disabled {
-    border: 1px solid var(--selectable-button-border);
-    color: var(--disabled-button-foreground);
-    background-color: var(--disabled-button-background);
+.App button.selected:disabled {
+    border: 1px solid var(--toggle-button-border);
+    color: var(--toggle-selected-disabled-button-foreground);
+    background-color: var(--toggle-selected-disabled-button-background);
+    padding: 0.3rem;
+}
+
+.App button.not-selected:disabled {
+    border: 1px solid var(--toggle-button-border);
+    color: var(--toggle-not-selected-disabled-button-foreground);
+    background-color: var(--toggle-not-selected-disabled-button-background);
     padding: 0.3rem;
 }
 
@@ -141,4 +173,9 @@
 
 .App pre {
     white-space: pre-wrap;
+}
+
+.App fieldset {
+    border: 1px solid var(--border);
+    padding: 0.5rem;
 }
