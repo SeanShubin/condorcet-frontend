@@ -14,7 +14,9 @@ const fetchElectionRequest = environment => function* (event) {
         })
     const jsonResult = yield result.json()
     if (result.ok) {
-        yield put(electionDispatch.fetchElectionSuccess(jsonResult.election))
+        const election = jsonResult.election
+        const canUpdate = jsonResult.canUpdate
+        yield put(electionDispatch.fetchElectionSuccess({election, canUpdate}))
     } else {
         yield put(electionDispatch.errorAdded(jsonResult.userSafeMessage))
     }

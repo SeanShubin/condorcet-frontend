@@ -37,6 +37,7 @@
     --toggle-selected-button-background: var(--active2);
     --toggle-not-selected-button-foreground: var(--active3);
     --toggle-not-selected-button-background: var(--inactive1);
+    --toggle-not-selected-button-hover-foreground: var(--active1);
     --toggle-selected-disabled-button-foreground: var(--inactive1);
     --toggle-selected-disabled-button-background: var(--inactive2);
     --toggle-not-selected-disabled-button-foreground: var(--inactive2);
@@ -114,11 +115,19 @@
     padding: 0.3rem;
 }
 
+.App button.selected:hover {
+    color: var(--active1);
+}
+
 .App button.not-selected {
     border: 1px solid var(--toggle-button-border);
     color: var(--toggle-not-selected-button-foreground);
     background-color: var(--toggle-not-selected-button-background);
     padding: 0.3rem;
+}
+
+.App button.not-selected:hover {
+    color: var(--toggle-not-selected-button-hover-foreground);
 }
 
 .App button.selected:disabled {

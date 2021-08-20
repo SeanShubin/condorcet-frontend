@@ -3,7 +3,7 @@ import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 import {delta} from "../library/collection-util";
 
-const NoYes = ({caption, value, changeValue}) => {
+const NoYes = ({caption, value, changeValue, canUpdate}) => {
     let noClass;
     let yesClass;
     if (value) {
@@ -19,11 +19,12 @@ const NoYes = ({caption, value, changeValue}) => {
     const onClickYes = () => {
         changeValue(true)
     }
+    const disabled = !canUpdate
     return <>
         <span>{caption}</span>
         <div className={'option'}>
-            <button onClick={onClickNo} className={noClass}>No</button>
-            <button onClick={onClickYes} className={yesClass}>Yes</button>
+            <button onClick={onClickNo} className={noClass} disabled={disabled}>No</button>
+            <button onClick={onClickYes} className={yesClass} disabled={disabled}>Yes</button>
         </div>
     </>
 }
@@ -40,6 +41,7 @@ const blankIfFalsy = value => {
 
 const Election = (
     {
+        canUpdate,
         originalElection,
         electionWithEdits,
         errors,
@@ -126,6 +128,7 @@ const Election = (
     const name = blankIfFalsy(electionWithEdits.name)
     const scheduledStart = blankIfFalsy(electionWithEdits.scheduledStart)
     const scheduledEnd = blankIfFalsy(electionWithEdits.scheduledEnd)
+    const canDelete = canUpdate && !hasPendingEdits
     return <div className={'Election'}>
         <h1>Election</h1>
         <ErrorComponent errors={errors}/>
@@ -133,38 +136,45 @@ const Election = (
             <span>Owner</span>
             <span>{originalElection.ownerName}</span>
             <span>Name</span>
-            <input onChange={updateElectionName} value={name}/>
+            <input onChange={updateElectionName} value={name} readOnly={!canUpdate}/>
             <span>Scheduled Start</span>
-            <input onChange={updateScheduledStart} value={scheduledStart}/>
+            <input onChange={updateScheduledStart} value={scheduledStart} readOnly={!canUpdate}/>
             <span>Scheduled End</span>
-            <input onChange={updateScheduledEnd} value={scheduledEnd}/>
+            <input onChange={updateScheduledEnd} value={scheduledEnd} readOnly={!canUpdate}/>
         </div>
         <div className={'elements'}>
             <NoYes caption={'Secret ballot'}
                    value={electionWithEdits.secretBallot}
-                   changeValue={updateSecretBallot}/>
+                   changeValue={updateSecretBallot}
+                   canUpdate={canUpdate}/>
             <NoYes caption={'Restrict who can vote'}
                    value={electionWithEdits.restrictWhoCanVote}
-                   changeValue={updateRestrictWhoCanVote}/>
+                   changeValue={updateRestrictWhoCanVote}
+                   canUpdate={canUpdate}/>
             <NoYes caption={'Owner can delete ballots'}
                    value={electionWithEdits.ownerCanDeleteBallots}
-                   changeValue={updateOwnerCanDeleteBallots}/>
+                   changeValue={updateOwnerCanDeleteBallots}
+                   canUpdate={canUpdate}/>
             <NoYes caption={'Auditor can delete ballots'}
                    value={electionWithEdits.auditorCanDeleteBallots}
-                   changeValue={updateAuditorCanDeleteBallots}/>
+                   changeValue={updateAuditorCanDeleteBallots}
+                   canUpdate={canUpdate}/>
             <NoYes caption={'Is template'}
                    value={electionWithEdits.isTemplate}
-                   changeValue={updateIsTemplate}/>
+                   changeValue={updateIsTemplate}
+                   canUpdate={canUpdate}/>
             <NoYes caption={'No changes after vote'}
                    value={electionWithEdits.noChangesAfterVote}
-                   changeValue={updateNoChangesAfterVote}/>
+                   changeValue={updateNoChangesAfterVote}
+                   canUpdate={canUpdate}/>
             <NoYes caption={'Is open for voting'}
                    value={electionWithEdits.isOpen}
-                   changeValue={updateIsOpen}/>
+                   changeValue={updateIsOpen}
+                   canUpdate={canUpdate}/>
         </div>
         <button type={"submit"} onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
         <button type={"submit"} onClick={fetchElectionRequest} disabled={!hasPendingEdits}>Discard Changes</button>
-        <button type={"submit"} onClick={deleteElectionClicked} disabled={hasPendingEdits}>Delete Election</button>
+        <button type={"submit"} onClick={deleteElectionClicked} disabled={!canDelete}>Delete Election</button>
         <a onClick={onClickElections}>elections</a>
         <a onClick={onClickDashboard}>dashboard</a>
     </div>
