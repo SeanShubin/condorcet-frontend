@@ -1,0 +1,9 @@
+.Candidates {
+    display: grid;
+    justify-content: center;
+    grid-gap: 0.5rem;
+}
+
+.Candidates a, button {
+    padding: 0.3rem;
+}

@@ -2,6 +2,7 @@ import './Election.css'
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 import {delta} from "../library/collection-util";
+import {pluralize} from "../library/text-util";
 
 const NoYes = ({caption, value, changeValue, canUpdate}) => {
     let noClass;
@@ -60,6 +61,11 @@ const Election = (
     const onClickDashboard = event => {
         event.preventDefault()
         setUri('/dashboard')
+    }
+    const onClickCandidates = event => {
+        event.preventDefault()
+        const uri = `/candidates?election=${originalElection.name}`
+        setUri(uri)
     }
     const updateElectionName = event => {
         updateElectionEdits(R.mergeRight(electionWithEdits, {
@@ -129,6 +135,13 @@ const Election = (
     const scheduledStart = blankIfFalsy(electionWithEdits.scheduledStart)
     const scheduledEnd = blankIfFalsy(electionWithEdits.scheduledEnd)
     const canDelete = canUpdate && !hasPendingEdits
+    const candidateCount = originalElection.candidateCount
+    const candidateCountText = `${candidateCount} ${pluralize({
+        quantity: candidateCount,
+        singular: 'candidate',
+        plural: 'candidates'
+    })}`
+
     return <div className={'Election'}>
         <h1>Election</h1>
         <ErrorComponent errors={errors}/>
@@ -172,6 +185,7 @@ const Election = (
                    changeValue={updateIsOpen}
                    canUpdate={canUpdate}/>
         </div>
+        <a onClick={onClickCandidates}>{candidateCountText}</a>
         <button type={"submit"} onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
         <button type={"submit"} onClick={fetchElectionRequest} disabled={!hasPendingEdits}>Discard Changes</button>
         <button type={"submit"} onClick={deleteElectionClicked} disabled={!canDelete}>Delete Election</button>
