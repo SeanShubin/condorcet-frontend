@@ -16,16 +16,16 @@ const fetchCandidatesRequest = environment => function* (event) {
     )
     const jsonResult = yield result.json()
     if (result.ok) {
-        yield put(candidatesDispatch.changeCandidates(jsonResult.candidates))
+        yield put(candidatesDispatch.fetchCandidatesSuccess(jsonResult.candidates))
     } else {
         yield put(candidatesDispatch.errorAdded(jsonResult.userSafeMessage))
     }
 }
 
-const updateCandidatesRequest = environment => function* (event) {
+const setCandidatesRequest = environment => function* (event) {
     yield put(candidatesDispatch.clearErrors())
-    const electionName = event.electionName
-    const candidateNames = event.candidateNames
+    const electionName = event.election
+    const candidateNames = event.candidates
     const body = {electionName, candidateNames}
     const result = yield environment.authenticatedFetch(
         `/proxy/SetCandidates`,
@@ -43,7 +43,7 @@ const updateCandidatesRequest = environment => function* (event) {
 
 const candidatesEffect = {
     [candidatesEvent.FETCH_CANDIDATES_REQUEST]: fetchCandidatesRequest,
-    [candidatesEvent.UPDATE_CANDIDATES_REQUEST]: updateCandidatesRequest,
+    [candidatesEvent.SET_CANDIDATES_REQUEST]: setCandidatesRequest,
 }
 
 export default candidatesEffect

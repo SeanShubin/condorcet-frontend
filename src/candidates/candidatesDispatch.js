@@ -2,9 +2,10 @@ import candidatesEvent from "./candidatesEvent";
 
 const candidatesDispatch = {
     fetchCandidatesRequest: electionName => ({type: candidatesEvent.FETCH_CANDIDATES_REQUEST, electionName}),
-    changeCandidates: candidates => ({type: candidatesEvent.CHANGE_CANDIDATES, candidates}),
-    updateCandidatesRequest: (election, candidates) => ({
-        type: candidatesEvent.UPDATE_CANDIDATES_REQUEST,
+    fetchCandidatesSuccess: candidates => ({type: candidatesEvent.FETCH_CANDIDATES_SUCCESS, candidates}),
+    updateCandidateEdits: candidates => ({type: candidatesEvent.UPDATE_CANDIDATE_EDITS, candidates}),
+    setCandidatesRequest: (election, candidates) => ({
+        type: candidatesEvent.SET_CANDIDATES_REQUEST,
         election,
         candidates
     }),
