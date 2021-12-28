@@ -33,10 +33,10 @@ const setCandidatesRequest = environment => function* (event) {
             method: 'POST',
             body: JSON.stringify(body)
         })
-    const jsonResult = yield result.json()
     if (result.ok) {
         yield put(candidatesDispatch.fetchCandidatesRequest(electionName))
     } else {
+        const jsonResult = yield result.json()
         yield put(candidatesDispatch.errorAdded(jsonResult.userSafeMessage))
     }
 }
