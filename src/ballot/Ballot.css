@@ -1,10 +1,10 @@
-.Elections {
+.Ballot {
     display: grid;
     justify-content: center;
     grid-gap: 0.5rem;
 }
 
-.Elections .elements {
+.Ballot .elements {
     display: grid;
     justify-content: left;
     grid-gap: 0.2rem;

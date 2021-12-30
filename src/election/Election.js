@@ -42,6 +42,7 @@ const blankIfFalsy = value => {
 
 const Election = (
     {
+        user,
         canUpdate,
         originalElection,
         electionWithEdits,
@@ -50,6 +51,7 @@ const Election = (
         updateElectionRequest,
         updateElectionEdits,
         deleteElectionRequest,
+        navigateBallot,
         errorAdded,
         setUri
     }) => {
@@ -66,6 +68,13 @@ const Election = (
         event.preventDefault()
         const uri = `/candidates?election=${originalElection.name}`
         setUri(uri)
+    }
+    const onClickBallot = event => {
+        event.preventDefault()
+        navigateBallot({
+            electionName: originalElection.name,
+            voterName: user
+        })
     }
     const updateElectionName = event => {
         updateElectionEdits(R.mergeRight(electionWithEdits, {
@@ -186,6 +195,7 @@ const Election = (
                    canUpdate={canUpdate}/>
         </div>
         <a onClick={onClickCandidates}>{candidateCountText}</a>
+        <a onClick={onClickBallot}>ballot</a>
         <button type={"submit"} onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
         <button type={"submit"} onClick={fetchElectionRequest} disabled={!hasPendingEdits}>Discard Changes</button>
         <button type={"submit"} onClick={deleteElectionClicked} disabled={!canDelete}>Delete Election</button>

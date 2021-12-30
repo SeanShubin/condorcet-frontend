@@ -12,12 +12,14 @@ const fetchElectionRequest = environment => function* (event) {
             method: 'POST',
             body: JSON.stringify(body)
         })
-    const jsonResult = yield result.json()
+    const user = environment.getUserName()
     if (result.ok) {
+        const jsonResult = yield result.json()
         const election = jsonResult.election
         const canUpdate = jsonResult.canUpdate
-        yield put(electionDispatch.fetchElectionSuccess({election, canUpdate}))
+        yield put(electionDispatch.fetchElectionSuccess({user, election, canUpdate}))
     } else {
+        const jsonResult = yield result.json()
         yield put(electionDispatch.errorAdded(jsonResult.userSafeMessage))
     }
 }
@@ -58,10 +60,18 @@ const updateElectionRequest = environment => function* (event) {
     }
 }
 
+const navigateBallot = environment => function* (event) {
+    const voter = event.voterName
+    const election = event.electionName
+    const uri = `/ballot?voter=${voter}&election=${election}`
+    yield put(navigationDispatch.setUri(uri))
+}
+
 const electionEffect = {
     [electionEvent.FETCH_ELECTION_REQUEST]: fetchElectionRequest,
     [electionEvent.DELETE_ELECTION_REQUEST]: deleteElectionRequest,
-    [electionEvent.UPDATE_ELECTION_REQUEST]: updateElectionRequest
+    [electionEvent.UPDATE_ELECTION_REQUEST]: updateElectionRequest,
+    [electionEvent.NAVIGATE_BALLOT]: navigateBallot
 }
 
 export default electionEffect

@@ -16,7 +16,8 @@ const Navigation = ({
                         Election,
                         DebugTables,
                         Style,
-                        Candidates
+                        Candidates,
+                        Ballot
                     }) => {
     const pageMap = {
         login: Login,
@@ -29,7 +30,8 @@ const Navigation = ({
         election: Election,
         debugTables: DebugTables,
         style: Style,
-        candidates: Candidates
+        candidates: Candidates,
+        ballot: Ballot
     }
     const Component = pageMap[page] || PageNotFound
     return <div className={'Navigation'}>
