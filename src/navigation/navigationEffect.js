@@ -22,6 +22,8 @@ import {stylePageName, styleUriPattern} from "../style/styleConstant";
 import candidatesDispatch from "../candidates/candidatesDispatch";
 import {ballotPageName, ballotUriPattern} from "../ballot/ballotConstant";
 import ballotDispatch from "../ballot/ballotDispatch";
+import {tallyPageName, tallyUriPattern} from "../tally/tallyConstant";
+import tallyDispatch from "../tally/tallyDispatch";
 
 const redirect = environment => function* (event) {
     const uri = event.uri
@@ -85,6 +87,12 @@ const fetchPage = environment => function* () {
         const voterName = params.get('voter')
         const electionName = params.get('election')
         yield put(ballotDispatch.fetchBallotRequest({voterName, electionName}))
+    } else if (tallyUriPattern.test(uri)) {
+        yield put(navigationDispatch.fetchPageSuccess(tallyPageName))
+        const queryString = environment.history.location.search
+        const params = new URLSearchParams(queryString)
+        const electionName = params.get('election')
+        yield put(tallyDispatch.fetchTallyRequest(electionName))
     } else {
         yield put(navigationDispatch.redirect(loginPagePath))
     }

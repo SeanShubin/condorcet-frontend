@@ -67,11 +67,18 @@ const navigateBallot = environment => function* (event) {
     yield put(navigationDispatch.setUri(uri))
 }
 
+const navigateTally = environment => function* (event) {
+    const election = event.electionName
+    const uri = `/tally?election=${election}`
+    yield put(navigationDispatch.setUri(uri))
+}
+
 const electionEffect = {
     [electionEvent.FETCH_ELECTION_REQUEST]: fetchElectionRequest,
     [electionEvent.DELETE_ELECTION_REQUEST]: deleteElectionRequest,
     [electionEvent.UPDATE_ELECTION_REQUEST]: updateElectionRequest,
-    [electionEvent.NAVIGATE_BALLOT]: navigateBallot
+    [electionEvent.NAVIGATE_BALLOT]: navigateBallot,
+    [electionEvent.NAVIGATE_TALLY]: navigateTally
 }
 
 export default electionEffect

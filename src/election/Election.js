@@ -52,6 +52,7 @@ const Election = (
         updateElectionEdits,
         deleteElectionRequest,
         navigateBallot,
+        navigateTally,
         errorAdded,
         setUri
     }) => {
@@ -75,6 +76,10 @@ const Election = (
             electionName: originalElection.name,
             voterName: user
         })
+    }
+    const onClickTally = event => {
+        event.preventDefault()
+        navigateTally(originalElection.name)
     }
     const updateElectionName = event => {
         updateElectionEdits(R.mergeRight(electionWithEdits, {
@@ -196,6 +201,7 @@ const Election = (
         </div>
         <a onClick={onClickCandidates}>{candidateCountText}</a>
         <a onClick={onClickBallot}>ballot</a>
+        <a onClick={onClickTally}>tally</a>
         <button type={"submit"} onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
         <button type={"submit"} onClick={fetchElectionRequest} disabled={!hasPendingEdits}>Discard Changes</button>
         <button type={"submit"} onClick={deleteElectionClicked} disabled={!canDelete}>Delete Election</button>

@@ -13,6 +13,7 @@ import createElectionConnected from "../election/electionConnected";
 import createStyleConnected from "../style/styleConnected";
 import createCandidatesConnected from "../candidates/candidatesConnected";
 import createBallotConnected from "../ballot/ballotConnected";
+import createTallyConnected from "../tally/tallyConnected";
 
 const loginConnected = createLoginConnected({
     extraDispatch: {
@@ -74,6 +75,11 @@ const ballotConnected = createBallotConnected({
         setUri: navigationDispatch.setUri
     }
 })
+const tallyConnected = createTallyConnected({
+    extraDispatch: {
+        setUri: navigationDispatch.setUri
+    }
+})
 const navigationConnected = createNavigationConnected({
     extraState: {
         Login: loginConnected.Component,
@@ -87,7 +93,8 @@ const navigationConnected = createNavigationConnected({
         Election: electionConnected.Component,
         Style: styleConnected.Component,
         Candidates: candidatesConnected.Component,
-        Ballot: ballotConnected.Component
+        Ballot: ballotConnected.Component,
+        Tally: tallyConnected.Component
     }
 })
 const connectedArray = [
@@ -103,7 +110,8 @@ const connectedArray = [
     electionConnected,
     styleConnected,
     candidatesConnected,
-    ballotConnected
+    ballotConnected,
+    tallyConnected
 ]
 
 const initializeEvents = [
