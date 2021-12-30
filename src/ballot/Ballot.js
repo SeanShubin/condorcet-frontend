@@ -2,10 +2,19 @@ import './Ballot.css'
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 
-const parseRank = rank => {
+const rankToString = rank => {
     const parsed = parseInt(rank)
     if (isNaN(parsed)) {
         return ''
+    } else {
+        return parsed.toString()
+    }
+}
+
+const stringToRank = s => {
+    const parsed = parseInt(s)
+    if (isNaN(parsed)) {
+        return null
     } else {
         return parsed
     }
@@ -13,9 +22,9 @@ const parseRank = rank => {
 
 const Ranking = ({name, rank, updateRank}) => {
     const onChangeRank = event => {
-        updateRank({name, rank: parseRank(event.target.value)})
+        updateRank({name, rank: stringToRank(event.target.value)})
     }
-    const parsedRank = parseRank(rank)
+    const parsedRank = rankToString(rank)
     return <div key={name}>
         <input value={parsedRank} onChange={onChangeRank}/>
         <span>{name}</span>

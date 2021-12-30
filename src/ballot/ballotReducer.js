@@ -22,7 +22,8 @@ const updateRank = (state, event) => {
     }
     const oldRankings = R.view(ballotModel.editedRankings, state)
     const newRankings = R.map(updateRank, oldRankings)
-    return R.set(ballotModel.editedRankings, newRankings, state)
+    const newState = R.set(ballotModel.editedRankings, newRankings, state)
+    return newState
 }
 
 const errorAdded = (state, event) => appendToArray(ballotModel.errors, event.message, state)
