@@ -3,7 +3,9 @@ import tallyModel from "./tallyModel";
 import {appendToArray} from "../library/collection-util";
 import * as R from 'ramda'
 
-const fetchTallySuccess = (state, event) => R.set(tallyModel.tally, event.tally, state)
+const fetchTallySuccess = (state, event) => R.pipe(
+    R.set(tallyModel.tally, event.tally),
+    R.set(tallyModel.election, event.election))(state)
 const errorAdded = (state, event) => appendToArray(tallyModel.errors, event.message, state)
 
 const tallyReducer = {

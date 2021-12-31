@@ -2,8 +2,9 @@ import tallyEvent from "./tallyEvent";
 
 const tallyDispatch = {
     fetchTallyRequest: electionName => ({type: tallyEvent.FETCH_TALLY_REQUEST, electionName}),
-    fetchTallySuccess: tally => ({
+    fetchTallySuccess: ({election, tally}) => ({
         type: tallyEvent.FETCH_TALLY_SUCCESS,
+        election,
         tally
     }),
     navigateElection: electionName => ({type: tallyEvent.NAVIGATE_ELECTION, electionName}),

@@ -14,7 +14,7 @@ const fetchTallyRequest = environment => function* (event) {
         })
     if (result.ok) {
         const tally = yield result.json()
-        yield put(tallyDispatch.fetchTallySuccess(tally))
+        yield put(tallyDispatch.fetchTallySuccess({tally, election: electionName}))
     } else {
         const jsonResult = yield result.json()
         yield put(tallyDispatch.errorAdded(jsonResult.userSafeMessage))
