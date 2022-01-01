@@ -83,16 +83,34 @@ const PlacesTable = ({places}) => {
     </table>
 }
 
-const BallotsTable = ({ballots}) => {
-    const createCell = ({candidateName, rank}) => {
-        return <td>[{rank}] {candidateName}</td>
+const BallotsTable = ({candidates, ballots}) => {
+    const createRankingCell = ({confirmation, candidate, rank}) => {
+        return <td key={confirmation+candidate}>[{rank}] {candidate}</td>
     }
-    const createRow = ballot => {
-        const cells = R.map(createCell, ballot.rankings)
-        return <tr>{cells}</tr>
+    const createRow = ({user, confirmation, whenCast, rankings}) => {
+        const attachConfirmation = ({candidateName, rank}) => ({
+            candidate: candidateName,
+            rank,
+            confirmation
+        })
+        const rankingsWithConfirmation = R.map(attachConfirmation, rankings)
+        const rankingCells = R.map(createRankingCell, rankingsWithConfirmation)
+        return <tr key={confirmation}>
+            <td>{user}</td>
+            <td>{confirmation}</td>
+            <td>{whenCast}</td>
+            {rankingCells}</tr>
     }
     const tableRows = R.map(createRow, ballots)
     return <table>
+        <thead>
+        <tr>
+            <th>voter</th>
+            <th>confirmation</th>
+            <th>when cast</th>
+            <th colSpan={candidates.length}>rankings</th>
+        </tr>
+        </thead>
         <tbody>
         {tableRows}
         </tbody>
@@ -129,7 +147,7 @@ const Tally = args => {
         <h2>Candidates</h2>
         <CandidateTable candidates={candidates}/>
         <h2>Ballots</h2>
-        <BallotsTable ballots={ballots}/>
+        <BallotsTable candidates={candidates} ballots={ballots}/>
         <h2>Strengths</h2>
         <StrengthTable preferences={preferences}/>
         <PreferenceTable preferences={preferences}/>
