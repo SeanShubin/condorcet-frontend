@@ -146,14 +146,14 @@ const Tally = args => {
         <PlacesTable places={places}/>
         <h2>Candidates</h2>
         <CandidateTable candidates={candidates}/>
-        <h2>Ballots</h2>
-        <BallotsTable candidates={candidates} ballots={ballots}/>
         <h2>Strengths</h2>
         <StrengthTable preferences={preferences}/>
         <PreferenceTable preferences={preferences}/>
         <h2>Strongest Paths</h2>
         <StrengthTable preferences={strongestPathMatrix}/>
         <PreferenceTable preferences={strongestPathMatrix}/>
+        <h2>Ballots</h2>
+        <BallotsTable candidates={candidates} ballots={ballots}/>
         <a onClick={onClickElection}>election</a>
         <a onClick={onClickDashboard}>dashboard</a>
     </div>

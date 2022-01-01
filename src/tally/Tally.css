@@ -11,11 +11,12 @@
     grid-template-columns: auto 1fr;
 }
 
-.Tally .option button {
-    margin-right: 0.3rem;
-    margin-left: 0.3rem;
-}
-
 .Tally td, th {
     padding: 0.2rem;
+}
+
+.Tally table {
+    display: block;
+    overflow-x: scroll;
+    white-space: nowrap;
 }
