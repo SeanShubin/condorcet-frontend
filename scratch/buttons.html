@@ -1,0 +1,47 @@
+<html>
+<head>
+    <title>buttons</title>
+    <style>
+        .Page {
+            display: grid;
+            justify-content: center;
+            grid-gap: 0.2rem;
+            grid-template-columns: auto;
+        }
+
+        button {
+            color: blue;
+            background-color: lightgray;
+            border-radius: 0.3rem;
+            border-style: none;
+            padding: 0.3rem;
+        }
+
+        button:disabled {
+            color: darkgray;
+            background-color: lightgray;
+        }
+
+        button.selected {
+            color: blue;
+            background-color: dodgerblue;
+            border-radius: 0.3rem;
+            border-style: none;
+            padding: 0.3rem;
+        }
+
+        button.selected:disabled {
+            color: lightgray;
+            background-color: darkgray;
+        }
+    </style>
+</head>
+<body>
+<div class="Page">
+    <button class="selected">Enabled Selected</button>
+    <button>Enabled Not Selected</button>
+    <button disabled class="selected">Disabled Selected</button>
+    <button disabled>Disabled Not Selected</button>
+</div>
+</body>
+</html>

@@ -81,6 +81,10 @@
     font-weight: bold;
 }
 
+.App h2 {
+    font-weight: bold;
+}
+
 .App button {
     border-radius: 0.3rem;
     border-style: none;

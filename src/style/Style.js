@@ -27,8 +27,8 @@ const Style = () => {
                 <legend>Selection</legend>
                 <button className={'selected'}>Enabled Selected</button>
                 <button disabled className={'selected'}>Disabled Selected</button>
-                <button>Enabled Not Selected</button>
-                <button disabled>Disabled Not Selected</button>
+                <button className={'not-selected'}>Enabled Not Selected</button>
+                <button disabled className={'not-selected'}>Disabled Not Selected className={'not-selected'}</button>
             </fieldset>
             <fieldset>
                 <legend>Link</legend>
