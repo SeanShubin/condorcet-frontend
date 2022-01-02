@@ -84,12 +84,12 @@ const PlacesTable = ({places}) => {
 }
 
 const BallotsTable = ({candidates, ballots}) => {
-    const createRankingCell = ({confirmation, candidate, rank}) => {
-        return <td key={confirmation+candidate}>[{rank}] {candidate}</td>
+    const createRankingCell = ({confirmation, name, rank}) => {
+        return <td key={confirmation + name}>[{rank}] {name}</td>
     }
     const createRow = ({user, confirmation, whenCast, rankings}) => {
-        const attachConfirmation = ({candidateName, rank}) => ({
-            candidate: candidateName,
+        const attachConfirmation = ({name, rank}) => ({
+            name,
             rank,
             confirmation
         })
@@ -117,6 +117,20 @@ const BallotsTable = ({candidates, ballots}) => {
     </table>
 }
 
+const VoterTable = ({voters}) => {
+    const createVoterRow = voter => {
+        return <tr key={voter}>
+            <td>{voter}</td>
+        </tr>
+    }
+    const voterRows = R.map(createVoterRow, voters)
+    return <table>
+        <tbody>
+        {voterRows}
+        </tbody>
+    </table>
+}
+
 const Tally = args => {
     const {
         election,
@@ -127,7 +141,7 @@ const Tally = args => {
     } = args
     if (!tally) return <h1>No Data</h1>
     const {
-        candidates, ballots, preferences, strongestPathMatrix, places
+        candidates, ballots, preferences, strongestPathMatrix, places, whoVoted
     } = tally
     const onClickElection = event => {
         event.preventDefault()
@@ -152,6 +166,8 @@ const Tally = args => {
         <h2>Strongest Paths</h2>
         <StrengthTable preferences={strongestPathMatrix}/>
         <PreferenceTable preferences={strongestPathMatrix}/>
+        <h2>Who Voted</h2>
+        <VoterTable voters={whoVoted}/>
         <h2>Ballots</h2>
         <BallotsTable candidates={candidates} ballots={ballots}/>
         <a onClick={onClickElection}>election</a>

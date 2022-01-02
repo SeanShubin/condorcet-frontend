@@ -13,11 +13,11 @@ const fetchBallotSuccess = (state, event) => R.pipe(
 const updateRank = (state, event) => {
     const targetCandidateName = event.name
     const newRank = event.rank
-    const updateRank = ({candidateName, rank}) => {
-        if (candidateName === targetCandidateName) {
-            return {candidateName, rank: newRank}
+    const updateRank = ({name, rank}) => {
+        if (name === targetCandidateName) {
+            return {name, rank: newRank}
         } else {
-            return {candidateName, rank}
+            return {name, rank}
         }
     }
     const oldRankings = R.view(ballotModel.editedRankings, state)

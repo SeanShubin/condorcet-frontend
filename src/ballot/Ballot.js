@@ -32,8 +32,8 @@ const Ranking = ({name, rank, updateRank}) => {
 }
 
 const Rankings = ({rankings, updateRank}) => {
-    const createRanking = ({candidateName, rank}) => {
-        return Ranking({name: candidateName, rank, updateRank})
+    const createRanking = ({name, rank}) => {
+        return Ranking({name, rank, updateRank})
     }
     const list = R.map(createRanking, rankings)
     return list
