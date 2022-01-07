@@ -3,12 +3,13 @@
     <title>timestamp</title>
     <style>
         .one-column {
-            display:grid;
+            display: grid;
             grid-gap: 1rem;
             grid-template-columns: auto;
         }
+
         .two-columns {
-            display:grid;
+            display: grid;
             grid-gap: 0.2rem;
             grid-template-columns: auto auto;
         }
@@ -16,11 +17,12 @@
 </head>
 <body onload="bodyOnLoad()">
 <div class="one-column">
-    <input id="userInput" size="30" placeholder="YYYY-MM-DD HH:MM:SS" oninput="userInputChange()"/>
+    <input id="userInput" size="30" placeholder="YYYY-MM-DD HH:MM:SS" oninput="userInputChange()"
+           onblur="userInputBlur()"/>
 </div>
 <div class="two-columns">
     <span>raw input</span><span id="rawInput"></span>
-    <span>well formed input</span><span id="wellFormedInput"></span>
+    <span>well formed input</span><span id="wellFormed"></span>
     <span>local date</span><span id="localDate"></span>
     <span>utc date</span><span id="utcDate"></span>
     <span>instant</span><span id="instant"></span>
@@ -34,12 +36,12 @@
     const createParser = text => {
         let index = 0
         const isDigit = ch => {
-            if(ch < '0') return false
-            if(ch > '9') return false
+            if (ch < '0') return false
+            if (ch > '9') return false
             return true
         }
         const consumeNonDigits = () => {
-            while(index<text.length && !isDigit(text.charAt(index))){
+            while (index < text.length && !isDigit(text.charAt(index))) {
                 index++
             }
         }
@@ -49,7 +51,7 @@
         const consumeDigits = max => {
             let accumulator = 0
             let remain = max
-            while(index<text.length && isDigit(text.charAt(index)) && remain > 0){
+            while (index < text.length && isDigit(text.charAt(index)) && remain > 0) {
                 const digit = text.charAt(index)
                 index++
                 remain--
@@ -63,6 +65,24 @@
         }
         return {digits}
     }
+    const createValidator = text => {
+        const parser = createParser(text)
+        const year = minMax(1900, 9999, parser.digits(4))
+        const month = minMax(1, 12, parser.digits(2))
+        const day = minMax(1, 31, parser.digits(2))
+        const hour = minMax(0, 23, parser.digits(2))
+        const minute = minMax(0, 59, parser.digits(2))
+        const second = minMax(0, 59, parser.digits(2))
+        const date = new Date(year, month - 1, day, hour, minute, second)
+        const wellFormed = `${leadingZeroes(date.getFullYear(), 4)}-${leadingZeroes(date.getMonth() + 1, 2)}-${leadingZeroes(date.getDate(), 2)} ${leadingZeroes(date.getHours(), 2)}:${leadingZeroes(date.getMinutes(), 2)}:${leadingZeroes(date.getSeconds(), 2)}`
+        const localDate = date.toString()
+        const utcDate = date.toUTCString()
+        const instant = date.toISOString()
+        return {
+            text, year, month, day, hour, minute, second, date, wellFormed, localDate, utcDate, instant
+        }
+
+    }
     const leadingZeroes = (number, length) => {
         let numberString = number.toString()
         let padding = '0'.repeat(length - numberString.length)
@@ -72,27 +92,23 @@
         return Math.max(min, Math.min(max, actual))
     }
     const update = () => {
-        const userInput = document.getElementById('userInput')
-        const rawInput = userInput.value
-        const parser = createParser(rawInput)
-        const year = minMax(1900,9999,parser.digits(4))
-        const month = minMax(1, 12, parser.digits(2))
-        const day = minMax(1,31, parser.digits(2))
-        const hour = minMax(0,23,parser.digits(2))
-        const minute = minMax(0,59,parser.digits(2))
-        const second = minMax(0,59,parser.digits(2))
-        const date = new Date(year, month-1, day, hour, minute, second)
-        setText('rawInput', rawInput)
-        setText('wellFormedInput', `${leadingZeroes(date.getFullYear(),4)}-${leadingZeroes(date.getMonth()+1,2)}-${leadingZeroes(date.getDate(),2)} ${leadingZeroes(date.getHours(),2)}:${leadingZeroes(date.getMinutes(),2)}:${leadingZeroes(date.getSeconds(),2)}`)
-        setText('localDate', date.toString())
-        setText('utcDate', date.toUTCString())
-        setText('instant', date.toISOString())
+        const validator = createValidator(document.getElementById('userInput').value)
+        setText('rawInput', validator.text)
+        setText('wellFormed', validator.wellFormed)
+        setText('localDate', validator.localDate)
+        setText('utcDate', validator.utcDate)
+        setText('instant', validator.instant)
     }
     const bodyOnLoad = () => {
         update()
     }
     const userInputChange = () => {
         update()
+    }
+    const userInputBlur = () => {
+        const validator = createValidator(document.getElementById('userInput').value)
+        const element = document.getElementById('userInput')
+        element.value = validator.wellFormed
     }
 </script>
 </body>
