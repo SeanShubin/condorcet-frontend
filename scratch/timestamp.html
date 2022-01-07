@@ -65,9 +65,13 @@
         }
         return {digits}
     }
+    const add2000ifLessThan1000 = value => {
+        if (value < 1000) return value + 2000
+        else return value
+    }
     const createValidator = text => {
         const parser = createParser(text)
-        const year = minMax(1900, 9999, parser.digits(4))
+        const year = minMax(1900, 9999, add2000ifLessThan1000(parser.digits(4)))
         const month = minMax(1, 12, parser.digits(2))
         const day = minMax(1, 31, parser.digits(2))
         const hour = minMax(0, 23, parser.digits(2))
