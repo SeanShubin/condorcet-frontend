@@ -3,6 +3,7 @@ import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 import {delta} from "../library/collection-util";
 import {pluralize} from "../library/text-util";
+import {userDateToLocal, userDateToUtc, userDateToWellFormed, dateFormat} from "../library/date-time-util";
 
 const NoYes = ({caption, value, changeValue, canUpdate}) => {
     let noClass;
@@ -38,6 +39,18 @@ const nullIfBlank = value => {
 const blankIfFalsy = value => {
     if (value) return value
     return ''
+}
+
+const DateUtc = ({value}) => {
+    const utc = userDateToUtc(value)
+    if(utc == null) return null
+    return <span className={'col-span-2'}>{utc}</span>
+}
+
+const DateLocal = ({value}) => {
+    const localDate = userDateToLocal(value)
+    if(localDate == null) return null
+    return <span className={'col-span-2'}>{localDate}</span>
 }
 
 const Election = (
@@ -94,6 +107,18 @@ const Election = (
     const updateScheduledEnd = event => {
         updateElectionEdits(R.mergeRight(electionWithEdits, {
             scheduledEnd: nullIfBlank(event.target.value)
+        }))
+    }
+    const blurScheduledStart = event => {
+        const scheduledStart = userDateToWellFormed(event.target.value)
+        updateElectionEdits(R.mergeRight(electionWithEdits, {
+            scheduledStart
+        }))
+    }
+    const blurScheduledEnd = event => {
+        const scheduledEnd = userDateToWellFormed(event.target.value)
+        updateElectionEdits(R.mergeRight(electionWithEdits, {
+            scheduledEnd
         }))
     }
     const updateSecretBallot = secretBallot => {
@@ -165,9 +190,13 @@ const Election = (
             <span>Name</span>
             <input onChange={updateElectionName} value={name} readOnly={!canUpdate}/>
             <span>Scheduled Start</span>
-            <input onChange={updateScheduledStart} value={scheduledStart} readOnly={!canUpdate}/>
+            <input onChange={updateScheduledStart} onBlur={blurScheduledStart} size={25} placeholder={dateFormat} value={scheduledStart} readOnly={!canUpdate}/>
+            <DateLocal className={'col-span-2'} value={scheduledStart}/>
+            <DateUtc className={'col-span-2'} value={scheduledStart}/>
             <span>Scheduled End</span>
-            <input onChange={updateScheduledEnd} value={scheduledEnd} readOnly={!canUpdate}/>
+            <input onChange={updateScheduledEnd} onBlur={blurScheduledEnd} size={25} placeholder={dateFormat} value={scheduledEnd} readOnly={!canUpdate}/>
+            <DateLocal className={'col-span-2'} value={scheduledEnd}/>
+            <DateUtc className={'col-span-2'} value={scheduledEnd}/>
         </div>
         <div className={'elements'}>
             <NoYes caption={'Secret ballot'}

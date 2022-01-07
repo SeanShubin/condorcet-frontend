@@ -69,6 +69,14 @@
         if (value < 1000) return value + 2000
         else return value
     }
+    const leadingZeroes = (number, length) => {
+        let numberString = number.toString()
+        let padding = '0'.repeat(length - numberString.length)
+        return padding + numberString
+    }
+    const minMax = (min, max, actual) => {
+        return Math.max(min, Math.min(max, actual))
+    }
     const createValidator = text => {
         const parser = createParser(text)
         const year = minMax(1900, 9999, add2000ifLessThan1000(parser.digits(4)))
@@ -86,14 +94,6 @@
             text, year, month, day, hour, minute, second, date, wellFormed, localDate, utcDate, instant
         }
 
-    }
-    const leadingZeroes = (number, length) => {
-        let numberString = number.toString()
-        let padding = '0'.repeat(length - numberString.length)
-        return padding + numberString
-    }
-    const minMax = (min, max, actual) => {
-        return Math.max(min, Math.min(max, actual))
     }
     const update = () => {
         const validator = createValidator(document.getElementById('userInput').value)

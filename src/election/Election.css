@@ -11,6 +11,12 @@
     grid-template-columns: auto 1fr;
 }
 
+.Election .col-span-2 {
+    font-size: 50%;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
 .Election .option button {
     margin-right: 0.3rem;
     margin-left: 0.3rem;

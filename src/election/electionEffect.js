@@ -2,6 +2,15 @@ import electionDispatch from './electionDispatch'
 import electionEvent from './electionEvent'
 import {put} from 'redux-saga/effects'
 import navigationDispatch from "../navigation/navigationDispatch";
+import * as R from 'ramda'
+import {userDateToIso, isoDateToWellFormed} from "../library/date-time-util";
+
+const convertIsoDatesToWellFormed = electionEdits => {
+    const apiFormattedDates = R.pick(['scheduledStart', 'scheduledEnd'], electionEdits)
+    const userFormattedDates = R.map(isoDateToWellFormed,  apiFormattedDates)
+    const userElectionEdits = R.mergeRight(electionEdits, userFormattedDates)
+    return userElectionEdits
+}
 
 const fetchElectionRequest = environment => function* (event) {
     const name = (new URLSearchParams(environment.history.location.search)).get('election')
@@ -15,7 +24,7 @@ const fetchElectionRequest = environment => function* (event) {
     const user = environment.getUserName()
     if (result.ok) {
         const jsonResult = yield result.json()
-        const election = jsonResult.election
+        const election = convertIsoDatesToWellFormed(jsonResult.election)
         const canUpdate = jsonResult.canUpdate
         yield put(electionDispatch.fetchElectionSuccess({user, election, canUpdate}))
     } else {
@@ -40,8 +49,15 @@ const deleteElectionRequest = environment => function* (event) {
     }
 }
 
+const convertDatesToInstants = electionEdits => {
+    const userFormattedDates = R.pick(['scheduledStart', 'scheduledEnd'], electionEdits)
+    const apiFormattedDates = R.map(userDateToIso,  userFormattedDates)
+    const apiElectionEdits = R.mergeRight(electionEdits, apiFormattedDates)
+    return apiElectionEdits
+}
+
 const updateElectionRequest = environment => function* (event) {
-    const body = event.updates
+    const body = convertDatesToInstants(event.updates)
     const result = yield environment.authenticatedFetch(
         `/proxy/UpdateElection`,
         {
