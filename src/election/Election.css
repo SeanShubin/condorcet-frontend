@@ -12,7 +12,6 @@
 }
 
 .Election .col-span-2 {
-    font-size: 50%;
     grid-column-start: 1;
     grid-column-end: 3;
 }

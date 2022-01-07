@@ -48,6 +48,8 @@
 
     --static-text-background: var(--inactive1);
     --static-text-foreground: var(--inactive3);
+
+    --subtle-text-foreground: var(--inactive2)
 }
 
 .App {
@@ -191,4 +193,9 @@
 .App fieldset {
     border: 1px solid var(--border);
     padding: 0.5rem;
+}
+
+.App .subtle-text {
+    font-size: 50%;
+    color: var(--subtle-text-foreground)
 }

@@ -44,13 +44,13 @@ const blankIfFalsy = value => {
 const DateUtc = ({value}) => {
     const utc = userDateToUtc(value)
     if(utc == null) return null
-    return <span className={'col-span-2'}>{utc}</span>
+    return <span className={'subtle-text col-span-2'}>{utc}</span>
 }
 
 const DateLocal = ({value}) => {
     const localDate = userDateToLocal(value)
     if(localDate == null) return null
-    return <span className={'col-span-2'}>{localDate}</span>
+    return <span className={'subtle-text col-span-2'}>{localDate}</span>
 }
 
 const Election = (
