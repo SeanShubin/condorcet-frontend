@@ -136,8 +136,8 @@ const Election = (
     const updateIsTemplate = isTemplate => {
         updateElectionEdits(R.mergeRight(electionWithEdits, {isTemplate}))
     }
-    const updateNoChangesAfterVote = noChangesAfterVote => {
-        updateElectionEdits(R.mergeRight(electionWithEdits, {noChangesAfterVote}))
+    const updateAllowChangesAfterVote = allowChangesAfterVote => {
+        updateElectionEdits(R.mergeRight(electionWithEdits, {allowChangesAfterVote}))
     }
     const updateIsOpen = isOpen => {
         updateElectionEdits(R.mergeRight(electionWithEdits, {isOpen}))
@@ -219,9 +219,9 @@ const Election = (
                    value={electionWithEdits.isTemplate}
                    changeValue={updateIsTemplate}
                    canUpdate={canUpdate}/>
-            <NoYes caption={'No changes after vote'}
-                   value={electionWithEdits.noChangesAfterVote}
-                   changeValue={updateNoChangesAfterVote}
+            <NoYes caption={'Allow changes after vote'}
+                   value={electionWithEdits.allowChangesAfterVote}
+                   changeValue={updateAllowChangesAfterVote}
                    canUpdate={canUpdate}/>
             <NoYes caption={'Is open for voting'}
                    value={electionWithEdits.isOpen}
