@@ -20,11 +20,7 @@ const registerConnected = createRegisterConnected({})
 const dashboardConnected = createDashboardConnected({})
 const manageUsersConnected = createManageUsersConnected({})
 const tablesConnected = createTablesConnected({})
-const debugTablesConnected = createDebugTablesConnected({
-    extraDispatch: {
-        setUri: navigationDispatch.setUri
-    }
-})
+const debugTablesConnected = createDebugTablesConnected({})
 const eventsConnected = createEventsConnected({
     extraDispatch: {
         setUri: navigationDispatch.setUri

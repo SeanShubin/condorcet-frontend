@@ -8,7 +8,7 @@ import {dashboardPageName, dashboardUriPattern} from "../dashboard/dashboardCons
 import dashboardDispatch from "../dashboard/dashboardDispatch";
 import manageUsersDispatch from "../manageUsers/manageUsersDispatch";
 import {parseTableFromUri, tablesPageName, tablesUriPattern} from "../tables/tablesConstant";
-import {debugTablesPageName, debugTablesUriPattern} from "../debugTables/debugTablesConstant";
+import {debugTablesPageName, debugTablesUriPattern, parseDebugTableFromUri} from "../debugTables/debugTablesConstant";
 import tablesDispatch from "../tables/tablesDispatch";
 import debugTablesDispatch from "../debugTables/debugTablesDispatch";
 import {eventsPageName, eventsUriPattern} from "../events/eventsConstant";
@@ -40,6 +40,7 @@ const setUri = environment => function* (event) {
 
 const fetchPage = environment => function* () {
     const uri = environment.history.location.pathname
+    const queryString = environment.history.location.search
     if (loginUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(loginPageName))
     } else if (registerUriPattern.test(uri)) {
@@ -51,15 +52,12 @@ const fetchPage = environment => function* () {
         yield put(navigationDispatch.fetchPageSuccess(manageUsersPageName))
         yield put(manageUsersDispatch.fetchUsersRequest())
     } else if (tablesUriPattern.test(uri)) {
-        const queryString = environment.history.location.search
         const table = parseTableFromUri(queryString)
         yield put(navigationDispatch.fetchPageSuccess(tablesPageName))
         yield put(tablesDispatch.fetchTableNamesRequest())
         yield put(tablesDispatch.selectedTableChanged(table))
     } else if (debugTablesUriPattern.test(uri)) {
-        const queryString = environment.history.location.search
-        const params = new URLSearchParams(queryString)
-        const table = params.get('table') || 'user'
+        const table = parseDebugTableFromUri(queryString)
         yield put(navigationDispatch.fetchPageSuccess(debugTablesPageName))
         yield put(debugTablesDispatch.fetchTableNamesRequest())
         yield put(debugTablesDispatch.selectedTableChanged(table))

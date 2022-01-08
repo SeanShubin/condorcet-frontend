@@ -6,7 +6,7 @@ import {manageUsersPagePath} from "../manageUsers/manageUsersConstant";
 import {electionsPagePath} from "../elections/electionsConstant";
 import {createTablesPagePath} from "../tables/tablesConstant";
 import {eventsPagePath} from "../events/eventsConstant";
-import {debugTablesPagePath} from "../debugTables/debugTablesConstant";
+import {createDebugTablesPagePath} from "../debugTables/debugTablesConstant";
 
 const Dashboard = (
     {
@@ -36,7 +36,7 @@ const Dashboard = (
         <a href={manageUsersPagePath}>{userCountText}</a>
         <a href={electionsPagePath}>{electionCountText}</a>
         <a href={createTablesPagePath()}>{tableCountText}</a>
-        <a href={debugTablesPagePath}>{debugTableCountText}</a>
+        <a href={createDebugTablesPagePath()}>{debugTableCountText}</a>
         <a href={eventsPagePath}>{eventCountText}</a>
         <button type={'button'} onClick={logoutRequest}>Logout</button>
     </div>
