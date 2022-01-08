@@ -16,19 +16,14 @@ const loginRequest = environment => function* (event) {
     )
     const jsonResult = yield result.json()
     if (result.ok) {
-        yield put(navigationDispatch.redirect(dashboardPagePath))
+        yield put(navigationDispatch.setUri(dashboardPagePath))
     } else {
         yield put(loginDispatch.errorAdded(jsonResult.userSafeMessage))
     }
 }
 
-const navigateRegister = environment => function*(event){
-    yield put(navigationDispatch.setUri('/register'))
-}
-
 const loginEffect = {
-    [loginEvent.LOGIN_REQUEST]: loginRequest,
-    [loginEvent.NAVIGATE_REGISTER]: navigateRegister
+    [loginEvent.LOGIN_REQUEST]: loginRequest
 }
 
 export default loginEffect

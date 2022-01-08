@@ -7,15 +7,10 @@ const Login = (
         nameOrEmail,
         password,
         errors,
-        navigateRegister,
         nameOrEmailChanged,
         passwordChanged,
         loginRequest
     }) => {
-    const onClickRegister = event => {
-        event.preventDefault()
-        navigateRegister()
-    }
     const onChangeNameOrEmail = event =>
         nameOrEmailChanged(event.target.value)
     const onChangePassword = event =>
@@ -36,7 +31,7 @@ const Login = (
                placeholder={'password'}
                onChange={onChangePassword}/>
         <button type={'submit'}>Login</button>
-        <a onClick={onClickRegister}>Register</a>
+        <a href={'/register'}>Register</a>
         <a href={'/style'}>Style</a>
     </form>
 }
