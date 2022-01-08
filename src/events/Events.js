@@ -1,5 +1,6 @@
 import './Events.css'
 import ErrorComponent from "../error/ErrorComponent";
+import {dashboardPagePath} from "../dashboard/dashboardConstant";
 
 const TableHeader = ({header}) => <th>{header}</th>
 
@@ -16,17 +17,13 @@ const TableContent = ({headers, rows}) => {
     </table>
 }
 
-const Events = ({table, setUri, errors}) => {
-    const onClickDashboard = event => {
-        event.preventDefault()
-        setUri('/dashboard')
-    }
+const Events = ({table, errors}) => {
     return <div className={'Events'}>
         <h1>Events</h1>
         <ErrorComponent errors={errors}/>
-        <a onClick={onClickDashboard}>dashboard</a>
+        <a href={dashboardPagePath}>dashboard</a>
         <TableContent headers={table.columnNames} rows={table.rows}/>
-        <a onClick={onClickDashboard}>dashboard</a>
+        <a href={dashboardPagePath}>dashboard</a>
     </div>
 }
 
