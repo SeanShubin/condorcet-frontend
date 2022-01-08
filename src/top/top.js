@@ -70,11 +70,7 @@ const candidatesConnected = createCandidatesConnected({
         setUri: navigationDispatch.setUri
     }
 })
-const ballotConnected = createBallotConnected({
-    extraDispatch: {
-        setUri: navigationDispatch.setUri
-    }
-})
+const ballotConnected = createBallotConnected({})
 const tallyConnected = createTallyConnected({
     extraDispatch: {
         setUri: navigationDispatch.setUri

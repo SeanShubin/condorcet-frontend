@@ -43,8 +43,8 @@ const castBallotRequest = environment => function* (event) {
 }
 
 const navigateElection = environment => function* (event) {
-    const electionName = event.electionName
-    yield put(navigationDispatch.setUri(`/election?election=${electionName}`))
+    const election = event.election
+    yield put(navigationDispatch.setUri(`/election?election=${election}`))
 }
 
 const navigateDashboard = environment => function* (event) {

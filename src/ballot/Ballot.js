@@ -75,7 +75,7 @@ const Ballot = ({
         <Rankings rankings={editedRankings} updateRank={updateRank}/>
         <button type={"submit"} onClick={onClickCastBallot} disabled={!hasPendingEdits}>Cast Ballot</button>
         <button type={"submit"} onClick={onClickDiscardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
-        <a onClick={onClickElection}>election</a>
+        <a onClick={onClickElection}>election {election}</a>
         <a onClick={onClickDashboard}>dashboard</a>
     </div>
 }

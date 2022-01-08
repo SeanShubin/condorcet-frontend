@@ -20,7 +20,7 @@ const ballotDispatch = {
     }),
     updateRank: ({name, rank}) => ({type: ballotEvent.UPDATE_RANK, name, rank}),
     navigateDashboard: () => ({type: ballotEvent.NAVIGATE_DASHBOARD}),
-    navigateElection: electionName => ({type: ballotEvent.NAVIGATE_ELECTION, electionName}),
+    navigateElection: election => ({type: ballotEvent.NAVIGATE_ELECTION, election}),
     errorAdded: message => ({type: ballotEvent.ERROR_ADDED, message})
 }
 
