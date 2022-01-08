@@ -8,27 +8,15 @@ import {tablesPagePath} from "../tables/tablesConstant";
 import {eventsPagePath} from "../events/eventsConstant";
 import {debugTablesPagePath} from "../debugTables/debugTablesConstant";
 
-const Dashboard = ({userCount, electionCount, tableCount, eventCount, errors, setUri, logoutRequest}) => {
-    const onClickManageUsers = event => {
-        event.preventDefault()
-        setUri(manageUsersPagePath)
-    }
-    const onClickElections = event => {
-        event.preventDefault()
-        setUri(electionsPagePath)
-    }
-    const onClickTables = event => {
-        event.preventDefault()
-        setUri(tablesPagePath)
-    }
-    const onClickDebugTables = event => {
-        event.preventDefault()
-        setUri(debugTablesPagePath)
-    }
-    const onClickEvents = event => {
-        event.preventDefault()
-        setUri(eventsPagePath)
-    }
+const Dashboard = (
+    {
+        userCount,
+        electionCount,
+        tableCount,
+        eventCount,
+        errors,
+        logoutRequest
+    }) => {
     const userCountText = `${userCount} ${pluralize({quantity: userCount, singular: 'user', plural: 'users'})}`
     const electionCountText = `${electionCount} ${pluralize({
         quantity: electionCount,
