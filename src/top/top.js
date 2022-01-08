@@ -16,11 +16,7 @@ import createBallotConnected from "../ballot/ballotConnected";
 import createTallyConnected from "../tally/tallyConnected";
 
 const loginConnected = createLoginConnected({})
-const registerConnected = createRegisterConnected({
-    extraDispatch: {
-        setUri: navigationDispatch.setUri
-    }
-})
+const registerConnected = createRegisterConnected({})
 const dashboardConnected = createDashboardConnected({
     extraDispatch: {
         setUri: navigationDispatch.setUri

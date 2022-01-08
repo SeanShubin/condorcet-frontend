@@ -9,7 +9,6 @@ const Register = (
         password,
         confirmationPassword,
         errors,
-        setUri,
         nameChanged,
         emailChanged,
         passwordChanged,
@@ -17,10 +16,6 @@ const Register = (
         passwordDoesNotMatchConfirmationPassword,
         registerRequest
     }) => {
-    const onClickLogin = event => {
-        event.preventDefault()
-        setUri('/login')
-    }
     const onChangeName = event =>
         nameChanged(event.target.value)
     const onChangeEmail = event =>
@@ -56,7 +51,7 @@ const Register = (
                placeholder={'confirmation password'}
                onChange={onChangeConfirmationPassword}/>
         <button type={'submit'}>Register</button>
-        <a onClick={onClickLogin}>Login</a>
+        <a href={'/login'}>Login</a>
     </form>
 }
 
