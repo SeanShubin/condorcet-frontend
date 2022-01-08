@@ -22,8 +22,13 @@ const loginRequest = environment => function* (event) {
     }
 }
 
+const navigateRegister = environment => function*(event){
+    yield put(navigationDispatch.setUri('/register'))
+}
+
 const loginEffect = {
-    [loginEvent.LOGIN_REQUEST]: loginRequest
+    [loginEvent.LOGIN_REQUEST]: loginRequest,
+    [loginEvent.NAVIGATE_REGISTER]: navigateRegister
 }
 
 export default loginEffect
