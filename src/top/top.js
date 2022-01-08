@@ -25,11 +25,7 @@ const eventsConnected = createEventsConnected({})
 const electionsConnected = createElectionsConnected({})
 const electionConnected = createElectionConnected({})
 const styleConnected = createStyleConnected({})
-const candidatesConnected = createCandidatesConnected({
-    extraDispatch: {
-        setUri: navigationDispatch.setUri
-    }
-})
+const candidatesConnected = createCandidatesConnected({})
 const ballotConnected = createBallotConnected({})
 const tallyConnected = createTallyConnected({
     extraDispatch: {

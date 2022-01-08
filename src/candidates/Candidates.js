@@ -2,6 +2,8 @@ import './Candidates.css'
 import React from 'react';
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
+import {createElectionPagePath} from "../election/electionConstant";
+import {dashboardPagePath} from "../dashboard/dashboardConstant";
 
 const Candidates = (
     {
@@ -11,8 +13,7 @@ const Candidates = (
         updateCandidateEdits,
         setCandidatesRequest,
         fetchCandidatesRequest,
-        errors,
-        setUri
+        errors
     }) => {
     const hasPendingEdits = !R.equals(originalCandidates, candidatesWithEdits)
     const candidatesString = R.join('\n', candidatesWithEdits)
@@ -29,15 +30,6 @@ const Candidates = (
     const discardChanges = () => {
         fetchCandidatesRequest(electionName)
     }
-    const onClickElection = event => {
-        event.preventDefault()
-        setUri(`/election?election=${electionName}`)
-
-    }
-    const onClickDashboard = event => {
-        event.preventDefault()
-        setUri('/dashboard')
-    }
     return <div className={'Candidates'}>
         <h1>Candidates for {electionName}</h1>
         <ErrorComponent errors={errors}/>
@@ -48,8 +40,8 @@ const Candidates = (
             onChange={onCandidatesChanged}/>
         <button type={"submit"} onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
         <button type={"submit"} onClick={discardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
-        <a onClick={onClickElection}>election {electionName}</a>
-        <a onClick={onClickDashboard}>dashboard</a>
+        <a href={createElectionPagePath(electionName)}>election {electionName}</a>
+        <a href={dashboardPagePath}>dashboard</a>
     </div>
 }
 
