@@ -33,7 +33,8 @@ const redirect = environment => function* (event) {
 
 const setUri = environment => function* (event) {
     const uri = event.uri
-    environment.history.push(uri)
+    const encodedUri = encodeURI(uri)
+    environment.history.push(encodedUri)
     yield put(navigationDispatch.fetchPageRequest())
 }
 
