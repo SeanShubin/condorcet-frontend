@@ -7,7 +7,7 @@ import {manageUsersPageName, manageUsersUriPattern} from "../manageUsers/manageU
 import {dashboardPageName, dashboardUriPattern} from "../dashboard/dashboardConstant";
 import dashboardDispatch from "../dashboard/dashboardDispatch";
 import manageUsersDispatch from "../manageUsers/manageUsersDispatch";
-import {tablesPageName, tablesUriPattern} from "../tables/tablesConstant";
+import {parseTableFromUri, tablesPageName, tablesUriPattern} from "../tables/tablesConstant";
 import {debugTablesPageName, debugTablesUriPattern} from "../debugTables/debugTablesConstant";
 import tablesDispatch from "../tables/tablesDispatch";
 import debugTablesDispatch from "../debugTables/debugTablesDispatch";
@@ -52,8 +52,7 @@ const fetchPage = environment => function* () {
         yield put(manageUsersDispatch.fetchUsersRequest())
     } else if (tablesUriPattern.test(uri)) {
         const queryString = environment.history.location.search
-        const params = new URLSearchParams(queryString)
-        const table = params.get('table') || 'user'
+        const table = parseTableFromUri(queryString)
         yield put(navigationDispatch.fetchPageSuccess(tablesPageName))
         yield put(tablesDispatch.fetchTableNamesRequest())
         yield put(tablesDispatch.selectedTableChanged(table))

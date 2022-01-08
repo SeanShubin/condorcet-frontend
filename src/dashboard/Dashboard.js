@@ -4,7 +4,7 @@ import ErrorComponent from "../error/ErrorComponent";
 import {pluralize} from "../library/text-util";
 import {manageUsersPagePath} from "../manageUsers/manageUsersConstant";
 import {electionsPagePath} from "../elections/electionsConstant";
-import {tablesPagePath} from "../tables/tablesConstant";
+import {createTablesPagePath} from "../tables/tablesConstant";
 import {eventsPagePath} from "../events/eventsConstant";
 import {debugTablesPagePath} from "../debugTables/debugTablesConstant";
 
@@ -35,7 +35,7 @@ const Dashboard = (
         <ErrorComponent errors={errors}/>
         <a href={manageUsersPagePath}>{userCountText}</a>
         <a href={electionsPagePath}>{electionCountText}</a>
-        <a href={tablesPagePath}>{tableCountText}</a>
+        <a href={createTablesPagePath()}>{tableCountText}</a>
         <a href={debugTablesPagePath}>{debugTableCountText}</a>
         <a href={eventsPagePath}>{eventCountText}</a>
         <button type={'button'} onClick={logoutRequest}>Logout</button>

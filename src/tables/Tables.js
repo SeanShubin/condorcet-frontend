@@ -1,28 +1,24 @@
 import './Tables.css'
 import ErrorComponent from "../error/ErrorComponent";
-import {tablesPagePath} from "./tablesConstant";
+import {createTablesPagePath} from "./tablesConstant";
+import {dashboardPagePath} from "../dashboard/dashboardConstant";
 
-const TableSelector = ({name, selectedName, setUri}) => {
-    const onClick = () => {
-        const path = tablesPagePath + '?table=' + name
-        setUri(path)
-    }
+const TableSelector = ({name, selectedName}) => {
     let className
     if (selectedName === name) {
         className = 'tab selected'
     } else {
         className = 'tab'
     }
-    return <label onClick={onClick} className={className}>{name}</label>
+    return <a href={createTablesPagePath(name)} className={className}>{name}</a>
 }
 
-const TableSelectors = ({names, selectedName, setUri}) => {
+const TableSelectors = ({names, selectedName}) => {
     return <div>
         {names.map(name => <TableSelector
             key={name}
             name={name}
-            selectedName={selectedName}
-            setUri={setUri}/>)}
+            selectedName={selectedName}/>)}
     </div>
 }
 
@@ -41,18 +37,14 @@ const TableContent = ({headers, rows}) => {
     </table>
 }
 
-const Tables = ({selectedName, names, table, errors, setUri}) => {
-    const onClickDashboard = event => {
-        event.preventDefault()
-        setUri('/dashboard')
-    }
+const Tables = ({selectedName, names, table, errors}) => {
     return <div className={'Tables'}>
         <h1>Tables</h1>
         <ErrorComponent errors={errors}/>
-        <a onClick={onClickDashboard}>dashboard</a>
-        <TableSelectors names={names} selectedName={selectedName} setUri={setUri}/>
+        <a href={dashboardPagePath}>dashboard</a>
+        <TableSelectors names={names} selectedName={selectedName}/>
         <TableContent headers={table.columnNames} rows={table.rows}/>
-        <a onClick={onClickDashboard}>dashboard</a>
+        <a href={dashboardPagePath}>dashboard</a>
     </div>
 }
 
