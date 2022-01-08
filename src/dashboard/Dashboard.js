@@ -45,11 +45,11 @@ const Dashboard = ({userCount, electionCount, tableCount, eventCount, errors, se
     return <div className={'Dashboard'}>
         <h1>Dashboard</h1>
         <ErrorComponent errors={errors}/>
-        <a onClick={onClickManageUsers}>{userCountText}</a>
-        <a onClick={onClickElections}>{electionCountText}</a>
-        <a onClick={onClickTables}>{tableCountText}</a>
-        <a onClick={onClickDebugTables}>{debugTableCountText}</a>
-        <a onClick={onClickEvents}>{eventCountText}</a>
+        <a href={manageUsersPagePath}>{userCountText}</a>
+        <a href={electionsPagePath}>{electionCountText}</a>
+        <a href={tablesPagePath}>{tableCountText}</a>
+        <a href={debugTablesPagePath}>{debugTableCountText}</a>
+        <a href={eventsPagePath}>{eventCountText}</a>
         <button type={'button'} onClick={logoutRequest}>Logout</button>
     </div>
 }

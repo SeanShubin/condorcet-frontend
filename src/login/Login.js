@@ -1,6 +1,8 @@
 import React from 'react';
 import './Login.css'
 import ErrorComponent from "../error/ErrorComponent";
+import {registerPagePath} from "../register/registerConstant";
+import {stylePagePath} from "../style/styleConstant";
 
 const Login = (
     {
@@ -31,8 +33,8 @@ const Login = (
                placeholder={'password'}
                onChange={onChangePassword}/>
         <button type={'submit'}>Login</button>
-        <a href={'/register'}>Register</a>
-        <a href={'/style'}>Style</a>
+        <a href={registerPagePath}>Register</a>
+        <a href={stylePagePath}>Style</a>
     </form>
 }
 

@@ -1,6 +1,7 @@
 import './Register.css'
 import React from 'react';
 import ErrorComponent from "../error/ErrorComponent";
+import {loginPagePath} from "../login/loginConstant";
 
 const Register = (
     {
@@ -51,7 +52,7 @@ const Register = (
                placeholder={'confirmation password'}
                onChange={onChangeConfirmationPassword}/>
         <button type={'submit'}>Register</button>
-        <a href={'/login'}>Login</a>
+        <a href={loginPagePath}>Login</a>
     </form>
 }
 

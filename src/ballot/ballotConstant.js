@@ -1,5 +1,5 @@
 const ballotUriPattern = /^\/ballot($|\/)/
 const ballotPageName = 'ballot'
-const ballotPagePath = '/ballot'
+const createBallotPagePath = election => `/ballot?election=${election}`
 
-export {ballotUriPattern, ballotPageName, ballotPagePath}
+export {ballotUriPattern, ballotPageName, createBallotPagePath}

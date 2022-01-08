@@ -1,6 +1,8 @@
 import './Ballot.css'
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
+import {createElectionPagePath} from "../election/electionConstant";
+import {dashboardPagePath} from "../dashboard/dashboardConstant";
 
 const rankToString = rank => {
     const parsed = parseInt(rank)
@@ -65,8 +67,8 @@ const Ballot = ({
         <Rankings rankings={editedRankings} updateRank={updateRank}/>
         <button type={"submit"} onClick={onClickCastBallot} disabled={!hasPendingEdits}>Cast Ballot</button>
         <button type={"submit"} onClick={onClickDiscardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
-        <a href={`/election?election=${election}`}>election {election}</a>
-        <a href={'/dashboard'}>dashboard</a>
+        <a href={createElectionPagePath(election)}>election {election}</a>
+        <a href={dashboardPagePath}>dashboard</a>
     </div>
 }
 
