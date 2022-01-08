@@ -1,6 +1,8 @@
 import './Tally.css'
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
+import {createElectionPagePath} from "../election/electionConstant";
+import {dashboardPagePath} from "../dashboard/dashboardConstant";
 
 const StrengthTable = ({preferences}) => {
     const createCell = preference => <td key={preference.destination}>{preference.strength}</td>
@@ -135,27 +137,17 @@ const Tally = args => {
     const {
         election,
         tally,
-        errors,
-        navigateElection,
-        navigateDashboard
+        errors
     } = args
     if (!tally) return <h1>No Data</h1>
     const {
         candidates, ballots, preferences, strongestPathMatrix, places, whoVoted
     } = tally
-    const onClickElection = event => {
-        event.preventDefault()
-        navigateElection(election)
-    }
-    const onClickDashboard = event => {
-        event.preventDefault()
-        navigateDashboard();
-    }
     return <div className={'Tally'}>
         <h1>Tally</h1>
         <ErrorComponent errors={errors}/>
-        <a onClick={onClickElection}>election</a>
-        <a onClick={onClickDashboard}>dashboard</a>
+        <a href={createElectionPagePath(election)}>election {election}</a>
+        <a href={dashboardPagePath}>dashboard</a>
         <h2>Rankings</h2>
         <PlacesTable places={places}/>
         <h2>Candidates</h2>
@@ -170,8 +162,8 @@ const Tally = args => {
         <VoterTable voters={whoVoted}/>
         <h2>Ballots</h2>
         <BallotsTable candidates={candidates} ballots={ballots}/>
-        <a onClick={onClickElection}>election</a>
-        <a onClick={onClickDashboard}>dashboard</a>
+        <a href={createElectionPagePath(election)}>election {election}</a>
+        <a href={dashboardPagePath}>dashboard</a>
     </div>
 }
 

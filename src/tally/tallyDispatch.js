@@ -7,8 +7,6 @@ const tallyDispatch = {
         election,
         tally
     }),
-    navigateElection: electionName => ({type: tallyEvent.NAVIGATE_ELECTION, electionName}),
-    navigateDashboard: () => ({type: tallyEvent.NAVIGATE_ELECTION}),
     errorAdded: message => ({type: tallyEvent.ERROR_ADDED, message})
 }
 

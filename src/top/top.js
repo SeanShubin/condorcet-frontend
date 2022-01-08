@@ -27,11 +27,7 @@ const electionConnected = createElectionConnected({})
 const styleConnected = createStyleConnected({})
 const candidatesConnected = createCandidatesConnected({})
 const ballotConnected = createBallotConnected({})
-const tallyConnected = createTallyConnected({
-    extraDispatch: {
-        setUri: navigationDispatch.setUri
-    }
-})
+const tallyConnected = createTallyConnected({})
 const navigationConnected = createNavigationConnected({
     extraState: {
         Login: loginConnected.Component,

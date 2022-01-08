@@ -21,21 +21,8 @@ const fetchTallyRequest = environment => function* (event) {
     }
 }
 
-const navigateElection = environment => function* (event) {
-    const election = event.electionName
-    const uri = `/election?election=${election}`
-    yield put(navigationDispatch.setUri(uri))
-}
-
-const navigateDashboard = environment => function* (event) {
-    const uri = `/dashboard`
-    yield put(navigationDispatch.setUri(uri))
-}
-
 const tallyEffect = {
-    [tallyEvent.FETCH_TALLY_REQUEST]: fetchTallyRequest,
-    [tallyEvent.NAVIGATE_ELECTION]: navigateElection,
-    [tallyEvent.NAVIGATE_DASHBOARD]: navigateDashboard
+    [tallyEvent.FETCH_TALLY_REQUEST]: fetchTallyRequest
 }
 
 export default tallyEffect
