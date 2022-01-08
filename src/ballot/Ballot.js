@@ -47,9 +47,7 @@ const Ballot = ({
                     errors,
                     fetchBallotRequest,
                     castBallotRequest,
-                    updateRank,
-                    navigateDashboard,
-                    navigateElection
+                    updateRank
                 }) => {
     const hasPendingEdits = !R.equals(originalRankings, editedRankings)
 
@@ -59,14 +57,6 @@ const Ballot = ({
     const onClickDiscardChanges = event => {
         fetchBallotRequest({voterName: voter, electionName: election})
     }
-    const onClickElection = event => {
-        event.preventDefault()
-        navigateElection(election)
-    }
-    const onClickDashboard = event => {
-        event.preventDefault()
-        navigateDashboard()
-    }
 
     return <div className={'Ballot'}>
         <h1>Ballot</h1>
@@ -75,8 +65,8 @@ const Ballot = ({
         <Rankings rankings={editedRankings} updateRank={updateRank}/>
         <button type={"submit"} onClick={onClickCastBallot} disabled={!hasPendingEdits}>Cast Ballot</button>
         <button type={"submit"} onClick={onClickDiscardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
-        <a onClick={onClickElection}>election {election}</a>
-        <a onClick={onClickDashboard}>dashboard</a>
+        <a href={`/election?election=${election}`}>election {election}</a>
+        <a href={'/dashboard'}>dashboard</a>
     </div>
 }
 

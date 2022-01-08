@@ -19,8 +19,6 @@ const ballotDispatch = {
         rankings
     }),
     updateRank: ({name, rank}) => ({type: ballotEvent.UPDATE_RANK, name, rank}),
-    navigateDashboard: () => ({type: ballotEvent.NAVIGATE_DASHBOARD}),
-    navigateElection: election => ({type: ballotEvent.NAVIGATE_ELECTION, election}),
     errorAdded: message => ({type: ballotEvent.ERROR_ADDED, message})
 }
 

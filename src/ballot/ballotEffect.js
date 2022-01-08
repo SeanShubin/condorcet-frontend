@@ -42,20 +42,9 @@ const castBallotRequest = environment => function* (event) {
     }
 }
 
-const navigateElection = environment => function* (event) {
-    const election = event.election
-    yield put(navigationDispatch.setUri(`/election?election=${election}`))
-}
-
-const navigateDashboard = environment => function* (event) {
-    yield put(navigationDispatch.setUri('/dashboard'))
-}
-
 const ballotEffect = {
     [ballotEvent.FETCH_BALLOT_REQUEST]: fetchBallotRequest,
-    [ballotEvent.CAST_BALLOT_REQUEST]: castBallotRequest,
-    [ballotEvent.NAVIGATE_ELECTION]: navigateElection,
-    [ballotEvent.NAVIGATE_DASHBOARD]: navigateDashboard
+    [ballotEvent.CAST_BALLOT_REQUEST]: castBallotRequest
 }
 
 export default ballotEffect
