@@ -22,11 +22,7 @@ const manageUsersConnected = createManageUsersConnected({})
 const tablesConnected = createTablesConnected({})
 const debugTablesConnected = createDebugTablesConnected({})
 const eventsConnected = createEventsConnected({})
-const electionsConnected = createElectionsConnected({
-    extraDispatch: {
-        setUri: navigationDispatch.setUri
-    }
-})
+const electionsConnected = createElectionsConnected({})
 const electionConnected = createElectionConnected({
     extraDispatch: {
         setUri: navigationDispatch.setUri

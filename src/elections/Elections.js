@@ -2,14 +2,12 @@ import './Elections.css'
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 import React from "react";
+import {dashboardPagePath} from "../dashboard/dashboardConstant";
+import {createElectionPagePath} from "../election/electionConstant";
 
-const ElectionList = ({elections, setUri}) => {
+const ElectionList = ({elections}) => {
     const createElectionListElement = election => {
-        const onClick = event => {
-            event.preventDefault()
-            setUri(`/election?election=${election.name}`)
-        }
-        return <li key={election.name}><a onClick={onClick}>{election.name}</a></li>
+        return <li key={election.name}><a href={createElectionPagePath(election.name)}>{election.name}</a></li>
     }
     const electionListElements = R.map(createElectionListElement, elections)
     return <ul className={'elements'}>
@@ -33,18 +31,15 @@ const AddElection = ({electionName, electionNameChanged, addElectionRequest}) =>
                   onChange={onChange}/>
 }
 
-const Elections = ({elections, electionName, errors, setUri, electionNameChanged, addElectionRequest}) => {
-    const onClickDashboard = event => {
-        event.preventDefault()
-        setUri('/dashboard')
-    }
+const Elections = ({elections, electionName, errors, electionNameChanged, addElectionRequest}) => {
     return <div className={'Elections'}>
         <h1>Elections</h1>
         <ErrorComponent errors={errors}/>
         <AddElection electionName={electionName} electionNameChanged={electionNameChanged}
                      addElectionRequest={addElectionRequest}/>
-        <ElectionList elections={elections} setUri={setUri}/>
-        <a onClick={onClickDashboard}>dashboard</a>
+        <a href={dashboardPagePath}>dashboard</a>
+        <ElectionList elections={elections}/>
+        <a href={dashboardPagePath}>dashboard</a>
     </div>
 }
 
