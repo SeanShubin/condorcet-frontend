@@ -15,14 +15,14 @@ import {eventsPageName, eventsUriPattern} from "../events/eventsConstant";
 import eventsDispatch from "../events/eventsDispatch";
 import {electionsPageName, electionsUriPattern} from "../elections/electionsConstant";
 import electionsDispatch from "../elections/electionsDispatch";
-import {electionPageName, electionUriPattern} from "../election/electionConstant";
-import {candidatesPageName, candidatesUriPattern} from "../candidates/candidatesConstant";
+import {electionPageName, electionUriPattern, parseFromElectionUri} from "../election/electionConstant";
+import {candidatesPageName, candidatesUriPattern, parseFromCandidatesUri} from "../candidates/candidatesConstant";
 import electionDispatch from "../election/electionDispatch";
 import {stylePageName, styleUriPattern} from "../style/styleConstant";
 import candidatesDispatch from "../candidates/candidatesDispatch";
-import {ballotPageName, ballotUriPattern} from "../ballot/ballotConstant";
+import {ballotPageName, ballotUriPattern, parseFromBallotUri} from "../ballot/ballotConstant";
 import ballotDispatch from "../ballot/ballotDispatch";
-import {tallyPageName, tallyUriPattern} from "../tally/tallyConstant";
+import {tallyPageName, tallyUriPattern, parseFromTallyUri} from "../tally/tallyConstant";
 import tallyDispatch from "../tally/tallyDispatch";
 
 const redirect = environment => function* (event) {
@@ -69,28 +69,22 @@ const fetchPage = environment => function* () {
         yield put(electionsDispatch.fetchElectionsRequest())
     } else if (electionUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(electionPageName))
-        yield put(electionDispatch.fetchElectionRequest())
+        const fetchElectionRequestArgs = parseFromElectionUri(queryString)
+        yield put(electionDispatch.fetchElectionRequest(fetchElectionRequestArgs))
     } else if (candidatesUriPattern.test(uri)) {
-        const queryString = environment.history.location.search
-        const params = new URLSearchParams(queryString)
-        const electionName = params.get('election')
         yield put(navigationDispatch.fetchPageSuccess(candidatesPageName))
-        yield put(candidatesDispatch.fetchCandidatesRequest(electionName))
+        const fetchCandidatesRequestArgs = parseFromCandidatesUri(queryString)
+        yield put(candidatesDispatch.fetchCandidatesRequest(fetchCandidatesRequestArgs))
     } else if (styleUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(stylePageName))
     } else if (ballotUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(ballotPageName))
-        const queryString = environment.history.location.search
-        const params = new URLSearchParams(queryString)
-        const voterName = params.get('voter')
-        const electionName = params.get('election')
-        yield put(ballotDispatch.fetchBallotRequest({voterName, electionName}))
+        const fetchBallotRequestArgs = parseFromBallotUri(queryString)
+        yield put(ballotDispatch.fetchBallotRequest(fetchBallotRequestArgs))
     } else if (tallyUriPattern.test(uri)) {
         yield put(navigationDispatch.fetchPageSuccess(tallyPageName))
-        const queryString = environment.history.location.search
-        const params = new URLSearchParams(queryString)
-        const electionName = params.get('election')
-        yield put(tallyDispatch.fetchTallyRequest(electionName))
+        const fetchTallyRequestArgs = parseFromTallyUri(queryString)
+        yield put(tallyDispatch.fetchTallyRequest(fetchTallyRequestArgs))
     } else {
         yield put(navigationDispatch.redirect(loginPagePath))
     }

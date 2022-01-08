@@ -13,7 +13,7 @@ const convertIsoDatesToWellFormed = electionEdits => {
 }
 
 const fetchElectionRequest = environment => function* (event) {
-    const name = (new URLSearchParams(environment.history.location.search)).get('election')
+    const name = event.name
     const body = {name}
     const result = yield environment.authenticatedFetch(
         `/proxy/GetElection`,
@@ -76,25 +76,10 @@ const updateElectionRequest = environment => function* (event) {
     }
 }
 
-const navigateBallot = environment => function* (event) {
-    const voter = event.voterName
-    const election = event.electionName
-    const uri = `/ballot?voter=${voter}&election=${election}`
-    yield put(navigationDispatch.setUri(uri))
-}
-
-const navigateTally = environment => function* (event) {
-    const election = event.electionName
-    const uri = `/tally?election=${election}`
-    yield put(navigationDispatch.setUri(uri))
-}
-
 const electionEffect = {
     [electionEvent.FETCH_ELECTION_REQUEST]: fetchElectionRequest,
     [electionEvent.DELETE_ELECTION_REQUEST]: deleteElectionRequest,
-    [electionEvent.UPDATE_ELECTION_REQUEST]: updateElectionRequest,
-    [electionEvent.NAVIGATE_BALLOT]: navigateBallot,
-    [electionEvent.NAVIGATE_TALLY]: navigateTally
+    [electionEvent.UPDATE_ELECTION_REQUEST]: updateElectionRequest
 }
 
 export default electionEffect

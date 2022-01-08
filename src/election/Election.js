@@ -4,6 +4,11 @@ import * as R from 'ramda'
 import {delta} from "../library/collection-util";
 import {pluralize} from "../library/text-util";
 import {userDateToLocal, userDateToUtc, userDateToWellFormed, dateFormat} from "../library/date-time-util";
+import {electionsPageName} from "../elections/electionsConstant";
+import {dashboardPageName} from "../dashboard/dashboardConstant";
+import {createCandidatesPagePath} from "../candidates/candidatesConstant";
+import {createBallotPagePath} from "../ballot/ballotConstant";
+import {createTallyPagePath} from "../tally/tallyConstant";
 
 const NoYes = ({caption, value, changeValue, canUpdate}) => {
     let noClass;
@@ -64,36 +69,9 @@ const Election = (
         updateElectionRequest,
         updateElectionEdits,
         deleteElectionRequest,
-        navigateBallot,
-        navigateTally,
-        errorAdded,
-        setUri
+        errorAdded
     }) => {
     const hasPendingEdits = !R.equals(originalElection, electionWithEdits)
-    const onClickElections = event => {
-        event.preventDefault()
-        setUri('/elections')
-    }
-    const onClickDashboard = event => {
-        event.preventDefault()
-        setUri('/dashboard')
-    }
-    const onClickCandidates = event => {
-        event.preventDefault()
-        const uri = `/candidates?election=${originalElection.name}`
-        setUri(uri)
-    }
-    const onClickBallot = event => {
-        event.preventDefault()
-        navigateBallot({
-            electionName: originalElection.name,
-            voterName: user
-        })
-    }
-    const onClickTally = event => {
-        event.preventDefault()
-        navigateTally(originalElection.name)
-    }
     const updateElectionName = event => {
         updateElectionEdits(R.mergeRight(electionWithEdits, {
             name: nullIfBlank(event.target.value)
@@ -228,14 +206,14 @@ const Election = (
                    changeValue={updateIsOpen}
                    canUpdate={canUpdate}/>
         </div>
-        <a onClick={onClickCandidates}>{candidateCountText}</a>
-        <a onClick={onClickBallot}>ballot</a>
-        <a onClick={onClickTally}>tally</a>
+        <a href={createCandidatesPagePath(originalElection.name)}>{candidateCountText}</a>
+        <a href={createBallotPagePath({voter:user, election:originalElection.name})}>ballot</a>
+        <a href={createTallyPagePath(originalElection.name)}>tally</a>
         <button type={"submit"} onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
         <button type={"submit"} onClick={fetchElectionRequest} disabled={!hasPendingEdits}>Discard Changes</button>
         <button type={"submit"} onClick={deleteElectionClicked} disabled={!canDelete}>Delete Election</button>
-        <a onClick={onClickElections}>elections</a>
-        <a onClick={onClickDashboard}>dashboard</a>
+        <a href={electionsPageName}>elections</a>
+        <a href={dashboardPageName}>dashboard</a>
     </div>
 }
 

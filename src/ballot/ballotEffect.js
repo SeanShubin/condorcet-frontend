@@ -1,11 +1,10 @@
 import ballotDispatch from './ballotDispatch'
 import ballotEvent from './ballotEvent'
 import {put} from 'redux-saga/effects'
-import navigationDispatch from "../navigation/navigationDispatch";
 
 const fetchBallotRequest = environment => function* (event) {
-    const voterName = event.voterName
-    const electionName = event.electionName
+    const voterName = event.voter
+    const electionName = event.election
     const body = {voterName, electionName}
     const result = yield environment.authenticatedFetch(
         `/proxy/ListRankings`,

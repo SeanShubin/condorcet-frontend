@@ -1,10 +1,10 @@
 import ballotEvent from "./ballotEvent";
 
 const ballotDispatch = {
-    fetchBallotRequest: ({voterName, electionName}) => ({
+    fetchBallotRequest: ({voter, election}) => ({
         type: ballotEvent.FETCH_BALLOT_REQUEST,
-        voterName,
-        electionName
+        voter,
+        election
     }),
     fetchBallotSuccess: ({voterName, electionName, rankings}) => ({
         type: ballotEvent.FETCH_BALLOT_SUCCESS,
