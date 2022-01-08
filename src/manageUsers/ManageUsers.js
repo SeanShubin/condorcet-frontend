@@ -1,6 +1,7 @@
 import './ManageUsers.css'
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
+import {dashboardPagePath} from "../dashboard/dashboardConstant";
 
 const HeaderCell = ({caption}) => <th key={caption}><span>{caption}</span></th>
 
@@ -46,17 +47,13 @@ const UserList = ({users, updateUserRoleRequest}) => {
     </table>
 }
 
-const ManageUsers = ({users, errors, setUri, updateUserRoleRequest}) => {
-    const onClickDashboard = event => {
-        event.preventDefault()
-        setUri('/dashboard')
-    }
+const ManageUsers = ({users, errors, updateUserRoleRequest}) => {
     return <div className={'ManageUsers'}>
         <h1>ManageUsers</h1>
         <ErrorComponent errors={errors}/>
-        <a onClick={onClickDashboard}>dashboard</a>
+        <a href={dashboardPagePath}>dashboard</a>
         <UserList users={users} updateUserRoleRequest={updateUserRoleRequest}/>
-        <a onClick={onClickDashboard}>dashboard</a>
+        <a href={dashboardPagePath}>dashboard</a>
     </div>
 }
 

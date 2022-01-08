@@ -18,11 +18,7 @@ import createTallyConnected from "../tally/tallyConnected";
 const loginConnected = createLoginConnected({})
 const registerConnected = createRegisterConnected({})
 const dashboardConnected = createDashboardConnected({})
-const manageUsersConnected = createManageUsersConnected({
-    extraDispatch: {
-        setUri: navigationDispatch.setUri
-    }
-})
+const manageUsersConnected = createManageUsersConnected({})
 const tablesConnected = createTablesConnected({
     extraDispatch: {
         setUri: navigationDispatch.setUri
