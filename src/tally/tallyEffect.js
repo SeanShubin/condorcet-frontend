@@ -1,7 +1,6 @@
 import tallyDispatch from './tallyDispatch'
 import tallyEvent from './tallyEvent'
 import {put} from 'redux-saga/effects'
-import navigationDispatch from "../navigation/navigationDispatch";
 
 const fetchTallyRequest = environment => function* (event) {
     const electionName = event.electionName

@@ -32,7 +32,7 @@ const Style = () => {
             </fieldset>
             <fieldset>
                 <legend>Link</legend>
-                <a>Link</a>
+                <a href={'/style'}>Link</a>
             </fieldset>
             <fieldset>
                 <legend>Table</legend>

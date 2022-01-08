@@ -13,14 +13,6 @@ const mergeDisallowDuplicateKeys = (left, right) => {
     return R.mergeWithKey(disallowDuplicateKey, left, right)
 }
 
-const pairToObject = R.apply(R.objOf)
-
-const pairsToObject = pairArray => {
-    const objects = R.map(pairToObject, pairArray)
-    const initialValue = {}
-    return R.reduce(mergeDisallowDuplicateKeys, initialValue, objects)
-}
-
 const delta = ({fromValue, toValue}) => {
     const updatedOrAdded = R.fromPairs(R.difference(R.toPairs(toValue), R.toPairs(fromValue)))
     const removedKeys = R.difference(R.keys(fromValue), R.keys(toValue))

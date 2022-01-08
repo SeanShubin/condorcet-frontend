@@ -29,6 +29,7 @@ const redirect = environment => function* (event) {
     const uri = event.uri
     environment.history.push(uri)
     environment.history.go(0)
+    yield
 }
 
 const setUri = environment => function* (event) {
