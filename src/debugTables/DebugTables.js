@@ -41,9 +41,9 @@ const DebugTables = ({selectedName, names, table, errors}) => {
     return <div className={'DebugTables'}>
         <h1>Debug Tables</h1>
         <ErrorComponent errors={errors}/>
-        <a href={dashboardPagePath}>dashboard</a>
         <TableSelectors names={names} selectedName={selectedName}/>
         <TableContent headers={table.columnNames} rows={table.rows}/>
+        <hr/>
         <a href={dashboardPagePath}>dashboard</a>
     </div>
 }

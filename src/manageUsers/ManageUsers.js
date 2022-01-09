@@ -51,8 +51,8 @@ const ManageUsers = ({users, errors, updateUserRoleRequest}) => {
     return <div className={'ManageUsers'}>
         <h1>ManageUsers</h1>
         <ErrorComponent errors={errors}/>
-        <a href={dashboardPagePath}>dashboard</a>
         <UserList users={users} updateUserRoleRequest={updateUserRoleRequest}/>
+        <hr/>
         <a href={dashboardPagePath}>dashboard</a>
     </div>
 }

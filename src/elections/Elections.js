@@ -37,8 +37,8 @@ const Elections = ({elections, electionName, errors, electionNameChanged, addEle
         <ErrorComponent errors={errors}/>
         <AddElection electionName={electionName} electionNameChanged={electionNameChanged}
                      addElectionRequest={addElectionRequest}/>
-        <a href={dashboardPagePath}>dashboard</a>
         <ElectionList elections={elections}/>
+        <hr/>
         <a href={dashboardPagePath}>dashboard</a>
     </div>
 }

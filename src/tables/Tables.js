@@ -41,9 +41,9 @@ const Tables = ({selectedName, names, table, errors}) => {
     return <div className={'Tables'}>
         <h1>Tables</h1>
         <ErrorComponent errors={errors}/>
-        <a href={dashboardPagePath}>dashboard</a>
         <TableSelectors names={names} selectedName={selectedName}/>
         <TableContent headers={table.columnNames} rows={table.rows}/>
+        <hr/>
         <a href={dashboardPagePath}>dashboard</a>
     </div>
 }

@@ -21,8 +21,8 @@ const Events = ({table, errors}) => {
     return <div className={'Events'}>
         <h1>Events</h1>
         <ErrorComponent errors={errors}/>
-        <a href={dashboardPagePath}>dashboard</a>
         <TableContent headers={table.columnNames} rows={table.rows}/>
+        <hr/>
         <a href={dashboardPagePath}>dashboard</a>
     </div>
 }

@@ -52,6 +52,7 @@ const Register = (
                placeholder={'confirmation password'}
                onChange={onChangeConfirmationPassword}/>
         <button type={'submit'}>Register</button>
+        <hr/>
         <a href={loginPagePath}>Login</a>
     </form>
 }

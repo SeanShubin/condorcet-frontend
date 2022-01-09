@@ -49,7 +49,8 @@
     --static-text-background: var(--inactive1);
     --static-text-foreground: var(--inactive3);
 
-    --subtle-text-foreground: var(--inactive2)
+    --subtle-text-foreground: var(--inactive2);
+    --divider: var(--inactive2);
 }
 
 .App {
@@ -198,4 +199,12 @@
 .App .subtle-text {
     font-size: 50%;
     color: var(--subtle-text-foreground)
+}
+
+.App hr {
+    border-style: none;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--divider);
+    width: 100%;
 }

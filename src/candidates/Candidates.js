@@ -40,6 +40,7 @@ const Candidates = (
             onChange={onCandidatesChanged}/>
         <button type={"submit"} onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
         <button type={"submit"} onClick={discardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
+        <hr/>
         <a href={createElectionPagePath(electionName)}>election {electionName}</a>
         <a href={dashboardPagePath}>dashboard</a>
     </div>

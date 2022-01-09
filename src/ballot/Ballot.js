@@ -67,6 +67,7 @@ const Ballot = ({
         <Rankings rankings={editedRankings} updateRank={updateRank}/>
         <button type={"submit"} onClick={onClickCastBallot} disabled={!hasPendingEdits}>Cast Ballot</button>
         <button type={"submit"} onClick={onClickDiscardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
+        <hr/>
         <a href={createElectionPagePath(election)}>election {election}</a>
         <a href={dashboardPagePath}>dashboard</a>
     </div>

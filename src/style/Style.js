@@ -86,6 +86,7 @@ const Style = () => {
                 </table>
             </fieldset>
         </div>
+        <hr/>
         <a href={'/login'}>Login</a>
     </div>
 }

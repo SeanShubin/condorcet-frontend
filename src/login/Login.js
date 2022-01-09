@@ -33,6 +33,7 @@ const Login = (
                placeholder={'password'}
                onChange={onChangePassword}/>
         <button type={'submit'}>Login</button>
+        <hr/>
         <a href={registerPagePath}>Register</a>
         <a href={stylePagePath}>Style</a>
     </form>

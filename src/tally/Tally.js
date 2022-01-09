@@ -146,8 +146,6 @@ const Tally = args => {
     return <div className={'Tally'}>
         <h1>Tally</h1>
         <ErrorComponent errors={errors}/>
-        <a href={createElectionPagePath(election)}>election {election}</a>
-        <a href={dashboardPagePath}>dashboard</a>
         <h2>Rankings</h2>
         <PlacesTable places={places}/>
         <h2>Candidates</h2>
@@ -162,6 +160,7 @@ const Tally = args => {
         <VoterTable voters={whoVoted}/>
         <h2>Ballots</h2>
         <BallotsTable candidates={candidates} ballots={ballots}/>
+        <hr/>
         <a href={createElectionPagePath(election)}>election {election}</a>
         <a href={dashboardPagePath}>dashboard</a>
     </div>

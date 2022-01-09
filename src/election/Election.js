@@ -215,6 +215,7 @@ const Election = (
         <button type={"submit"} onClick={applyChangesClicked} disabled={!hasPendingEdits}>Apply Changes</button>
         <button type={"submit"} onClick={discardChangesClicked} disabled={!hasPendingEdits}>Discard Changes</button>
         <button type={"submit"} onClick={deleteElectionClicked} disabled={!canDelete}>Delete Election</button>
+        <hr/>
         <a href={electionsPageName}>elections</a>
         <a href={dashboardPageName}>dashboard</a>
     </div>
