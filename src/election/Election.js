@@ -133,13 +133,16 @@ const Election = (
         })
         updateElectionRequest(request)
     }
-    const applyChanges = () => {
+    const applyChangesClicked = () => {
         const changes = delta({fromValue: originalElection, toValue: electionWithEdits})
         if (changes.name) {
             applyChangesWithRename(changes)
         } else {
             applyChangesWithoutRename(changes)
         }
+    }
+    const discardChangesClicked = () => {
+        fetchElectionRequest(originalElection.name)
     }
     const deleteElectionClicked = () => {
         if (originalElection.name === electionWithEdits.name) {
@@ -209,8 +212,8 @@ const Election = (
         <a href={createCandidatesPagePath(originalElection.name)}>{candidateCountText}</a>
         <a href={createBallotPagePath({voter:user, election:originalElection.name})}>ballot</a>
         <a href={createTallyPagePath(originalElection.name)}>tally</a>
-        <button type={"submit"} onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
-        <button type={"submit"} onClick={fetchElectionRequest} disabled={!hasPendingEdits}>Discard Changes</button>
+        <button type={"submit"} onClick={applyChangesClicked} disabled={!hasPendingEdits}>Apply Changes</button>
+        <button type={"submit"} onClick={discardChangesClicked} disabled={!hasPendingEdits}>Discard Changes</button>
         <button type={"submit"} onClick={deleteElectionClicked} disabled={!canDelete}>Delete Election</button>
         <a href={electionsPageName}>elections</a>
         <a href={dashboardPageName}>dashboard</a>

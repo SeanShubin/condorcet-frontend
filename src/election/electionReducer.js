@@ -15,10 +15,13 @@ const updateElectionEdits = (state, event) =>
 
 const errorAdded = (state, event) => appendToArray(electionModel.errors, event.message, state)
 
+const clearErrors = (state, event) => R.set(electionModel.errors, [], state)
+
 const electionReducer = {
     [electionEvent.FETCH_ELECTION_SUCCESS]: fetchElectionSuccess,
     [electionEvent.UPDATE_ELECTION_EDITS]: updateElectionEdits,
-    [electionEvent.ERROR_ADDED]: errorAdded
+    [electionEvent.ERROR_ADDED]: errorAdded,
+    [electionEvent.CLEAR_ERRORS]: clearErrors
 }
 
 export default electionReducer

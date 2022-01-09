@@ -13,6 +13,7 @@ const convertIsoDatesToWellFormed = electionEdits => {
 }
 
 const fetchElectionRequest = environment => function* (event) {
+    yield put(electionDispatch.clearErrors())
     const name = event.name
     const body = {name}
     const result = yield environment.authenticatedFetch(
@@ -68,7 +69,7 @@ const updateElectionRequest = environment => function* (event) {
         if (body.newName) {
             yield put(navigationDispatch.setUri(`/election?election=${body.newName}`))
         } else {
-            yield put(electionDispatch.fetchElectionRequest())
+            yield put(electionDispatch.fetchElectionRequest(body.name))
         }
     } else {
         const jsonResult = yield result.json()

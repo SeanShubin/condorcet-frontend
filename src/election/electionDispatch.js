@@ -13,7 +13,8 @@ const electionDispatch = {
     updateElectionEdits: election => ({type: electionEvent.UPDATE_ELECTION_EDITS, election}),
     navigateBallot: ({voterName, electionName}) => ({type: electionEvent.NAVIGATE_BALLOT, voterName, electionName}),
     navigateTally: electionName => ({type: electionEvent.NAVIGATE_TALLY, electionName}),
-    errorAdded: message => ({type: electionEvent.ERROR_ADDED, message})
+    errorAdded: message => ({type: electionEvent.ERROR_ADDED, message}),
+    clearErrors: () => ({type:electionEvent.CLEAR_ERRORS})
 }
 
 export default electionDispatch
