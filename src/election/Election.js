@@ -77,26 +77,26 @@ const Election = (
             name: nullIfBlank(event.target.value)
         }))
     }
-    const updateScheduledStart = event => {
+    const updateNoVotingBefore = event => {
         updateElectionEdits(R.mergeRight(electionWithEdits, {
-            scheduledStart: nullIfBlank(event.target.value)
+            noVotingBefore: nullIfBlank(event.target.value)
         }))
     }
-    const updateScheduledEnd = event => {
+    const updateNoVotingAfter = event => {
         updateElectionEdits(R.mergeRight(electionWithEdits, {
-            scheduledEnd: nullIfBlank(event.target.value)
+            noVotingAfter: nullIfBlank(event.target.value)
         }))
     }
-    const blurScheduledStart = event => {
-        const scheduledStart = userDateToWellFormed(event.target.value)
+    const blurNoVotingBefore = event => {
+        const noVotingBefore = userDateToWellFormed(event.target.value)
         updateElectionEdits(R.mergeRight(electionWithEdits, {
-            scheduledStart
+            noVotingBefore
         }))
     }
-    const blurScheduledEnd = event => {
-        const scheduledEnd = userDateToWellFormed(event.target.value)
+    const blurNoVotingAfter = event => {
+        const noVotingAfter = userDateToWellFormed(event.target.value)
         updateElectionEdits(R.mergeRight(electionWithEdits, {
-            scheduledEnd
+            noVotingAfter
         }))
     }
     const updateSecretBallot = secretBallot => {
@@ -149,8 +149,8 @@ const Election = (
         }
     }
     const name = blankIfFalsy(electionWithEdits.name)
-    const scheduledStart = blankIfFalsy(electionWithEdits.scheduledStart)
-    const scheduledEnd = blankIfFalsy(electionWithEdits.scheduledEnd)
+    const noVotingBefore = blankIfFalsy(electionWithEdits.noVotingBefore)
+    const noVotingAfter = blankIfFalsy(electionWithEdits.noVotingAfter)
     const canDelete = canUpdate && !hasPendingEdits
     const candidateCount = originalElection.candidateCount
     const candidateCountText = `${candidateCount} ${pluralize({
@@ -167,14 +167,14 @@ const Election = (
             <span>{originalElection.ownerName}</span>
             <span>Name</span>
             <input onChange={updateElectionName} value={name} readOnly={!canUpdate}/>
-            <span>Scheduled Start</span>
-            <input onChange={updateScheduledStart} onBlur={blurScheduledStart} size={25} placeholder={dateFormat} value={scheduledStart} readOnly={!canUpdate}/>
-            <DateLocal className={'col-span-2'} value={scheduledStart}/>
-            <DateUtc className={'col-span-2'} value={scheduledStart}/>
-            <span>Scheduled End</span>
-            <input onChange={updateScheduledEnd} onBlur={blurScheduledEnd} size={25} placeholder={dateFormat} value={scheduledEnd} readOnly={!canUpdate}/>
-            <DateLocal className={'col-span-2'} value={scheduledEnd}/>
-            <DateUtc className={'col-span-2'} value={scheduledEnd}/>
+            <span>No Voting Before</span>
+            <input onChange={updateNoVotingBefore} onBlur={blurNoVotingBefore} size={25} placeholder={dateFormat} value={noVotingBefore} readOnly={!canUpdate}/>
+            <DateLocal className={'col-span-2'} value={noVotingBefore}/>
+            <DateUtc className={'col-span-2'} value={noVotingBefore}/>
+            <span>No Voting After</span>
+            <input onChange={updateNoVotingAfter} onBlur={blurNoVotingAfter} size={25} placeholder={dateFormat} value={noVotingAfter} readOnly={!canUpdate}/>
+            <DateLocal className={'col-span-2'} value={noVotingAfter}/>
+            <DateUtc className={'col-span-2'} value={noVotingAfter}/>
         </div>
         <div className={'elements'}>
             <NoYes caption={'Secret ballot'}

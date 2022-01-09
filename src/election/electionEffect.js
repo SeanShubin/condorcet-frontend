@@ -6,7 +6,7 @@ import * as R from 'ramda'
 import {userDateToIso, isoDateToWellFormed} from "../library/date-time-util";
 
 const convertIsoDatesToWellFormed = electionEdits => {
-    const apiFormattedDates = R.pick(['scheduledStart', 'scheduledEnd'], electionEdits)
+    const apiFormattedDates = R.pick(['noVotingBefore', 'noVotingAfter'], electionEdits)
     const userFormattedDates = R.map(isoDateToWellFormed,  apiFormattedDates)
     const userElectionEdits = R.mergeRight(electionEdits, userFormattedDates)
     return userElectionEdits
@@ -50,7 +50,7 @@ const deleteElectionRequest = environment => function* (event) {
 }
 
 const convertDatesToInstants = electionEdits => {
-    const userFormattedDates = R.pick(['scheduledStart', 'scheduledEnd'], electionEdits)
+    const userFormattedDates = R.pick(['noVotingBefore', 'noVotingAfter'], electionEdits)
     const apiFormattedDates = R.map(userDateToIso,  userFormattedDates)
     const apiElectionEdits = R.mergeRight(electionEdits, apiFormattedDates)
     return apiElectionEdits
