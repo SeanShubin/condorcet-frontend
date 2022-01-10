@@ -58,10 +58,25 @@ const DateLocal = ({value}) => {
     return <span className={'subtle-text col-span-2'}>{localDate}</span>
 }
 
+const statusOfElection = election => {
+    if(election.allowEdit) {
+        if(election.allowVote) {
+            return "Waiting for votes (editable)"
+        } else {
+            return "Waiting for launch"
+        }
+    } else {
+        if(election.allowVote) {
+            return "Waiting for votes (fixed)"
+        } else {
+            return "Closed"
+        }
+    }
+}
+
 const Election = (
     {
         user,
-        canUpdate,
         originalElection,
         electionWithEdits,
         errors,
@@ -69,9 +84,15 @@ const Election = (
         updateElectionRequest,
         updateElectionEdits,
         deleteElectionRequest,
+        launchElectionRequest,
+        finalizeElectionRequest,
         errorAdded
     }) => {
     const hasPendingEdits = !R.equals(originalElection, electionWithEdits)
+    const isOwner = user === originalElection.ownerName
+    const canEditElection = user === isOwner && originalElection.allowEdit
+    const canDelete = isOwner && !hasPendingEdits
+
     const updateElectionName = event => {
         updateElectionEdits(R.mergeRight(electionWithEdits, {
             name: nullIfBlank(event.target.value)
@@ -114,12 +135,6 @@ const Election = (
     const updateIsTemplate = isTemplate => {
         updateElectionEdits(R.mergeRight(electionWithEdits, {isTemplate}))
     }
-    const updateAllowChangesAfterVote = allowChangesAfterVote => {
-        updateElectionEdits(R.mergeRight(electionWithEdits, {allowChangesAfterVote}))
-    }
-    const updateIsOpen = isOpen => {
-        updateElectionEdits(R.mergeRight(electionWithEdits, {isOpen}))
-    }
     const applyChangesWithRename = changes => {
         const request = R.mergeRight(changes, {
             name: originalElection.name,
@@ -151,16 +166,33 @@ const Election = (
             errorAdded('Can not delete an election with pending edits')
         }
     }
+    const launchFixedClicked = () => {
+        const election = originalElection.name
+        const allowEdits = false
+        launchElectionRequest({election, allowEdits})
+    }
+
+    const launchEditableClicked = () => {
+        const election = originalElection.name
+        const allowEdits = true
+        launchElectionRequest({election, allowEdits})
+    }
+
+    const finalizeTallyClicked = () => {
+        finalizeElectionRequest(originalElection.name)
+    }
     const name = blankIfFalsy(electionWithEdits.name)
     const noVotingBefore = blankIfFalsy(electionWithEdits.noVotingBefore)
     const noVotingAfter = blankIfFalsy(electionWithEdits.noVotingAfter)
-    const canDelete = canUpdate && !hasPendingEdits
     const candidateCount = originalElection.candidateCount
     const candidateCountText = `${candidateCount} ${pluralize({
         quantity: candidateCount,
         singular: 'candidate',
         plural: 'candidates'
     })}`
+    const status = statusOfElection(originalElection)
+    const canLaunch = !hasPendingEdits && !originalElection.allowVote && originalElection.allowEdit
+    const canFinalize = !hasPendingEdits && originalElection.allowVote
 
     return <div className={'Election'}>
         <h1>Election</h1>
@@ -168,14 +200,28 @@ const Election = (
         <div className={'elements'}>
             <span>Owner</span>
             <span>{originalElection.ownerName}</span>
+            <span>Status</span>
+            <span>{status}</span>
             <span>Name</span>
-            <input onChange={updateElectionName} value={name} readOnly={!canUpdate}/>
+            <input onChange={updateElectionName}
+                   value={name}
+                   readOnly={!canEditElection}/>
             <span>No Voting Before</span>
-            <input onChange={updateNoVotingBefore} onBlur={blurNoVotingBefore} size={25} placeholder={dateFormat} value={noVotingBefore} readOnly={!canUpdate}/>
+            <input onChange={updateNoVotingBefore}
+                   onBlur={blurNoVotingBefore}
+                   size={25}
+                   placeholder={dateFormat}
+                   value={noVotingBefore}
+                   readOnly={!canEditElection}/>
             <DateLocal className={'col-span-2'} value={noVotingBefore}/>
             <DateUtc className={'col-span-2'} value={noVotingBefore}/>
             <span>No Voting After</span>
-            <input onChange={updateNoVotingAfter} onBlur={blurNoVotingAfter} size={25} placeholder={dateFormat} value={noVotingAfter} readOnly={!canUpdate}/>
+            <input onChange={updateNoVotingAfter}
+                   onBlur={blurNoVotingAfter}
+                   size={25}
+                   placeholder={dateFormat}
+                   value={noVotingAfter}
+                   readOnly={!canEditElection}/>
             <DateLocal className={'col-span-2'} value={noVotingAfter}/>
             <DateUtc className={'col-span-2'} value={noVotingAfter}/>
         </div>
@@ -183,37 +229,35 @@ const Election = (
             <NoYes caption={'Secret ballot'}
                    value={electionWithEdits.secretBallot}
                    changeValue={updateSecretBallot}
-                   canUpdate={canUpdate}/>
+                   canUpdate={canEditElection}
+                   disabled={!originalElection.allowEdit}
+            />
             <NoYes caption={'Restrict who can vote'}
                    value={electionWithEdits.restrictWhoCanVote}
                    changeValue={updateRestrictWhoCanVote}
-                   canUpdate={canUpdate}/>
+                   canUpdate={canEditElection}/>
             <NoYes caption={'Owner can delete ballots'}
                    value={electionWithEdits.ownerCanDeleteBallots}
                    changeValue={updateOwnerCanDeleteBallots}
-                   canUpdate={canUpdate}/>
+                   canUpdate={canEditElection}/>
             <NoYes caption={'Auditor can delete ballots'}
                    value={electionWithEdits.auditorCanDeleteBallots}
                    changeValue={updateAuditorCanDeleteBallots}
-                   canUpdate={canUpdate}/>
+                   canUpdate={canEditElection}/>
             <NoYes caption={'Is template'}
                    value={electionWithEdits.isTemplate}
                    changeValue={updateIsTemplate}
-                   canUpdate={canUpdate}/>
-            <NoYes caption={'Allow changes after vote'}
-                   value={electionWithEdits.allowChangesAfterVote}
-                   changeValue={updateAllowChangesAfterVote}
-                   canUpdate={canUpdate}/>
-            <NoYes caption={'Is open for voting'}
-                   value={electionWithEdits.isOpen}
-                   changeValue={updateIsOpen}
-                   canUpdate={canUpdate}/>
+                   canUpdate={true}/>
         </div>
         <a href={createCandidatesPagePath(originalElection.name)}>{candidateCountText}</a>
         <a href={createBallotPagePath({voter:user, election:originalElection.name})}>ballot</a>
         <a href={createTallyPagePath(originalElection.name)}>tally</a>
         <button type={"submit"} onClick={applyChangesClicked} disabled={!hasPendingEdits}>Apply Changes</button>
         <button type={"submit"} onClick={discardChangesClicked} disabled={!hasPendingEdits}>Discard Changes</button>
+        <hr/>
+        <button type={"submit"} onClick={launchFixedClicked} disabled={!canLaunch}>Launch (fixed)</button>
+        <button type={"submit"} onClick={launchEditableClicked} disabled={!canLaunch}>Launch (editable)</button>
+        <button type={"submit"} onClick={finalizeTallyClicked} disabled={!canFinalize}>Finalize Tally</button>
         <button type={"submit"} onClick={deleteElectionClicked} disabled={!canDelete}>Delete Election</button>
         <hr/>
         <a href={electionsPageName}>elections</a>

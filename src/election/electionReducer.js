@@ -5,7 +5,6 @@ import * as R from 'ramda'
 
 const fetchElectionSuccess = (state, event) => R.pipe(
     R.set(electionModel.user, event.user),
-    R.set(electionModel.canUpdate, event.canUpdate),
     R.set(electionModel.originalElection, event.election),
     R.set(electionModel.electionWithEdits, event.election)
 )(state)
