@@ -25,7 +25,7 @@ const fetchElectionRequest = environment => function* (event) {
     const user = environment.getUserName()
     if (result.ok) {
         const jsonResult = yield result.json()
-        const election = convertIsoDatesToWellFormed(jsonResult.election)
+        const election = convertIsoDatesToWellFormed(jsonResult)
         yield put(electionDispatch.fetchElectionSuccess({user, election}))
     } else {
         const jsonResult = yield result.json()
