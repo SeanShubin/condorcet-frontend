@@ -90,7 +90,7 @@ const Election = (
     }) => {
     const hasPendingEdits = !R.equals(originalElection, electionWithEdits)
     const isOwner = user === originalElection.ownerName
-    const canEditElection = user === isOwner && originalElection.allowEdit
+    const canEditElection = isOwner && originalElection.allowEdit
     const canDelete = isOwner && !hasPendingEdits
 
     const updateElectionName = event => {
@@ -168,14 +168,14 @@ const Election = (
     }
     const launchFixedClicked = () => {
         const election = originalElection.name
-        const allowEdits = false
-        launchElectionRequest({election, allowEdits})
+        const allowEdit = false
+        launchElectionRequest({election, allowEdit})
     }
 
     const launchEditableClicked = () => {
         const election = originalElection.name
-        const allowEdits = true
-        launchElectionRequest({election, allowEdits})
+        const allowEdit = true
+        launchElectionRequest({election, allowEdit})
     }
 
     const finalizeTallyClicked = () => {
