@@ -1,0 +1,179 @@
+<html>
+<head>
+    <title>filter</title>
+    <style>
+        .one-column {
+            display: grid;
+            grid-gap: 1rem;
+            grid-template-columns: auto;
+        }
+
+        .two-columns {
+            display: grid;
+            grid-gap: 0.2rem;
+            grid-template-columns: auto auto;
+        }
+    </style>
+</head>
+<body onload="update()">
+
+<input id="filterId"
+       size="30"
+       oninput="onFilterChange()"/>
+<ul id="listId">
+</ul>
+
+<script type="text/javascript">
+    const names = [
+        "Sahara Clements",
+        "Noel Macdonald",
+        "Adam Shepard",
+        "Demi-Lee Hunter",
+        "Jarod Dupont",
+        "Chante Webster",
+        "Lottie Findlay",
+        "Aimee Mckay",
+        "Persephone Marquez",
+        "Cairon Davies",
+        "Jayden-Lee Fry",
+        "Kerys Barclay",
+        "Raya Mcdonnell",
+        "Otis Marshall",
+        "Ollie Cowan",
+        "Angelina Estes",
+        "Pranav Turnbull",
+        "Carla Reed",
+        "Naveed Cruz",
+        "Tyrone Hussain",
+        "Amrit Mcbride",
+        "Leandro Whitworth",
+        "Lola-Mae Marsden",
+        "Lindsey Chavez",
+        "Wiktor Romero",
+        "Leona Giles",
+        "Dante Mclellan",
+        "Rogan Leon",
+        "Karter Mack",
+        "Cole Burch",
+        "Jackson Collier",
+        "Nikolas O'Reilly",
+        "Arandeep William",
+        "Roscoe Buchanan",
+        "Mila Buck",
+        "Jeremy Clark",
+        "Drake Mccray",
+        "Mazie Lester",
+        "Antony Davidson",
+        "Tyrell Cresswell",
+        "Emelia Frame",
+        "Saad Tucker",
+        "Nabilah Golden",
+        "Yannis Daniel",
+        "Rudi Bradley",
+        "Radhika Henderson",
+        "Safaa Mcculloch",
+        "Evie-May Yates",
+        "Micah Alford",
+        "Ted Arroyo",
+        "Ayla Crosby",
+        "Deanna Gill",
+        "Kaylie Stokes",
+        "Joanne Hooper",
+        "Barry North",
+        "Anish Lees",
+        "Daria Armstrong",
+        "Marina Cobb",
+        "Makayla Baird",
+        "Jenna Wells",
+        "Jibril Samuels",
+        "Rayyan Handley",
+        "Cecilia Miles",
+        "Henna Brown",
+        "Eisa Fritz",
+        "Kiera Salinas",
+        "Aislinn Jimenez",
+        "Bear Patel",
+        "Mya Rodriquez",
+        "Frances Enriquez",
+        "Lilly-Mai Devine",
+        "Khia Graham",
+        "Ayrton Nicholls",
+        "Ursula Bennett",
+        "Grant Davis",
+        "Madeleine Amin",
+        "Antoine Murillo",
+        "Nelson Hobbs",
+        "Rhona Fitzgerald",
+        "Catrina Burris",
+        "Ameena Carty",
+        "Crystal Mason",
+        "Griffin Kirkland",
+        "Jean-Luc Jefferson",
+        "Sidra Dolan",
+        "Earl Slater",
+        "Alessia Markham",
+        "Della Cunningham",
+        "Aaminah Browning",
+        "Rosanna Avila",
+        "Samina Davila",
+        "Mai Mclaughlin",
+        "Sade Guthrie",
+        "Kelly Berger",
+        "Joni Sharpe",
+        "Kristen Shaffer",
+        "Suranne Feeney",
+        "Keisha Iles",
+        "Ivan Carson",
+        "Willis Mercado"
+    ]
+
+    const equalsIgnoreCase = (first, second) => {
+        return first.toLowerCase() === second.toLowerCase()
+    }
+
+    const matchesFilter = filter => target => {
+        if (filter === '') return true
+        let filterIndex = 0
+        let targetIndex = 0
+        while (filterIndex < filter.length && targetIndex < target.length) {
+            if (equalsIgnoreCase(filter[filterIndex], target[targetIndex])) {
+                filterIndex++
+                targetIndex++
+            } else {
+                targetIndex++
+            }
+        }
+        return filterIndex >= filter.length
+    }
+
+    const addName = (target, name) => {
+        const li = document.createElement('li')
+        li.textContent = name
+        target.appendChild(li)
+    }
+
+    const removeChildren = element => {
+        while (element.firstChild) {
+            element.removeChild(element.firstChild);
+        }
+    }
+
+    const update = () => {
+        const listElement = document.getElementById('listId')
+        const filterElement = document.getElementById('filterId')
+        const filter = filterElement.value
+        const isMatch = matchesFilter(filter)
+        removeChildren(listElement)
+        for (const name of names) {
+            if (isMatch(name)) {
+                addName(listElement, name)
+            }
+        }
+    }
+
+    const onFilterChange = () => {
+        update()
+    }
+</script>
+</body>
+</html>
