@@ -49,7 +49,7 @@
     --static-text-background: var(--inactive1);
     --static-text-foreground: var(--inactive3);
 
-    --subtle-text-foreground: var(--inactive2);
+    --subtle-text-foreground: var(--inactive3);
     --divider: var(--inactive2);
 }
 
