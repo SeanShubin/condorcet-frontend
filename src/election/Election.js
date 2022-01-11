@@ -90,7 +90,7 @@ const Election = (
     }) => {
     const hasPendingEdits = !R.equals(originalElection, electionWithEdits)
     const isOwner = user === originalElection.ownerName
-    const canEditElection = isOwner && originalElection.allowEdit
+    const canEditElection = isOwner && originalElection.allowEdit && !originalElection.allowVote
     const canDelete = isOwner && !hasPendingEdits
 
     const updateElectionName = event => {
@@ -247,7 +247,7 @@ const Election = (
             <NoYes caption={'Is template'}
                    value={electionWithEdits.isTemplate}
                    changeValue={updateIsTemplate}
-                   canUpdate={true}/>
+                   canUpdate={isOwner}/>
         </div>
         <a href={createCandidatesPagePath(originalElection.name)}>{candidateCountText}</a>
         <a href={createBallotPagePath({voter:user, election:originalElection.name})}>ballot</a>
