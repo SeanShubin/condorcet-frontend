@@ -91,7 +91,7 @@ const Voters = (
         <div className={'single-column'}>
             <h1>Voters for {electionName}</h1>
             <ErrorComponent errors={errors}/>
-            <span>Filter</span>
+            <span>Filter (has these characters in this order)</span>
             <input onChange={onChangeFilter}/>
             <VoterList voters={votersWithEdits} setVoterEligibility={setVoterEligibility} filter={filter}/>
             <button type={"submit"} onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
