@@ -8,6 +8,7 @@ const fetchVotersSuccess = (state, event) => R.pipe(
     R.set(votersModel.votersWithEdits, event.voters)
 )(state)
 const updateVoterEdits = (state, event) => R.set(votersModel.votersWithEdits, event.voters, state)
+const updateFilter = (state, event) => R.set(votersModel.filter, event.filter, state)
 const setElectionName = (state, event) => R.set(votersModel.electionName, event.electionName, state)
 const errorAdded = (state, event) => appendToArray(votersModel.errors, event.message, state)
 const errorsCleared = (state, event) => R.set(votersModel.errors, [], state)
@@ -16,6 +17,7 @@ const votersReducer = {
     [votersEvent.SET_ELECTION_NAME]: setElectionName,
     [votersEvent.FETCH_VOTERS_SUCCESS]: fetchVotersSuccess,
     [votersEvent.UPDATE_VOTER_EDITS]: updateVoterEdits,
+    [votersEvent.FILTER_CHANGED]: updateFilter,
     [votersEvent.ERROR_ADDED]: errorAdded,
     [votersEvent.CLEAR_ERRORS]: errorsCleared
 }
