@@ -9,6 +9,7 @@ import {dashboardPageName} from "../dashboard/dashboardConstant";
 import {createCandidatesPagePath} from "../candidates/candidatesConstant";
 import {createBallotPagePath} from "../ballot/ballotConstant";
 import {createTallyPagePath} from "../tally/tallyConstant";
+import {createVotersPagePath} from "../voters/votersConstant";
 
 const NoYes = ({caption, value, changeValue, canUpdate}) => {
     let noClass;
@@ -185,10 +186,16 @@ const Election = (
     const noVotingBefore = blankIfFalsy(electionWithEdits.noVotingBefore)
     const noVotingAfter = blankIfFalsy(electionWithEdits.noVotingAfter)
     const candidateCount = originalElection.candidateCount
+    const voterCount = originalElection.voterCount
     const candidateCountText = `${candidateCount} ${pluralize({
         quantity: candidateCount,
         singular: 'candidate',
         plural: 'candidates'
+    })}`
+    const voterCountText = `${voterCount} ${pluralize({
+        quantity: voterCount,
+        singular: 'voter',
+        plural: 'voters'
     })}`
     const status = statusOfElection(originalElection)
     const canLaunch = !hasPendingEdits && !originalElection.allowVote && originalElection.allowEdit
@@ -250,6 +257,7 @@ const Election = (
                    canUpdate={isOwner}/>
         </div>
         <a href={createCandidatesPagePath(originalElection.name)}>{candidateCountText}</a>
+        <a href={createVotersPagePath(originalElection.name)}>{voterCountText}</a>
         <a href={createBallotPagePath({voter:user, election:originalElection.name})}>ballot</a>
         <a href={createTallyPagePath(originalElection.name)}>tally</a>
         <button type={"submit"} onClick={applyChangesClicked} disabled={!hasPendingEdits}>Apply Changes</button>
