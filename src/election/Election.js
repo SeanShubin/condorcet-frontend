@@ -124,18 +124,6 @@ const Election = (
     const updateSecretBallot = secretBallot => {
         updateElectionEdits(R.mergeRight(electionWithEdits, {secretBallot}))
     }
-    const updateRestrictWhoCanVote = restrictWhoCanVote => {
-        updateElectionEdits(R.mergeRight(electionWithEdits, {restrictWhoCanVote}))
-    }
-    const updateOwnerCanDeleteBallots = ownerCanDeleteBallots => {
-        updateElectionEdits(R.mergeRight(electionWithEdits, {ownerCanDeleteBallots}))
-    }
-    const updateAuditorCanDeleteBallots = auditorCanDeleteBallots => {
-        updateElectionEdits(R.mergeRight(electionWithEdits, {auditorCanDeleteBallots}))
-    }
-    const updateIsTemplate = isTemplate => {
-        updateElectionEdits(R.mergeRight(electionWithEdits, {isTemplate}))
-    }
     const applyChangesWithRename = changes => {
         const request = R.mergeRight(changes, {
             name: originalElection.name,
@@ -239,22 +227,6 @@ const Election = (
                    canUpdate={canEditElection}
                    disabled={!originalElection.allowEdit}
             />
-            <NoYes caption={'Restrict who can vote'}
-                   value={electionWithEdits.restrictWhoCanVote}
-                   changeValue={updateRestrictWhoCanVote}
-                   canUpdate={canEditElection}/>
-            <NoYes caption={'Owner can delete ballots'}
-                   value={electionWithEdits.ownerCanDeleteBallots}
-                   changeValue={updateOwnerCanDeleteBallots}
-                   canUpdate={canEditElection}/>
-            <NoYes caption={'Auditor can delete ballots'}
-                   value={electionWithEdits.auditorCanDeleteBallots}
-                   changeValue={updateAuditorCanDeleteBallots}
-                   canUpdate={canEditElection}/>
-            <NoYes caption={'Is template'}
-                   value={electionWithEdits.isTemplate}
-                   changeValue={updateIsTemplate}
-                   canUpdate={isOwner}/>
         </div>
         <a href={createCandidatesPagePath(originalElection.name)}>{candidateCountText}</a>
         <a href={createVotersPagePath(originalElection.name)}>{voterCountText}</a>
