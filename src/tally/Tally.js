@@ -3,6 +3,7 @@ import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 import {createElectionPagePath} from "../election/electionConstant";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
+import {isoDateToLocal} from "../library/date-time-util";
 
 const StrengthTable = ({preferences}) => {
     const createCell = preference => <td key={preference.destination}>{preference.strength}</td>
@@ -85,7 +86,7 @@ const PlacesTable = ({places}) => {
     </table>
 }
 
-const BallotsTable = ({candidates, ballots}) => {
+const BallotsTable = ({candidates, ballots, secretBallot}) => {
     const createRankingCell = ({confirmation, name, rank}) => {
         return <td key={confirmation + name}>[{rank}] {name}</td>
     }
@@ -97,21 +98,42 @@ const BallotsTable = ({candidates, ballots}) => {
         })
         const rankingsWithConfirmation = R.map(attachConfirmation, rankings)
         const rankingCells = R.map(createRankingCell, rankingsWithConfirmation)
-        return <tr key={confirmation}>
-            <td>{user}</td>
-            <td>{confirmation}</td>
-            <td>{whenCast}</td>
-            {rankingCells}</tr>
+        if(secretBallot){
+            return <tr key={confirmation}>
+                <td>{confirmation}</td>
+                {rankingCells}
+                <td>{isoDateToLocal(whenCast)}</td>
+            </tr>
+        }else {
+            return <tr key={confirmation}>
+                <td>{user}</td>
+                <td>{confirmation}</td>
+                {rankingCells}
+                <td>{isoDateToLocal(whenCast)}</td>
+            </tr>
+        }
+    }
+    const createTableHeader = secretBallot => {
+        if(secretBallot) {
+            return <tr>
+                <th>confirmation</th>
+                <th colSpan={candidates.length}>rankings</th>
+                <th>when cast</th>
+            </tr>
+        } else {
+            return <tr>
+                <th>voter</th>
+                <th>confirmation</th>
+                <th colSpan={candidates.length}>rankings</th>
+                <th>when cast</th>
+            </tr>
+        }
     }
     const tableRows = R.map(createRow, ballots)
+    const tableHeader = createTableHeader(secretBallot)
     return <table>
         <thead>
-        <tr>
-            <th>voter</th>
-            <th>confirmation</th>
-            <th>when cast</th>
-            <th colSpan={candidates.length}>rankings</th>
-        </tr>
+        {tableHeader}
         </thead>
         <tbody>
         {tableRows}
@@ -119,24 +141,29 @@ const BallotsTable = ({candidates, ballots}) => {
     </table>
 }
 
-const VoterTable = ({voters}) => {
+const VoterTable = ({voters, secretBallot}) => {
+    if(!secretBallot) return null
     const createVoterRow = voter => {
         return <tr key={voter}>
             <td>{voter}</td>
         </tr>
     }
     const voterRows = R.map(createVoterRow, voters)
-    return <table>
-        <tbody>
-        {voterRows}
-        </tbody>
-    </table>
+    return <>
+        <h2>Who Voted</h2>
+        <table>
+            <tbody>
+            {voterRows}
+            </tbody>
+        </table>
+    </>
 }
 
 const Tally = args => {
     const {
         election,
         tally,
+        secretBallot,
         errors
     } = args
     if (!tally) return <h1>No Data</h1>
@@ -156,10 +183,9 @@ const Tally = args => {
         <h2>Strongest Paths</h2>
         <StrengthTable preferences={strongestPathMatrix}/>
         <PreferenceTable preferences={strongestPathMatrix}/>
-        <h2>Who Voted</h2>
-        <VoterTable voters={whoVoted}/>
+        <VoterTable voters={whoVoted} secretBallot={secretBallot}/>
         <h2>Ballots</h2>
-        <BallotsTable candidates={candidates} ballots={ballots}/>
+        <BallotsTable candidates={candidates} ballots={ballots} secretBallot={secretBallot}/>
         <hr/>
         <a href={createElectionPagePath(election)}>election {election}</a>
         <a href={dashboardPagePath}>dashboard</a>

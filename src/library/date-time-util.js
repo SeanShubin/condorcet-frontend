@@ -92,6 +92,11 @@ const isoDateToWellFormed = value => {
     return dateToParts(new Date(value)).wellFormed
 }
 
+const isoDateToLocal = value => {
+    if(value == null) return null
+    return dateToParts(new Date(value)).localDate
+}
+
 const userDateToUtc = value => {
     if(value == null) return null
     if(value.search(/\d/) === -1) return null
@@ -106,4 +111,13 @@ const userDateToLocal = value => {
 
 const dateFormat = "YYYY-MM-DD HH:MM:SS"
 
-export {createValidator, dateFormat, userDateToIso, userDateToWellFormed, isoDateToWellFormed, userDateToUtc, userDateToLocal}
+export {
+    createValidator,
+    dateFormat,
+    userDateToIso,
+    userDateToWellFormed,
+    isoDateToWellFormed,
+    userDateToUtc,
+    userDateToLocal,
+    isoDateToLocal
+}
