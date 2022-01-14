@@ -7,7 +7,7 @@ import loginDispatch from "../login/loginDispatch";
 import * as R from 'ramda'
 
 const logoutRequest = environment => function* (event) {
-    environment.setAccessToken(undefined)
+    environment.clearAccessToken()
     const result = yield environment.fetch(`/proxy/Logout`)
     if (result.ok) {
         yield put(navigationDispatch.redirect(loginPagePath))

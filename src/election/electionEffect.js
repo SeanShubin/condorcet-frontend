@@ -13,6 +13,7 @@ const convertIsoDatesToWellFormed = electionEdits => {
 }
 
 const fetchElectionRequest = environment => function* (event) {
+    const user = yield environment.getUserName()
     yield put(electionDispatch.clearErrors())
     const name = event.name
     const body = {name}
@@ -22,7 +23,6 @@ const fetchElectionRequest = environment => function* (event) {
             method: 'POST',
             body: JSON.stringify(body)
         })
-    const user = environment.getUserName()
     if (result.ok) {
         const jsonResult = yield result.json()
         const election = convertIsoDatesToWellFormed(jsonResult)

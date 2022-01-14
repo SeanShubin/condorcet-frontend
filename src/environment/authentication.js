@@ -4,10 +4,22 @@ import {mergeRight} from "ramda";
 
 const createAuthentication = fetch => {
     let loginInformation = {}
-    const getRole = () => loginInformation.role
-    const getUserName = () => loginInformation.userName
-    const setAccessToken = accessToken => {
-        loginInformation = R.mergeRight({accessToken})
+    const getLoginInformation = async () => {
+        if(loginInformation.accessToken) return loginInformation
+        const refreshResponse = await fetch('/proxy/Refresh')
+        loginInformation = await refreshResponse.json()
+        return loginInformation
+    }
+    const clearAccessToken = () => {
+        loginInformation.accessToken = undefined
+    }
+    const getUserName = async () =>{
+        await getLoginInformation()
+        return loginInformation.userName
+    }
+    const getRole = async () => {
+        await getLoginInformation()
+        return loginInformation.role
     }
     const fetchUsingAccessToken = async (resource, originalInit) => {
         const existingHeaders = (originalInit || {}).headers || []
@@ -47,7 +59,7 @@ const createAuthentication = fetch => {
         authenticatedFetch,
         getUserName,
         getRole,
-        setAccessToken
+        clearAccessToken
     }
 }
 

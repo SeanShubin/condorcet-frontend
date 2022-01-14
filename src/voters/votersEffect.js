@@ -3,6 +3,7 @@ import votersEvent from './votersEvent'
 import {put} from 'redux-saga/effects'
 
 const fetchVotersRequest = environment => function* (event) {
+    const user = yield environment.getUserName()
     yield put(votersDispatch.clearErrors())
     const electionName = event.electionName
     const electionResult = yield environment.authenticatedFetch(
@@ -12,7 +13,6 @@ const fetchVotersRequest = environment => function* (event) {
             body: JSON.stringify({name: electionName})
         }
     )
-    const user = environment.getUserName()
     const election = yield electionResult.json()
     const eligibilityResult = yield environment.authenticatedFetch(
         `/proxy/ListEligibility`,
