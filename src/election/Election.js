@@ -75,6 +75,18 @@ const statusOfElection = election => {
     }
 }
 
+const voterCountTextFor = voterCount => {
+    if(voterCount === 0) {
+        return 'anyone can vote'
+    } else {
+        return pluralize({
+            quantity: voterCount,
+            singular: 'voter',
+            plural: 'voters'
+        })
+    }
+}
+
 const Election = (
     {
         user,
@@ -180,11 +192,7 @@ const Election = (
         singular: 'candidate',
         plural: 'candidates'
     })}`
-    const voterCountText = `${voterCount} ${pluralize({
-        quantity: voterCount,
-        singular: 'voter',
-        plural: 'voters'
-    })}`
+    const voterCountText = voterCountTextFor(voterCount)
     const status = statusOfElection(originalElection)
     const canLaunch = !hasPendingEdits && !originalElection.allowVote && originalElection.allowEdit
     const canFinalize = !hasPendingEdits && originalElection.allowVote
