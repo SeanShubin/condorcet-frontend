@@ -79,7 +79,7 @@ const voterCountTextFor = voterCount => {
     if(voterCount === 0) {
         return 'anyone can vote'
     } else {
-        return pluralize({
+        return '' + voterCount + ' ' + pluralize({
             quantity: voterCount,
             singular: 'voter',
             plural: 'voters'
