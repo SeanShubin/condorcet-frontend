@@ -5,20 +5,27 @@ import {put} from 'redux-saga/effects'
 const fetchVotersRequest = environment => function* (event) {
     yield put(votersDispatch.clearErrors())
     const electionName = event.electionName
-    yield put(votersDispatch.setElectionName(electionName))
-    const body = {electionName}
-    const result = yield environment.authenticatedFetch(
+    const electionResult = yield environment.authenticatedFetch(
+        '/proxy/GetElection',
+        {
+            method: 'POST',
+            body: JSON.stringify({name: electionName})
+        }
+    )
+    const user = environment.getUserName()
+    const election = yield electionResult.json()
+    const eligibilityResult = yield environment.authenticatedFetch(
         `/proxy/ListEligibility`,
         {
             method: 'POST',
-            body: JSON.stringify(body)
+            body: JSON.stringify({electionName})
         }
     )
-    const jsonResult = yield result.json()
-    if (result.ok) {
-        yield put(votersDispatch.fetchVotersSuccess(jsonResult))
+    const voters = yield eligibilityResult.json()
+    if (eligibilityResult.ok) {
+        yield put(votersDispatch.fetchVotersSuccess({voters, user, election}))
     } else {
-        yield put(votersDispatch.errorAdded(jsonResult.userSafeMessage))
+        yield put(votersDispatch.errorAdded(voters.userSafeMessage))
     }
 }
 

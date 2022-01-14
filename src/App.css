@@ -209,32 +209,6 @@
     width: 100%;
 }
 
-.App li {
-    border-radius: 0.3rem;
-}
-
-.App li.selected {
-    border: 1px solid var(--toggle-button-border);
-    color: var(--toggle-selected-button-foreground);
-    background-color: var(--toggle-selected-button-background);
-    padding: 0.3rem;
-}
-
-.App li.selected:hover {
-    color: var(--active1);
-}
-
-.App li.not-selected {
-    border: 1px solid var(--toggle-button-border);
-    color: var(--toggle-not-selected-button-foreground);
-    background-color: var(--toggle-not-selected-button-background);
-    padding: 0.3rem;
-}
-
-.App li.not-selected:hover {
-    color: var(--toggle-not-selected-button-hover-foreground);
-}
-
 .App .center-page {
     display: grid;
     justify-content: center;
@@ -258,4 +232,5 @@
 .App .flex {
     display: flex;
     flex-wrap: wrap;
+    gap: 0.2em;
 }
