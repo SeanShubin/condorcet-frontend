@@ -1,3 +1,4 @@
+import React, {Fragment} from "react";
 import './Ballot.css'
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
@@ -27,10 +28,10 @@ const Ranking = ({name, rank, updateRank}) => {
         updateRank({name, rank: stringToRank(event.target.value)})
     }
     const parsedRank = rankToString(rank)
-    return <div key={name}>
+    return <Fragment key={name}>
         <input value={parsedRank} onChange={onChangeRank}/>
         <span>{name}</span>
-    </div>
+    </Fragment>
 }
 
 const Rankings = ({rankings, updateRank}) => {
@@ -38,12 +39,12 @@ const Rankings = ({rankings, updateRank}) => {
         return Ranking({name, rank, updateRank})
     }
     const list = R.map(createRanking, rankings)
-    return list
+    return <div className={"two-columns"}>{list}</div>
 }
 
 const Ballot = ({
-                    voter,
-                    election,
+                    voterName,
+                    electionName,
                     originalRankings,
                     editedRankings,
                     errors,
@@ -54,21 +55,21 @@ const Ballot = ({
     const hasPendingEdits = !R.equals(originalRankings, editedRankings)
 
     const onClickCastBallot = event => {
-        castBallotRequest({voterName: voter, electionName: election, rankings: editedRankings})
+        castBallotRequest({voterName, electionName, rankings: editedRankings})
     }
     const onClickDiscardChanges = event => {
-        fetchBallotRequest({voterName: voter, electionName: election})
+        fetchBallotRequest({voterName, electionName})
     }
 
     return <div className={'Ballot'}>
         <h1>Ballot</h1>
-        <p>Ballot for voter {voter} in election {election}</p>
+        <p>Ballot for voter {voterName} in election {electionName}</p>
         <ErrorComponent errors={errors}/>
         <Rankings rankings={editedRankings} updateRank={updateRank}/>
         <button type={"submit"} onClick={onClickCastBallot} disabled={!hasPendingEdits}>Cast Ballot</button>
         <button type={"submit"} onClick={onClickDiscardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
         <hr/>
-        <a href={createElectionPagePath(election)}>election {election}</a>
+        <a href={createElectionPagePath(electionName)}>election {electionName}</a>
         <a href={dashboardPagePath}>dashboard</a>
     </div>
 }

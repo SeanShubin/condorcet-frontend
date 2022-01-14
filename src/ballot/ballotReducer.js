@@ -4,8 +4,8 @@ import {appendToArray} from "../library/collection-util";
 import * as R from 'ramda'
 
 const fetchBallotSuccess = (state, event) => R.pipe(
-    R.set(ballotModel.voter, event.voterName),
-    R.set(ballotModel.election, event.electionName),
+    R.set(ballotModel.voterName, event.voterName),
+    R.set(ballotModel.electionName, event.electionName),
     R.set(ballotModel.originalRankings, event.rankings),
     R.set(ballotModel.editedRankings, event.rankings)
 )(state)

@@ -3,8 +3,8 @@ import ballotEvent from './ballotEvent'
 import {put} from 'redux-saga/effects'
 
 const fetchBallotRequest = environment => function* (event) {
-    const voterName = event.voter
-    const electionName = event.election
+    const voterName = event.voterName
+    const electionName = event.electionName
     const body = {voterName, electionName}
     const result = yield environment.authenticatedFetch(
         `/proxy/ListRankings`,

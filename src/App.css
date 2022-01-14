@@ -248,6 +248,13 @@
     grid-template-columns: auto;
 }
 
+.App .two-columns {
+    display: grid;
+    justify-content: left;
+    grid-gap: 0.2rem;
+    grid-template-columns: auto auto;
+}
+
 .App .flex {
     display: flex;
     flex-wrap: wrap;
