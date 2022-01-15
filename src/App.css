@@ -232,5 +232,10 @@
 .App .flex {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.2em;
+    gap: 0.2rem;
+}
+
+td, th {
+    border-collapse: collapse;
+    padding: 0.2rem;
 }

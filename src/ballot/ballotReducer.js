@@ -6,6 +6,7 @@ import * as R from 'ramda'
 const fetchBallotSuccess = (state, event) => R.pipe(
     R.set(ballotModel.voterName, event.voterName),
     R.set(ballotModel.electionName, event.electionName),
+    R.set(ballotModel.ballot, event.ballot),
     R.set(ballotModel.originalRankings, event.rankings),
     R.set(ballotModel.editedRankings, event.rankings)
 )(state)

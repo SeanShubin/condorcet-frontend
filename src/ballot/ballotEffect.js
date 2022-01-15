@@ -16,8 +16,9 @@ const fetchBallotRequest = environment => function* (event) {
     const api = createApi(environment)
     yield* handleError(environment)(function* () {
         const {voterName, electionName} = event
+        const ballot = yield api.getBallot({voterName, electionName})
         const rankings = yield api.listRankings({voterName, electionName})
-        yield put(ballotDispatch.fetchBallotSuccess({voterName, electionName, rankings}))
+        yield put(ballotDispatch.fetchBallotSuccess({voterName, electionName, ballot, rankings}))
     })
 }
 

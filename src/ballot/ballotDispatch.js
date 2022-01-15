@@ -6,10 +6,11 @@ const ballotDispatch = {
         voterName,
         electionName
     }),
-    fetchBallotSuccess: ({voterName, electionName, rankings}) => ({
+    fetchBallotSuccess: ({voterName, electionName, ballot, rankings}) => ({
         type: ballotEvent.FETCH_BALLOT_SUCCESS,
         voterName,
         electionName,
+        ballot,
         rankings
     }),
     castBallotRequest: ({voterName, electionName, rankings}) => ({

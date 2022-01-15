@@ -153,6 +153,10 @@ const createApi = environment => {
         return invokeApi('ListRankings', {voterName, electionName})
     }
 
+    const getBallot = async ({voterName, electionName}) => {
+        return invokeApi('GetBallot', {voterName, electionName})
+    }
+
     return {
         authenticate,
         register,
@@ -181,7 +185,8 @@ const createApi = environment => {
         isEligible,
         castBallot,
         tally,
-        listRankings
+        listRankings,
+        getBallot
     }
 }
 
