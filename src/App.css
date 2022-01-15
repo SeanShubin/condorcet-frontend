@@ -222,11 +222,18 @@
     grid-template-columns: auto;
 }
 
-.App .two-columns {
+.App .columns-2 {
     display: grid;
     justify-content: left;
     grid-gap: 0.2rem;
     grid-template-columns: auto auto;
+}
+
+.App .columns-3 {
+    display: grid;
+    justify-content: left;
+    grid-gap: 0.2rem;
+    grid-template-columns: auto auto auto;
 }
 
 .App .flex {

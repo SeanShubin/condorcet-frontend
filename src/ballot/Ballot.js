@@ -24,23 +24,23 @@ const stringToRank = s => {
     }
 }
 
-const Ranking = ({candidateName, rank, updateRank}) => {
+const Ranking = ({candidateName, rank, effectiveRank, updateRank}) => {
     const onChangeRank = event => {
         updateRank({candidateName, rank: stringToRank(event.target.value)})
     }
     const parsedRank = rankToString(rank)
     return <Fragment key={candidateName}>
-        <input value={parsedRank} onChange={onChangeRank}/>
+        <input size={3} value={parsedRank} onChange={onChangeRank}/>
         <span>{candidateName}</span>
     </Fragment>
 }
 
 const Rankings = ({rankings, updateRank}) => {
-    const createRanking = ({candidateName, rank}) => {
-        return Ranking({candidateName, rank, updateRank})
+    const createRanking = ({candidateName, rank, effectiveRank}) => {
+        return Ranking({candidateName, rank, effectiveRank, updateRank})
     }
     const list = R.map(createRanking, rankings)
-    return <div className={"two-columns"}>{list}</div>
+    return <div className={"columns-2"}>{list}</div>
 }
 
 const BallotSummary = ({ballot}) => {
@@ -60,6 +60,30 @@ const BallotSummary = ({ballot}) => {
     </>
 }
 
+const effectiveRankingsFrom = rankings => {
+    const ranks = R.map(R.prop('rank'), rankings)
+    const notNullRanks = R.reject(R.isNil, ranks)
+    const distinctRanks = R.uniq(notNullRanks)
+    const distinctOrderedRanks = R.sortBy(R.identity, distinctRanks)
+    const normalized = R.range(1,distinctOrderedRanks.length+1)
+    const newRankMap = R.zipObj(distinctOrderedRanks, normalized)
+    const lastRank = distinctOrderedRanks.length+1
+    const defaultToLastRank = R.defaultTo(lastRank)
+
+    const toEffectiveRank = rank => {
+        const effectiveRank = defaultToLastRank(newRankMap[rank])
+        return effectiveRank
+    }
+
+    const updateRanking = ranking => {
+        const effectiveRank = toEffectiveRank(ranking.rank)
+        return R.assoc('effectiveRank', effectiveRank, ranking)
+    }
+
+    const effectiveRankings = R.map(updateRanking, rankings)
+    return effectiveRankings
+}
+
 const Ballot = ({
                     voterName,
                     electionName,
@@ -72,9 +96,10 @@ const Ballot = ({
                     updateRank
                 }) => {
     const hasPendingEdits = !R.equals(originalRankings, editedRankings)
+    const effectiveRankings = effectiveRankingsFrom(editedRankings)
 
     const onClickCastBallot = event => {
-        castBallotRequest({voterName, electionName, rankings: editedRankings})
+        castBallotRequest({voterName, electionName, rankings: effectiveRankings})
     }
     const onClickDiscardChanges = event => {
         fetchBallotRequest({voterName, electionName})
@@ -84,7 +109,7 @@ const Ballot = ({
         <h1>Ballot</h1>
         <ErrorComponent errors={errors}/>
         <BallotSummary ballot={ballot}/>
-        <Rankings rankings={editedRankings} updateRank={updateRank}/>
+        <Rankings rankings={effectiveRankings} updateRank={updateRank}/>
         <button type={"submit"} onClick={onClickCastBallot} disabled={!hasPendingEdits}>Cast Ballot</button>
         <button type={"submit"} onClick={onClickDiscardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
         <hr/>
