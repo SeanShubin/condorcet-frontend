@@ -44,17 +44,20 @@ const Rankings = ({rankings, updateRank}) => {
 }
 
 const BallotSummary = ({ballot}) => {
-    if(Ballot == null) return null
+    if(ballot === null) return null
     const {voterName,electionName,confirmation,whenCast}=ballot
     const whenCastLocal = isoDateToLocal(whenCast)
-    return <table>
-        <tbody>
-        <tr><td>voter</td><td>{voterName}</td></tr>
-        <tr><td>election</td><td>{electionName}</td></tr>
-        <tr><td>confirmation</td><td>{confirmation}</td></tr>
-        <tr><td>when cast</td><td>{whenCastLocal}</td></tr>
-        </tbody>
-    </table>
+    return <>
+        <p>Ballot for voter {voterName} in election {electionName}</p>
+        <table>
+            <tbody>
+            <tr><td>voter</td><td>{voterName}</td></tr>
+            <tr><td>election</td><td>{electionName}</td></tr>
+            <tr><td>confirmation</td><td>{confirmation}</td></tr>
+            <tr><td>when cast</td><td>{whenCastLocal}</td></tr>
+            </tbody>
+        </table>
+    </>
 }
 
 const Ballot = ({
@@ -79,7 +82,6 @@ const Ballot = ({
 
     return <div className={'Ballot'}>
         <h1>Ballot</h1>
-        <p>Ballot for voter {voterName} in election {electionName}</p>
         <ErrorComponent errors={errors}/>
         <BallotSummary ballot={ballot}/>
         <Rankings rankings={editedRankings} updateRank={updateRank}/>
