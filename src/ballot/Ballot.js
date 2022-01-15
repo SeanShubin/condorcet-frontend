@@ -40,7 +40,30 @@ const Rankings = ({rankings, updateRank}) => {
         return Ranking({candidateName, rank, effectiveRank, updateRank})
     }
     const list = R.map(createRanking, rankings)
-    return <div className={"columns-2"}>{list}</div>
+    return <>
+        <h2>Edit Rankings</h2>
+        <p>1 for first place 2 for second place, and so on</p>
+        <div className={"columns-2"}>{list}</div>
+    </>
+}
+
+const EffectiveRanking = ({candidateName, rank, effectiveRank}) => {
+    return <Fragment key={candidateName}>
+        <span>{effectiveRank}</span>
+        <span>{candidateName}</span>
+    </Fragment>
+}
+
+const EffectiveRankings = ({rankings}) => {
+    const sortedRankings = R.sortBy(R.prop('effectiveRank'), rankings)
+    const createEffectiveRanking = ({candidateName, rank, effectiveRank}) => {
+        return EffectiveRanking({candidateName, rank, effectiveRank})
+    }
+    const list = R.map(createEffectiveRanking, sortedRankings)
+    return <>
+        <h2>Effective Rankings</h2>
+        <div className={"columns-2"}>{list}</div>
+    </>
 }
 
 const BallotSummary = ({ballot}) => {
@@ -99,7 +122,7 @@ const Ballot = ({
     const effectiveRankings = effectiveRankingsFrom(editedRankings)
 
     const onClickCastBallot = event => {
-        castBallotRequest({voterName, electionName, rankings: effectiveRankings})
+        castBallotRequest({voterName, electionName, rankings: editedRankings})
     }
     const onClickDiscardChanges = event => {
         fetchBallotRequest({voterName, electionName})
@@ -110,6 +133,7 @@ const Ballot = ({
         <ErrorComponent errors={errors}/>
         <BallotSummary ballot={ballot}/>
         <Rankings rankings={effectiveRankings} updateRank={updateRank}/>
+        <EffectiveRankings rankings={effectiveRankings}/>
         <button type={"submit"} onClick={onClickCastBallot} disabled={!hasPendingEdits}>Cast Ballot</button>
         <button type={"submit"} onClick={onClickDiscardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
         <hr/>
