@@ -3,7 +3,7 @@ import registerModel from "./registerModel";
 import * as R from 'ramda';
 import {appendToArray} from "../library/collection-util";
 
-const nameChanged = (state, event) => R.set(registerModel.name, event.name, state)
+const userNameChanged = (state, event) => R.set(registerModel.userName, event.userName, state)
 const emailChanged = (state, event) => R.set(registerModel.email, event.email, state)
 const passwordChanged = (state, event) => R.set(registerModel.password, event.password, state)
 const confirmationPasswordChanged = (state, event) => R.set(registerModel.confirmationPassword, event.confirmationPassword, state)
@@ -13,7 +13,7 @@ const errorAdded = (state, event) => appendToArray(registerModel.errors, event.m
 const errorsCleared = (state, event) => R.set(registerModel.errors, [], state)
 
 const registerReducer = {
-    [registerEvent.NAME_CHANGED]: nameChanged,
+    [registerEvent.USER_NAME_CHANGED]: userNameChanged,
     [registerEvent.EMAIL_CHANGED]: emailChanged,
     [registerEvent.PASSWORD_CHANGED]: passwordChanged,
     [registerEvent.CONFIRMATION_PASSWORD_CHANGED]: confirmationPasswordChanged,

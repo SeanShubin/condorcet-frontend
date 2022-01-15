@@ -2,13 +2,13 @@ import votersEvent from "./votersEvent";
 
 const votersDispatch = {
     fetchVotersRequest: electionName => ({type: votersEvent.FETCH_VOTERS_REQUEST, electionName}),
-    fetchVotersSuccess: ({voters, election, user}) => ({type: votersEvent.FETCH_VOTERS_SUCCESS, voters, election, user}),
+    fetchVotersSuccess: ({voters, election, userName}) => ({type: votersEvent.FETCH_VOTERS_SUCCESS, voters, election, userName}),
     filterChanged: filter => ({type:votersEvent.FILTER_CHANGED, filter}),
     updateVoterEdits: voters => ({type: votersEvent.UPDATE_VOTER_EDITS, voters}),
-    setVotersRequest: ({election, voters}) => ({
+    setVotersRequest: ({electionName, userNames}) => ({
         type: votersEvent.SET_VOTERS_REQUEST,
-        election,
-        voters
+        electionName,
+        userNames
     }),
     errorAdded: message => ({type: votersEvent.ERROR_ADDED, message}),
     clearErrors: () => ({type: votersEvent.CLEAR_ERRORS})

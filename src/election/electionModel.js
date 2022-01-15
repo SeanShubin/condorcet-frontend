@@ -1,7 +1,7 @@
 import {lensPathWithDefault} from '../library/lens-util';
 
 const electionModel = {
-    user: lensPathWithDefault(['election', 'user'], ''),
+    userName: lensPathWithDefault(['election', 'userName'], ''),
     originalElection: lensPathWithDefault(['election', 'originalElection'], {}),
     electionWithEdits: lensPathWithDefault(['election', 'electionWithEdits'], {}),
     errors: lensPathWithDefault(['election', 'errors'], [])

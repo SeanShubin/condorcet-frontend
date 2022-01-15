@@ -1,20 +1,23 @@
 import eventsDispatch from './eventsDispatch'
 import eventsEvent from './eventsEvent'
 import {put} from 'redux-saga/effects'
+import {createApi} from "../api/api";
+
+const handleError = environment => function* (f) {
+    yield put(eventsDispatch.clearErrors())
+    try {
+        yield* f(environment)
+    } catch (ex) {
+        yield put(eventsDispatch.errorAdded(ex.message))
+    }
+}
 
 const fetchTableRequest = environment => function* (event) {
-    const result = yield environment.authenticatedFetch(
-        `/proxy/EventData`,
-        {
-            method: 'POST',
-        }
-    )
-    const jsonResult = yield result.json()
-    if (result.ok) {
-        yield put(eventsDispatch.fetchTableSuccess(jsonResult.events))
-    } else {
-        yield put(eventsDispatch.errorAdded(jsonResult.userSafeMessage))
-    }
+    const api = createApi(environment)
+    yield* handleError(environment)(function* () {
+        const eventData = yield api.eventData()
+        yield put(eventsDispatch.fetchTableSuccess(eventData))
+    })
 }
 
 const eventsEffect = {

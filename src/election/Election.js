@@ -89,7 +89,7 @@ const voterCountTextFor = voterCount => {
 
 const Election = (
     {
-        user,
+        userName,
         originalElection,
         electionWithEdits,
         errors,
@@ -102,13 +102,13 @@ const Election = (
         errorAdded
     }) => {
     const hasPendingEdits = !R.equals(originalElection, electionWithEdits)
-    const isOwner = user === originalElection.ownerName
+    const isOwner = userName === originalElection.ownerName
     const canEditElection = isOwner && originalElection.allowEdit && !originalElection.allowVote
     const canDelete = isOwner && !hasPendingEdits
 
     const updateElectionName = event => {
         updateElectionEdits(R.mergeRight(electionWithEdits, {
-            name: nullIfBlank(event.target.value)
+            electionName: nullIfBlank(event.target.value)
         }))
     }
     const updateNoVotingBefore = event => {
@@ -138,51 +138,51 @@ const Election = (
     }
     const applyChangesWithRename = changes => {
         const request = R.mergeRight(changes, {
-            name: originalElection.name,
-            newName: electionWithEdits.name
+            electionName: originalElection.electionName,
+            newElectionName: electionWithEdits.electionName
         })
         updateElectionRequest(request)
     }
     const applyChangesWithoutRename = changes => {
         const request = R.mergeRight(changes, {
-            name: originalElection.name
+            electionName: originalElection.electionName
         })
         updateElectionRequest(request)
     }
     const applyChangesClicked = () => {
         const changes = delta({fromValue: originalElection, toValue: electionWithEdits})
-        if (changes.name) {
+        if (changes.electionName) {
             applyChangesWithRename(changes)
         } else {
             applyChangesWithoutRename(changes)
         }
     }
     const discardChangesClicked = () => {
-        fetchElectionRequest(originalElection.name)
+        fetchElectionRequest(originalElection.electionName)
     }
     const deleteElectionClicked = () => {
-        if (originalElection.name === electionWithEdits.name) {
-            deleteElectionRequest(originalElection.name)
+        if (originalElection.electionName === electionWithEdits.electionName) {
+            deleteElectionRequest(originalElection.electionName)
         } else {
             errorAdded('Can not delete an election with pending edits')
         }
     }
     const launchFixedClicked = () => {
-        const election = originalElection.name
+        const electionName = originalElection.electionName
         const allowEdit = false
-        launchElectionRequest({election, allowEdit})
+        launchElectionRequest({electionName, allowEdit})
     }
 
     const launchEditableClicked = () => {
-        const election = originalElection.name
+        const electionName = originalElection.electionName
         const allowEdit = true
-        launchElectionRequest({election, allowEdit})
+        launchElectionRequest({electionName, allowEdit})
     }
 
     const finalizeTallyClicked = () => {
-        finalizeElectionRequest(originalElection.name)
+        finalizeElectionRequest(originalElection.electionName)
     }
-    const name = blankIfFalsy(electionWithEdits.name)
+    const electionName = blankIfFalsy(electionWithEdits.electionName)
     const noVotingBefore = blankIfFalsy(electionWithEdits.noVotingBefore)
     const noVotingAfter = blankIfFalsy(electionWithEdits.noVotingAfter)
     const candidateCount = originalElection.candidateCount
@@ -207,7 +207,7 @@ const Election = (
             <span>{status}</span>
             <span>Name</span>
             <input onChange={updateElectionName}
-                   value={name}
+                   value={electionName}
                    readOnly={!canEditElection}/>
             <span>No Voting Before</span>
             <input onChange={updateNoVotingBefore}
@@ -236,10 +236,10 @@ const Election = (
                    disabled={!originalElection.allowEdit}
             />
         </div>
-        <a href={createCandidatesPagePath(originalElection.name)}>{candidateCountText}</a>
-        <a href={createVotersPagePath(originalElection.name)}>{voterCountText}</a>
-        <a href={createBallotPagePath({voter:user, election:originalElection.name})}>ballot</a>
-        <a href={createTallyPagePath(originalElection.name)}>tally</a>
+        <a href={createCandidatesPagePath(originalElection.electionName)}>{candidateCountText}</a>
+        <a href={createVotersPagePath(originalElection.electionName)}>{voterCountText}</a>
+        <a href={createBallotPagePath({voterName:userName, electionName:originalElection.electionName})}>ballot</a>
+        <a href={createTallyPagePath(originalElection.electionName)}>tally</a>
         <button type={"submit"} onClick={applyChangesClicked} disabled={!hasPendingEdits}>Apply Changes</button>
         <button type={"submit"} onClick={discardChangesClicked} disabled={!hasPendingEdits}>Discard Changes</button>
         <hr/>

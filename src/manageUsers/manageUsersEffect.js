@@ -1,35 +1,32 @@
 import manageUsersDispatch from './manageUsersDispatch'
 import manageUsersEvent from './manageUsersEvent'
 import {put} from 'redux-saga/effects'
+import {createApi} from "../api/api";
 
-const fetchUsersRequest = environment => function* (event) {
-    const result = yield environment.authenticatedFetch(`/proxy/ListUsers`)
-    const jsonResult = yield result.json()
-    if (result.ok) {
-        yield put(manageUsersDispatch.usersChanged(jsonResult.users))
-    } else {
-        yield put(manageUsersDispatch.errorAdded(jsonResult.userSafeMessage))
+const handleError = environment => function* (f) {
+    yield put(manageUsersDispatch.clearErrors())
+    try {
+        yield* f(environment)
+    } catch (ex) {
+        yield put(manageUsersDispatch.errorAdded(ex.message))
     }
 }
 
+const fetchUsersRequest = environment => function* (event) {
+    const api = createApi(environment)
+    yield* handleError(environment)(function* () {
+        const users = yield api.listUsers()
+        yield put(manageUsersDispatch.usersChanged(users))
+    })
+}
+
 const updateUserRoleRequest = environment => function* (event) {
-    const body = {
-        name: event.name,
-        role: event.role
-    }
-    const result = yield environment.authenticatedFetch(
-        `/proxy/SetRole`,
-        {
-            method: 'POST',
-            body: JSON.stringify(body)
-        }
-    )
-    if (result.ok) {
+    const api = createApi(environment)
+    const {userName, role} = event
+    yield* handleError(environment)(function* () {
+        yield api.setRole({userName, role})
         yield put(manageUsersDispatch.fetchUsersRequest())
-    } else {
-        const jsonResult = yield result.json()
-        yield put(manageUsersDispatch.errorAdded(jsonResult.userSafeMessage))
-    }
+    })
 }
 
 const manageUsersEffect = {

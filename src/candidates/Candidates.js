@@ -21,8 +21,8 @@ const Candidates = (
     const maxCandidateLength = R.reduce(R.max, 0, R.map(R.length, candidatesWithEdits))
 
     const onCandidatesChanged = event => {
-        const candidates = R.split(/\n/, event.target.value)
-        updateCandidateEdits(candidates)
+        const candidateNames = R.split(/\n/, event.target.value)
+        updateCandidateEdits(candidateNames)
     }
     const applyChanges = () => {
         setCandidatesRequest(electionName, candidatesWithEdits)

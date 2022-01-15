@@ -1,7 +1,7 @@
 import registerEvent from "./registerEvent";
 
 const registerDispatch = {
-    nameChanged: name => ({type: registerEvent.NAME_CHANGED, name}),
+    nameChanged: userName => ({type: registerEvent.USER_NAME_CHANGED, userName}),
     emailChanged: email => ({type: registerEvent.EMAIL_CHANGED, email}),
     passwordChanged: password => ({type: registerEvent.PASSWORD_CHANGED, password}),
     confirmationPasswordChanged: confirmationPassword => ({
@@ -16,7 +16,7 @@ const registerDispatch = {
         password,
         confirmationPassword
     }),
-    registerRequest: ({name, email, password}) => ({type: registerEvent.REGISTER_REQUEST, name, email, password}),
+    registerRequest: ({userName, email, password}) => ({type: registerEvent.REGISTER_REQUEST, userName, email, password}),
     errorAdded: message => ({type: registerEvent.ERROR_ADDED, message}),
     clearErrors: () => ({type: registerEvent.CLEAR_ERRORS})
 }

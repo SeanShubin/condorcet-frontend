@@ -1,44 +1,33 @@
 import ballotDispatch from './ballotDispatch'
 import ballotEvent from './ballotEvent'
 import {put} from 'redux-saga/effects'
+import {createApi} from "../api/api";
 
-const fetchBallotRequest = environment => function* (event) {
-    const voterName = event.voterName
-    const electionName = event.electionName
-    const body = {voterName, electionName}
-    const result = yield environment.authenticatedFetch(
-        `/proxy/ListRankings`,
-        {
-            method: 'POST',
-            body: JSON.stringify(body)
-        })
-    if (result.ok) {
-        const jsonResult = yield result.json()
-        const rankings = jsonResult.rankings
-        yield put(ballotDispatch.fetchBallotSuccess({voterName, electionName, rankings}))
-    } else {
-        const jsonResult = yield result.json()
-        yield put(ballotDispatch.errorAdded(jsonResult.userSafeMessage))
+const handleError = environment => function* (f) {
+    yield put(ballotDispatch.clearErrors())
+    try {
+        yield* f(environment)
+    } catch (ex) {
+        yield put(ballotDispatch.errorAdded(ex.message))
     }
 }
 
+const fetchBallotRequest = environment => function* (event) {
+    const api = createApi(environment)
+    yield* handleError(environment)(function* () {
+        const {voterName, electionName} = event
+        const rankings = yield api.listRankings({voterName, electionName})
+        yield put(ballotDispatch.fetchBallotSuccess({voterName, electionName, rankings}))
+    })
+}
+
 const castBallotRequest = environment => function* (event) {
-    const voterName = event.voterName
-    const electionName = event.electionName
-    const rankings = event.rankings
-    const body = {voterName, electionName, rankings}
-    const result = yield environment.authenticatedFetch(
-        `/proxy/CastBallot`,
-        {
-            method: 'POST',
-            body: JSON.stringify(body)
-        })
-    if (result.ok) {
+    const api = createApi(environment)
+    yield* handleError(environment)(function* () {
+        const {voterName, electionName, rankings} = event
+        yield api.castBallot({voterName, electionName, rankings})
         yield put(ballotDispatch.fetchBallotRequest({voterName, electionName}))
-    } else {
-        const jsonResult = yield result.json()
-        yield put(ballotDispatch.errorAdded(jsonResult.userSafeMessage))
-    }
+    })
 }
 
 const ballotEffect = {

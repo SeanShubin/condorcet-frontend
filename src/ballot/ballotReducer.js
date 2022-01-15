@@ -11,13 +11,13 @@ const fetchBallotSuccess = (state, event) => R.pipe(
 )(state)
 
 const updateRank = (state, event) => {
-    const targetCandidateName = event.name
+    const targetCandidateName = event.candidateName
     const newRank = event.rank
-    const updateRank = ({name, rank}) => {
-        if (name === targetCandidateName) {
-            return {name, rank: newRank}
+    const updateRank = ({candidateName, rank}) => {
+        if (candidateName === targetCandidateName) {
+            return {candidateName, rank: newRank}
         } else {
-            return {name, rank}
+            return {candidateName, rank}
         }
     }
     const oldRankings = R.view(ballotModel.editedRankings, state)
@@ -28,10 +28,13 @@ const updateRank = (state, event) => {
 
 const errorAdded = (state, event) => appendToArray(ballotModel.errors, event.message, state)
 
+const clearErrors = (state, event) => R.set(ballotModel.errors, [], state)
+
 const ballotReducer = {
     [ballotEvent.FETCH_BALLOT_SUCCESS]: fetchBallotSuccess,
     [ballotEvent.UPDATE_RANK]: updateRank,
-    [ballotEvent.ERROR_ADDED]: errorAdded
+    [ballotEvent.ERROR_ADDED]: errorAdded,
+    [ballotEvent.CLEAR_ERRORS]:clearErrors
 }
 
 export default ballotReducer

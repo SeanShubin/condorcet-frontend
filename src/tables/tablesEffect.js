@@ -1,36 +1,39 @@
 import tablesDispatch from './tablesDispatch'
 import tablesEvent from './tablesEvent'
 import {put} from 'redux-saga/effects'
+import {createApi} from "../api/api";
+
+const handleError = environment => function* (f){
+    yield put(tablesDispatch.clearErrors())
+    try {
+        yield* f(environment)
+    } catch(ex) {
+        yield put(tablesDispatch.errorAdded(ex.message))
+    }
+}
 
 const fetchTableNamesRequest = environment => function* () {
-    const result = yield environment.authenticatedFetch(`/proxy/ListTables`)
-    const jsonResult = yield result.json()
-    if (result.ok) {
-        yield put(tablesDispatch.fetchTableNamesSuccess(jsonResult.tableNames))
-    } else {
-        yield put(tablesDispatch.errorAdded(jsonResult.userSafeMessage))
-    }
+    const api = createApi(environment)
+    yield* handleError(environment)(function*() {
+        const tableNames = yield api.listTables()
+        yield put(tablesDispatch.fetchTableNamesSuccess(tableNames))
+    })
 }
 
 const fetchTableRequest = environment => function* (event) {
-    const name = event.name
-    const result = yield environment.authenticatedFetch(
-        `/proxy/TableData`,
-        {
-            method: 'POST',
-            body: JSON.stringify({name})
-        }
-    )
-    const jsonResult = yield result.json()
-    if (result.ok) {
-        yield put(tablesDispatch.fetchTableSuccess(jsonResult.table))
-    } else {
-        yield put(tablesDispatch.errorAdded(jsonResult.userSafeMessage))
-    }
+    const api = createApi(environment)
+    const {tableName } = event
+    yield* handleError(environment)(function*() {
+        const tableData = yield api.tableData(tableName)
+        yield put(tablesDispatch.fetchTableSuccess(tableData))
+    })
 }
 
 const selectedTableChanged = environment => function* (event) {
-    yield put(tablesDispatch.fetchTableRequest(event.selectedName))
+    const {selectedTableName} = event
+    yield* handleError(environment)(function*() {
+        yield put(tablesDispatch.fetchTableRequest(selectedTableName))
+    })
 }
 
 const tablesEffect = {

@@ -1,7 +1,7 @@
 import {lensPathWithDefault} from '../library/lens-util';
 
 const registerModel = {
-    name: lensPathWithDefault(['register', 'name'], ''),
+    userName: lensPathWithDefault(['register', 'userName'], ''),
     email: lensPathWithDefault(['register', 'email'], ''),
     password: lensPathWithDefault(['register', 'password'], ''),
     confirmationPassword: lensPathWithDefault(['register', 'confirmationPassword'], ''),

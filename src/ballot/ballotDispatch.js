@@ -18,8 +18,9 @@ const ballotDispatch = {
         electionName,
         rankings
     }),
-    updateRank: ({name, rank}) => ({type: ballotEvent.UPDATE_RANK, name, rank}),
-    errorAdded: message => ({type: ballotEvent.ERROR_ADDED, message})
+    updateRank: ({candidateName, rank}) => ({type: ballotEvent.UPDATE_RANK, candidateName, rank}),
+    errorAdded: message => ({type: ballotEvent.ERROR_ADDED, message}),
+    clearErrors: () => ({type: ballotEvent.CLEAR_ERRORS})
 }
 
 export default ballotDispatch

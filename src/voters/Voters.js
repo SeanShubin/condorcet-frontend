@@ -45,15 +45,15 @@ const Voter = ({name, eligible, onClick, canEditVoters}) => {
 const VoterList = ({voters, setVoterEligibility, filter, canEditVoters}) => {
     const createVoterElement = voter =>{
         const onClick = () => {
-            setVoterEligibility({name:voter.name, eligible:!voter.eligible})
+            setVoterEligibility({voterName:voter.voterName, eligible:!voter.eligible})
         }
-        return <Voter key={voter.name}
-                      name={voter.name}
+        return <Voter key={voter.voterName}
+                      name={voter.voterName}
                       eligible={voter.eligible}
                       canEditVoters={canEditVoters}
                       onClick={onClick}/>
     }
-    const nameMatchesFilter = voter => matchesFilter(filter)(voter.name)
+    const nameMatchesFilter = voter => matchesFilter(filter)(voter.voterName)
     const filteredVoters = R.filter(nameMatchesFilter, voters)
     const voterElements = R.map(createVoterElement, filteredVoters)
     return <ul className={'flex'}>
@@ -63,31 +63,31 @@ const VoterList = ({voters, setVoterEligibility, filter, canEditVoters}) => {
 
 const Voters = (
     {
-        user,
+        userName,
         election,
         filter,
         originalVoters,
         votersWithEdits,
+        errors,
         filterChanged,
         updateVoterEdits,
         setVotersRequest,
-        fetchVotersRequest,
-        errors
+        fetchVotersRequest
     }) => {
     const hasPendingEdits = !R.equals(originalVoters, votersWithEdits)
-    const isOwner = user === election.ownerName
+    const isOwner = userName === election.ownerName
     const canEditVoters = isOwner && election.allowEdit
     const applyChanges = () => {
         const eligibleVoters = R.filter(R.prop('eligible'), votersWithEdits)
-        const eligibleVoterNames = R.map(R.prop('name'), eligibleVoters)
-        setVotersRequest({election:election.name, voters:eligibleVoterNames})
+        const eligibleVoterNames = R.map(R.prop('voterName'), eligibleVoters)
+        setVotersRequest({electionName:election.electionName, userNames:eligibleVoterNames})
     }
     const discardChanges = () => {
-        fetchVotersRequest(election.name)
+        fetchVotersRequest(election.electionName)
     }
     const setVoterEligibility = updatedVoter => {
         const updateVoter = originalVoter => {
-            if(updatedVoter.name === originalVoter.name){
+            if(updatedVoter.voterName === originalVoter.voterName){
                 return updatedVoter
             } else {
                 return originalVoter
@@ -106,7 +106,7 @@ const Voters = (
             <table>
                 <tbody>
                 <tr>
-                    <td>election</td><td>{election.name}</td>
+                    <td>election</td><td>{election.electionName}</td>
                 </tr>
                 <tr>
                     <td>owner</td><td>{election.ownerName}</td>
@@ -123,7 +123,7 @@ const Voters = (
             <button type={"submit"} onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
             <button type={"submit"} onClick={discardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
             <hr/>
-            <a href={createElectionPagePath(election.name)}>election {election.name}</a>
+            <a href={createElectionPagePath(election.electionName)}>election {election.electionName}</a>
             <a href={dashboardPagePath}>dashboard</a>
         </div>
     </div>

@@ -23,20 +23,20 @@ const stringToRank = s => {
     }
 }
 
-const Ranking = ({name, rank, updateRank}) => {
+const Ranking = ({candidateName, rank, updateRank}) => {
     const onChangeRank = event => {
-        updateRank({name, rank: stringToRank(event.target.value)})
+        updateRank({candidateName, rank: stringToRank(event.target.value)})
     }
     const parsedRank = rankToString(rank)
-    return <Fragment key={name}>
+    return <Fragment key={candidateName}>
         <input value={parsedRank} onChange={onChangeRank}/>
-        <span>{name}</span>
+        <span>{candidateName}</span>
     </Fragment>
 }
 
 const Rankings = ({rankings, updateRank}) => {
-    const createRanking = ({name, rank}) => {
-        return Ranking({name, rank, updateRank})
+    const createRanking = ({candidateName, rank}) => {
+        return Ranking({candidateName, rank, updateRank})
     }
     const list = R.map(createRanking, rankings)
     return <div className={"two-columns"}>{list}</div>

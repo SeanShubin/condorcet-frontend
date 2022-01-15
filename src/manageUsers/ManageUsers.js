@@ -17,13 +17,13 @@ const BodyRow = ({user, updateUserRoleRequest}) => {
 
     const onChange = event => {
         updateUserRoleRequest({
-            name: user.name,
+            userName: user.userName,
             role: event.target.value
         })
     }
 
-    return <tr key={user.name}>
-        <td><span>{user.name}</span></td>
+    return <tr key={user.userName}>
+        <td><span>{user.userName}</span></td>
         <td>
             <select value={user.role} onChange={onChange}>
                 {R.map(role => <RoleOption key={role} role={role}/>, user.allowedRoles)}
@@ -32,8 +32,14 @@ const BodyRow = ({user, updateUserRoleRequest}) => {
     </tr>
 }
 
-const BodyRows = ({users, updateUserRoleRequest}) =>
-    R.map(user => <BodyRow key={user.name} user={user} updateUserRoleRequest={updateUserRoleRequest}/>, users)
+const BodyRows = ({users, updateUserRoleRequest}) => {
+    const createBodyRow = user => {
+        return <BodyRow key={user.userName}
+                        user={user}
+                        updateUserRoleRequest={updateUserRoleRequest}/>
+    }
+    return R.map(createBodyRow, users)
+}
 
 const UserList = ({users, updateUserRoleRequest}) => {
     const captions = ['name', 'role']

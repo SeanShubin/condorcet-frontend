@@ -7,7 +7,7 @@ import {createElectionPagePath} from "../election/electionConstant";
 
 const ElectionList = ({elections}) => {
     const createElectionListElement = election => {
-        return <li key={election.name}><a href={createElectionPagePath(election.name)}>{election.name}</a></li>
+        return <li key={election.electionName}><a href={createElectionPagePath(election.electionName)}>{election.electionName}</a></li>
     }
     const electionListElements = R.map(createElectionListElement, elections)
     return <ul className={'elements'}>

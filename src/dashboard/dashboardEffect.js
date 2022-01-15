@@ -3,52 +3,41 @@ import dashboardEvent from './dashboardEvent'
 import {put} from 'redux-saga/effects'
 import navigationDispatch from "../navigation/navigationDispatch";
 import {loginPagePath} from "../login/loginConstant";
-import loginDispatch from "../login/loginDispatch";
-import * as R from 'ramda'
+import {createApi} from "../api/api";
 
-const logoutRequest = environment => function* (event) {
-    environment.clearAccessToken()
-    const result = yield environment.fetch(`/proxy/Logout`)
-    if (result.ok) {
-        yield put(navigationDispatch.redirect(loginPagePath))
-    } else {
-        const jsonResult = yield result.json()
-        yield put(loginDispatch.errorAdded(jsonResult.userSafeMessage))
+const handleError = environment => function* (f) {
+    yield put(dashboardDispatch.clearErrors())
+    try {
+        yield* f(environment)
+    } catch (ex) {
+        yield put(dashboardDispatch.errorAdded(ex.message))
     }
 }
 
+const logoutRequest = environment => function* (event) {
+    const api = createApi(environment)
+    yield* handleError(environment)(function* () {
+        environment.clearAccessToken()
+        yield api.logout()
+        yield put(navigationDispatch.redirect(loginPagePath))
+    })
+}
+
 const fetchCountsRequest = environment => function* (event) {
-    const successfulResults = []
-    const userCountResult = yield environment.authenticatedFetch(`/proxy/UserCount`)
-    const userCountJsonResult = yield userCountResult.json()
-    if (userCountResult.ok) {
-        successfulResults.push(userCountJsonResult)
-    } else {
-        yield put(dashboardDispatch.errorAdded(userCountJsonResult.userSafeMessage))
-    }
-    const electionCountResult = yield environment.authenticatedFetch(`/proxy/ElectionCount`)
-    const electionCountJsonResult = yield electionCountResult.json()
-    if (electionCountResult.ok) {
-        successfulResults.push(electionCountJsonResult)
-    } else {
-        yield put(dashboardDispatch.errorAdded(electionCountJsonResult.userSafeMessage))
-    }
-    const tableCountResult = yield environment.authenticatedFetch(`/proxy/TableCount`)
-    const tableCountJsonResult = yield tableCountResult.json()
-    if (tableCountResult.ok) {
-        successfulResults.push(tableCountJsonResult)
-    } else {
-        yield put(dashboardDispatch.errorAdded(tableCountJsonResult.userSafeMessage))
-    }
-    const eventCountResult = yield environment.authenticatedFetch(`/proxy/EventCount`)
-    const eventCountJsonResult = yield eventCountResult.json()
-    if (eventCountResult.ok) {
-        successfulResults.push(eventCountJsonResult)
-    } else {
-        yield put(dashboardDispatch.errorAdded(eventCountJsonResult.userSafeMessage))
-    }
-    const allCounts = R.mergeAll(successfulResults)
-    yield put(dashboardDispatch.fetchCountsSuccess(allCounts))
+    const api = createApi(environment)
+    yield* handleError(environment)(function* () {
+        const userCount = yield api.userCount()
+        const electionCount = yield api.electionCount()
+        const tableCount = yield api.tableCount()
+        const eventCount = yield api.eventCount()
+        const allCounts = {
+            userCount,
+            electionCount,
+            tableCount,
+            eventCount
+        }
+        yield put(dashboardDispatch.fetchCountsSuccess(allCounts))
+    })
 }
 
 const dashboardEffect = {

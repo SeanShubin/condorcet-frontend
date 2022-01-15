@@ -17,11 +17,11 @@ const TableContent = ({headers, rows}) => {
     </table>
 }
 
-const Events = ({table, errors}) => {
+const Events = ({tableData, errors}) => {
     return <div className={'Events'}>
         <h1>Events</h1>
         <ErrorComponent errors={errors}/>
-        <TableContent headers={table.columnNames} rows={table.rows}/>
+        <TableContent headers={tableData.columnNames} rows={tableData.rows}/>
         <hr/>
         <a href={dashboardPagePath}>dashboard</a>
     </div>

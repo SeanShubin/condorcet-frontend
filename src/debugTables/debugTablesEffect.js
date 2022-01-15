@@ -1,36 +1,39 @@
 import debugTablesDispatch from './debugTablesDispatch'
 import debugTablesEvent from './debugTablesEvent'
 import {put} from 'redux-saga/effects'
+import {createApi} from "../api/api";
+
+const handleError = environment => function* (f){
+    yield put(debugTablesDispatch.clearErrors())
+    try {
+        yield* f(environment)
+    } catch(ex) {
+        yield put(debugTablesDispatch.errorAdded(ex.message))
+    }
+}
 
 const fetchTableNamesRequest = environment => function* () {
-    const result = yield environment.authenticatedFetch(`/proxy/ListTables`)
-    const jsonResult = yield result.json()
-    if (result.ok) {
-        yield put(debugTablesDispatch.fetchTableNamesSuccess(jsonResult.tableNames))
-    } else {
-        yield put(debugTablesDispatch.errorAdded(jsonResult.userSafeMessage))
-    }
+    const api = createApi(environment)
+    yield* handleError(environment)(function*() {
+        const tableNames = yield api.listTables()
+        yield put(debugTablesDispatch.fetchTableNamesSuccess(tableNames))
+    })
 }
 
 const fetchTableRequest = environment => function* (event) {
-    const name = event.name
-    const result = yield environment.authenticatedFetch(
-        `/proxy/DebugTableData`,
-        {
-            method: 'POST',
-            body: JSON.stringify({name})
-        }
-    )
-    const jsonResult = yield result.json()
-    if (result.ok) {
-        yield put(debugTablesDispatch.fetchTableSuccess(jsonResult.table))
-    } else {
-        yield put(debugTablesDispatch.errorAdded(jsonResult.userSafeMessage))
-    }
+    const api = createApi(environment)
+    const {tableName } = event
+    yield* handleError(environment)(function*() {
+        const tableData = yield api.debugTableData(tableName)
+        yield put(debugTablesDispatch.fetchTableSuccess(tableData))
+    })
 }
 
 const selectedTableChanged = environment => function* (event) {
-    yield put(debugTablesDispatch.fetchTableRequest(event.selectedName))
+    const {selectedTableName} = event
+    yield* handleError(environment)(function*() {
+        yield put(debugTablesDispatch.fetchTableRequest(selectedTableName))
+    })
 }
 
 const debugTablesEffect = {

@@ -51,13 +51,13 @@ const PreferenceTable = ({preferences}) => {
     </table>
 }
 
-const CandidateTable = ({candidates}) => {
-    const createCandidateRow = candidate => {
-        return <tr key={candidate}>
-            <td>{candidate}</td>
+const CandidateTable = ({candidateNames}) => {
+    const createCandidateRow = candidateName => {
+        return <tr key={candidateName}>
+            <td>{candidateName}</td>
         </tr>
     }
-    const candidateRows = R.map(createCandidateRow, candidates)
+    const candidateRows = R.map(createCandidateRow, candidateNames)
     return <table>
         <tbody>
         {candidateRows}
@@ -66,10 +66,10 @@ const CandidateTable = ({candidates}) => {
 }
 
 const PlacesTable = ({places}) => {
-    const createPlaceRow = ({rank, candidate}) => {
-        return <tr key={candidate}>
+    const createPlaceRow = ({rank, candidateName}) => {
+        return <tr key={candidateName}>
             <td>{rank}</td>
-            <td>{candidate}</td>
+            <td>{candidateName}</td>
         </tr>
     }
     const placeRows = R.map(createPlaceRow, places)
@@ -86,13 +86,13 @@ const PlacesTable = ({places}) => {
     </table>
 }
 
-const BallotsTable = ({candidates, ballots, secretBallot}) => {
-    const createRankingCell = ({confirmation, name, rank}) => {
-        return <td key={confirmation + name}>[{rank}] {name}</td>
+const BallotsTable = ({candidateNames, ballots, secretBallot}) => {
+    const createRankingCell = ({confirmation, candidateName, rank}) => {
+        return <td key={confirmation + candidateName}>[{rank}] {candidateName}</td>
     }
-    const createRow = ({user, confirmation, whenCast, rankings}) => {
-        const attachConfirmation = ({name, rank}) => ({
-            name,
+    const createRow = ({userName, confirmation, whenCast, rankings}) => {
+        const attachConfirmation = ({candidateName, rank}) => ({
+            candidateName,
             rank,
             confirmation
         })
@@ -106,7 +106,7 @@ const BallotsTable = ({candidates, ballots, secretBallot}) => {
             </tr>
         }else {
             return <tr key={confirmation}>
-                <td>{user}</td>
+                <td>{userName}</td>
                 <td>{confirmation}</td>
                 {rankingCells}
                 <td>{isoDateToLocal(whenCast)}</td>
@@ -117,14 +117,14 @@ const BallotsTable = ({candidates, ballots, secretBallot}) => {
         if(secretBallot) {
             return <tr>
                 <th>confirmation</th>
-                <th colSpan={candidates.length}>rankings</th>
+                <th colSpan={candidateNames.length}>rankings</th>
                 <th>when cast</th>
             </tr>
         } else {
             return <tr>
                 <th>voter</th>
                 <th>confirmation</th>
-                <th colSpan={candidates.length}>rankings</th>
+                <th colSpan={candidateNames.length}>rankings</th>
                 <th>when cast</th>
             </tr>
         }
@@ -161,14 +161,14 @@ const VoterTable = ({voters, secretBallot}) => {
 
 const Tally = args => {
     const {
-        election,
+        electionName,
         tally,
         secretBallot,
         errors
     } = args
     if (!tally) return <h1>No Data</h1>
     const {
-        candidates, ballots, preferences, strongestPathMatrix, places, whoVoted
+        candidateNames, ballots, preferences, strongestPathMatrix, places, whoVoted
     } = tally
     return <div className={'Tally'}>
         <h1>Tally</h1>
@@ -176,7 +176,7 @@ const Tally = args => {
         <h2>Rankings</h2>
         <PlacesTable places={places}/>
         <h2>Candidates</h2>
-        <CandidateTable candidates={candidates}/>
+        <CandidateTable candidateNames={candidateNames}/>
         <h2>Strengths</h2>
         <StrengthTable preferences={preferences}/>
         <PreferenceTable preferences={preferences}/>
@@ -185,9 +185,9 @@ const Tally = args => {
         <PreferenceTable preferences={strongestPathMatrix}/>
         <VoterTable voters={whoVoted} secretBallot={secretBallot}/>
         <h2>Ballots</h2>
-        <BallotsTable candidates={candidates} ballots={ballots} secretBallot={secretBallot}/>
+        <BallotsTable candidateNames={candidateNames} ballots={ballots} secretBallot={secretBallot}/>
         <hr/>
-        <a href={createElectionPagePath(election)}>election {election}</a>
+        <a href={createElectionPagePath(electionName)}>election {electionName}</a>
         <a href={dashboardPagePath}>dashboard</a>
     </div>
 }

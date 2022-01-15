@@ -10,11 +10,13 @@ const fetchCountsSuccess = (state, event) => R.pipe(
     R.set(dashboardModel.eventCount, event.counts.eventCount),
 )(state)
 
+const clearErrors = (state, event) => R.set(dashboardModel.errors, [], state)
 const errorAdded = (state, event) => appendToArray(dashboardModel.errors, event.message, state)
 
 const dashboardReducer = {
     [dashboardEvent.FETCH_COUNTS_SUCCESS]: fetchCountsSuccess,
-    [dashboardEvent.ERROR_ADDED]: errorAdded
+    [dashboardEvent.ERROR_ADDED]: errorAdded,
+    [dashboardEvent.CLEAR_ERRORS]: clearErrors
 }
 
 export default dashboardReducer

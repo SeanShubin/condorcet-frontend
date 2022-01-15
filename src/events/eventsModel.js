@@ -1,7 +1,7 @@
 import {lensPathWithDefault} from '../library/lens-util';
 
 const eventsModel = {
-    table: lensPathWithDefault(['events', 'table'], {
+    tableData: lensPathWithDefault(['events', 'tableData'], {
         columnNames: [],
         rows: []
     }),

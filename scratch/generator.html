@@ -1,0 +1,42 @@
+<html>
+<head>
+    <title>generator</title>
+    <style>
+        p {
+            margin: 0
+        }
+    </style>
+</head>
+<body>
+<div id="text">
+</div>
+<script type="application/javascript">
+    const emit = text => {
+        const textDiv = document.getElementById('text')
+        const p = document.createElement('p')
+        p.innerText = text
+        textDiv.appendChild(p)
+    }
+
+    const innerGenerator = function* () {
+        yield 'inner yield 1'
+        yield 'inner yield 2'
+        yield 'inner yield 3'
+    }
+    const outerGenerator = function* () {
+        yield 'outer yield 1'
+        yield* innerGenerator()
+        yield 'outer yield 2'
+        yield 'outer yield 3'
+    }
+    const iterator = outerGenerator()
+    let current = iterator.next()
+    let index = 0
+    while(!current.done){
+        index++
+        emit(current.value)
+        current = iterator.next(index)
+    }
+</script>
+</body>
+</html>

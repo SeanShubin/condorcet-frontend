@@ -1,17 +1,17 @@
 import electionEvent from "./electionEvent";
 
 const electionDispatch = {
-    fetchElectionRequest: name => ({type: electionEvent.FETCH_ELECTION_REQUEST, name}),
-    fetchElectionSuccess: ({user, election}) => ({
+    fetchElectionRequest: electionName => ({type: electionEvent.FETCH_ELECTION_REQUEST, electionName}),
+    fetchElectionSuccess: ({userName, election}) => ({
         type: electionEvent.FETCH_ELECTION_SUCCESS,
         election,
-        user
+        userName
     }),
-    deleteElectionRequest: name => ({type: electionEvent.DELETE_ELECTION_REQUEST, name}),
+    deleteElectionRequest: electionName => ({type: electionEvent.DELETE_ELECTION_REQUEST, electionName}),
     updateElectionRequest: updates => ({type: electionEvent.UPDATE_ELECTION_REQUEST, updates}),
     updateElectionEdits: election => ({type: electionEvent.UPDATE_ELECTION_EDITS, election}),
-    launchElectionRequest: ({election, allowEdit}) => ({type: electionEvent.LAUNCH_ELECTION_REQUEST, election, allowEdit}),
-    finalizeElectionRequest: election => ({type: electionEvent.FINALIZE_ELECTION_REQUEST, election}),
+    launchElectionRequest: ({electionName, allowEdit}) => ({type: electionEvent.LAUNCH_ELECTION_REQUEST, electionName, allowEdit}),
+    finalizeElectionRequest: electionName => ({type: electionEvent.FINALIZE_ELECTION_REQUEST, electionName}),
     errorAdded: message => ({type: electionEvent.ERROR_ADDED, message}),
     clearErrors: () => ({type:electionEvent.CLEAR_ERRORS})
 }

@@ -1,9 +1,9 @@
 import {lensPathWithDefault} from '../library/lens-util';
 
 const tablesModel = {
-    selectedName: lensPathWithDefault(['tables', 'selectedName'], 'user'),
-    names: lensPathWithDefault(['tables', 'names'], []),
-    table: lensPathWithDefault(['tables', 'table'], {
+    selectedTableName: lensPathWithDefault(['tables', 'selectedTableName'], 'user'),
+    tableNames: lensPathWithDefault(['tables', 'tableNames'], []),
+    tableData: lensPathWithDefault(['tables', 'tableData'], {
         columnNames: [],
         rows: []
     }),

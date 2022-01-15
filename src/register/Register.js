@@ -5,7 +5,7 @@ import {loginPagePath} from "../login/loginConstant";
 
 const Register = (
     {
-        name,
+        userName,
         email,
         password,
         confirmationPassword,
@@ -17,8 +17,9 @@ const Register = (
         passwordDoesNotMatchConfirmationPassword,
         registerRequest
     }) => {
-    const onChangeName = event =>
+    const onChangeName = event =>{
         nameChanged(event.target.value)
+    }
     const onChangeEmail = event =>
         emailChanged(event.target.value)
     const onChangePassword = event =>
@@ -28,7 +29,7 @@ const Register = (
     const onSubmit = event => {
         event.preventDefault()
         if (password === confirmationPassword) {
-            registerRequest({name, email, password})
+            registerRequest({userName, email, password})
         } else {
             passwordDoesNotMatchConfirmationPassword({password, confirmationPassword})
         }
@@ -36,7 +37,7 @@ const Register = (
     return <form className={'Register'} onSubmit={onSubmit}>
         <h1>Register</h1>
         <ErrorComponent errors={errors}/>
-        <input value={name}
+        <input value={userName}
                autoFocus={true}
                placeholder={'name'}
                onChange={onChangeName}/>

@@ -1,44 +1,33 @@
 import candidatesDispatch from './candidatesDispatch'
 import candidatesEvent from './candidatesEvent'
 import {put} from 'redux-saga/effects'
+import {createApi} from "../api/api";
 
-const fetchCandidatesRequest = environment => function* (event) {
+const handleError = environment => function* (f) {
     yield put(candidatesDispatch.clearErrors())
-    const electionName = event.electionName
-    yield put(candidatesDispatch.setElectionName(electionName))
-    const body = {electionName}
-    const result = yield environment.authenticatedFetch(
-        `/proxy/ListCandidates`,
-        {
-            method: 'POST',
-            body: JSON.stringify(body)
-        }
-    )
-    const jsonResult = yield result.json()
-    if (result.ok) {
-        yield put(candidatesDispatch.fetchCandidatesSuccess(jsonResult.candidates))
-    } else {
-        yield put(candidatesDispatch.errorAdded(jsonResult.userSafeMessage))
+    try {
+        yield* f(environment)
+    } catch (ex) {
+        yield put(candidatesDispatch.errorAdded(ex.message))
     }
 }
 
+const fetchCandidatesRequest = environment => function* (event) {
+    const api = createApi(environment)
+    yield* handleError(environment)(function* () {
+        const {electionName} = event
+        const candidateNames = yield api.listCandidates(electionName)
+        yield put(candidatesDispatch.fetchCandidatesSuccess({electionName, candidateNames}))
+    })
+}
+
 const setCandidatesRequest = environment => function* (event) {
-    yield put(candidatesDispatch.clearErrors())
-    const electionName = event.election
-    const candidateNames = event.candidates
-    const body = {electionName, candidateNames}
-    const result = yield environment.authenticatedFetch(
-        `/proxy/SetCandidates`,
-        {
-            method: 'POST',
-            body: JSON.stringify(body)
-        })
-    if (result.ok) {
+    const api = createApi(environment)
+    yield* handleError(environment)(function* () {
+        const {electionName,candidateNames} = event
+        yield api.setCandidates({electionName, candidateNames})
         yield put(candidatesDispatch.fetchCandidatesRequest(electionName))
-    } else {
-        const jsonResult = yield result.json()
-        yield put(candidatesDispatch.errorAdded(jsonResult.userSafeMessage))
-    }
+    })
 }
 
 const candidatesEffect = {

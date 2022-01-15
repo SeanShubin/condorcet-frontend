@@ -1,5 +1,4 @@
 import {mergeDisallowDuplicateKeys} from "../library/collection-util";
-import * as R from "ramda";
 import {mergeRight} from "ramda";
 
 const createAuthentication = fetch => {

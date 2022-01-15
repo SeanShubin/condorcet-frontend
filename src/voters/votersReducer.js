@@ -4,7 +4,7 @@ import * as R from 'ramda';
 import {appendToArray} from "../library/collection-util";
 
 const fetchVotersSuccess = (state, event) => R.pipe(
-    R.set(votersModel.user, event.user),
+    R.set(votersModel.userName, event.userName),
     R.set(votersModel.election, event.election),
     R.set(votersModel.originalVoters, event.voters),
     R.set(votersModel.votersWithEdits, event.voters)

@@ -1,6 +1,6 @@
 const ballotUriPattern = /^\/ballot($|\/)/
 const ballotPageName = 'ballot'
-const createBallotPagePath = ({voter, election}) => `/ballot?voter=${voter}&election=${election}`
+const createBallotPagePath = ({voterName, electionName}) => `/ballot?voter=${voterName}&election=${electionName}`
 const parseFromBallotUri = uri => {
     const params = new URLSearchParams(uri)
     const voterName = params.get('voter')

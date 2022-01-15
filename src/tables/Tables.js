@@ -3,22 +3,22 @@ import ErrorComponent from "../error/ErrorComponent";
 import {createTablesPagePath} from "./tablesConstant";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
 
-const TableSelector = ({name, selectedName}) => {
+const TableSelector = ({tableName, selectedTableName}) => {
     let className
-    if (selectedName === name) {
+    if (selectedTableName === tableName) {
         className = 'tab selected'
     } else {
         className = 'tab'
     }
-    return <a href={createTablesPagePath(name)} className={className}>{name}</a>
+    return <a href={createTablesPagePath(tableName)} className={className}>{tableName}</a>
 }
 
-const TableSelectors = ({names, selectedName}) => {
+const TableSelectors = ({tableNames, selectedTableName}) => {
     return <div>
-        {names.map(name => <TableSelector
-            key={name}
-            name={name}
-            selectedName={selectedName}/>)}
+        {tableNames.map(tableName => <TableSelector
+            key={tableName}
+            tableName={tableName}
+            selectedTableName={selectedTableName}/>)}
     </div>
 }
 
@@ -37,12 +37,12 @@ const TableContent = ({headers, rows}) => {
     </table>
 }
 
-const Tables = ({selectedName, names, table, errors}) => {
+const Tables = ({selectedTableName, tableNames, tableData, errors}) => {
     return <div className={'Tables'}>
         <h1>Tables</h1>
         <ErrorComponent errors={errors}/>
-        <TableSelectors names={names} selectedName={selectedName}/>
-        <TableContent headers={table.columnNames} rows={table.rows}/>
+        <TableSelectors tableNames={tableNames} selectedTableName={selectedTableName}/>
+        <TableContent headers={tableData.columnNames} rows={tableData.rows}/>
         <hr/>
         <a href={dashboardPagePath}>dashboard</a>
     </div>
