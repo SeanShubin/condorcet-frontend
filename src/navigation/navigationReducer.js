@@ -3,11 +3,14 @@ import navigationModel from "./navigationModel";
 import * as R from 'ramda';
 import {appendToArray} from "../library/collection-util";
 
-const fetchPage = (state, event) => R.set(navigationModel.page, event.page, state)
+const fetchPageSuccess = (state, event) => R.pipe(
+    R.set(navigationModel.pageName, event.pageName),
+    R.set(navigationModel.userName, event.userName),
+    R.set(navigationModel.role, event.role))(state)
 const errorAdded = (state, event) => appendToArray(navigationModel.errors, event.message, state)
 
 const navigationReducer = {
-    [navigationEvent.FETCH_PAGE_SUCCESS]: fetchPage,
+    [navigationEvent.FETCH_PAGE_SUCCESS]: fetchPageSuccess,
     [navigationEvent.ERROR_ADDED]: errorAdded
 }
 

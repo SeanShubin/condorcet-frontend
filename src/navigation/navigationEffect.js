@@ -42,54 +42,59 @@ const setUri = environment => function* (event) {
 }
 
 const fetchPage = environment => function* () {
+    const userName = yield environment.getUserName()
+    const role = yield environment.getRole()
     const uri = environment.history.location.pathname
     const queryString = environment.history.location.search
+    const success = pageName => {
+        return navigationDispatch.fetchPageSuccess({pageName, userName, role})
+    }
     if (loginUriPattern.test(uri)) {
-        yield put(navigationDispatch.fetchPageSuccess(loginPageName))
+        yield put(success(loginPageName))
     } else if (registerUriPattern.test(uri)) {
-        yield put(navigationDispatch.fetchPageSuccess(registerPageName))
+        yield put(success(registerPageName))
     } else if (dashboardUriPattern.test(uri)) {
-        yield put(navigationDispatch.fetchPageSuccess(dashboardPageName))
+        yield put(success(dashboardPageName))
         yield put(dashboardDispatch.fetchCountsRequest())
     } else if (manageUsersUriPattern.test(uri)) {
-        yield put(navigationDispatch.fetchPageSuccess(manageUsersPageName))
+        yield put(success(manageUsersPageName))
         yield put(manageUsersDispatch.fetchUsersRequest())
     } else if (tablesUriPattern.test(uri)) {
         const table = parseTableFromUri(queryString)
-        yield put(navigationDispatch.fetchPageSuccess(tablesPageName))
+        yield put(success(tablesPageName))
         yield put(tablesDispatch.fetchTableNamesRequest())
         yield put(tablesDispatch.selectedTableChanged(table))
     } else if (debugTablesUriPattern.test(uri)) {
         const table = parseDebugTableFromUri(queryString)
-        yield put(navigationDispatch.fetchPageSuccess(debugTablesPageName))
+        yield put(success(debugTablesPageName))
         yield put(debugTablesDispatch.fetchTableNamesRequest())
         yield put(debugTablesDispatch.selectedTableChanged(table))
     } else if (eventsUriPattern.test(uri)) {
-        yield put(navigationDispatch.fetchPageSuccess(eventsPageName))
+        yield put(success(eventsPageName))
         yield put(eventsDispatch.fetchTableRequest())
     } else if (electionsUriPattern.test(uri)) {
-        yield put(navigationDispatch.fetchPageSuccess(electionsPageName))
+        yield put(success(electionsPageName))
         yield put(electionsDispatch.fetchElectionsRequest())
     } else if (electionUriPattern.test(uri)) {
-        yield put(navigationDispatch.fetchPageSuccess(electionPageName))
+        yield put(success(electionPageName))
         const fetchElectionRequestArgs = parseFromElectionUri(queryString)
         yield put(electionDispatch.fetchElectionRequest(fetchElectionRequestArgs))
     } else if (candidatesUriPattern.test(uri)) {
-        yield put(navigationDispatch.fetchPageSuccess(candidatesPageName))
+        yield put(success(candidatesPageName))
         const fetchCandidatesRequestArgs = parseFromCandidatesUri(queryString)
         yield put(candidatesDispatch.fetchCandidatesRequest(fetchCandidatesRequestArgs))
     } else if (styleUriPattern.test(uri)) {
-        yield put(navigationDispatch.fetchPageSuccess(stylePageName))
+        yield put(success(stylePageName))
     } else if (ballotUriPattern.test(uri)) {
-        yield put(navigationDispatch.fetchPageSuccess(ballotPageName))
+        yield put(success(ballotPageName))
         const fetchBallotRequestArgs = parseFromBallotUri(queryString)
         yield put(ballotDispatch.fetchBallotRequest(fetchBallotRequestArgs))
     } else if (tallyUriPattern.test(uri)) {
-        yield put(navigationDispatch.fetchPageSuccess(tallyPageName))
+        yield put(success(tallyPageName))
         const fetchTallyRequestArgs = parseFromTallyUri(queryString)
         yield put(tallyDispatch.fetchTallyRequest(fetchTallyRequestArgs))
     } else if(votersUriPattern.test(uri)){
-        yield put(navigationDispatch.fetchPageSuccess(votersPageName))
+        yield put(success(votersPageName))
         const fetchVotersRequestArgs = parseFromVotersUri(queryString)
         yield put(votersDispatch.fetchVotersRequest(fetchVotersRequestArgs))
     } else {
