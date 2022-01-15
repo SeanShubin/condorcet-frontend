@@ -16,10 +16,8 @@ const fetchTallyRequest = environment => function* (event) {
     const api = createApi(environment)
     yield* handleError(environment)(function* () {
         const {electionName} = event
-        const election = yield api.getElection(electionName)
-        const {secretBallot} = election
         const tally = yield api.tally(electionName)
-        yield put(tallyDispatch.fetchTallySuccess({tally, secretBallot, electionName}))
+        yield put(tallyDispatch.fetchTallySuccess({tally, electionName}))
     })
 }
 

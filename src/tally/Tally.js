@@ -163,12 +163,11 @@ const Tally = args => {
     const {
         electionName,
         tally,
-        secretBallot,
         errors
     } = args
     if (!tally) return <h1>No Data</h1>
     const {
-        candidateNames, ballots, preferences, strongestPathMatrix, places, whoVoted
+        candidateNames, secretBallot, ballots, preferences, strongestPathMatrix, places, whoVoted
     } = tally
     return <div className={'Tally'}>
         <h1>Tally</h1>
