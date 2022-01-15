@@ -90,7 +90,7 @@ const BallotsTable = ({candidateNames, ballots, secretBallot}) => {
     const createRankingCell = ({confirmation, candidateName, rank}) => {
         return <td key={confirmation + candidateName}>[{rank}] {candidateName}</td>
     }
-    const createRow = ({userName, confirmation, whenCast, rankings}) => {
+    const createRow = ({voterName, confirmation, whenCast, rankings}) => {
         const attachConfirmation = ({candidateName, rank}) => ({
             candidateName,
             rank,
@@ -106,7 +106,7 @@ const BallotsTable = ({candidateNames, ballots, secretBallot}) => {
             </tr>
         }else {
             return <tr key={confirmation}>
-                <td>{userName}</td>
+                <td>{voterName}</td>
                 <td>{confirmation}</td>
                 {rankingCells}
                 <td>{isoDateToLocal(whenCast)}</td>
