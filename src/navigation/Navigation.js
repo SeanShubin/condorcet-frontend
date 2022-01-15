@@ -29,12 +29,6 @@ const Navigation = (
         Tally,
         Voters
     }) => {
-    console.log({
-        pageName,
-        userName,
-        role,
-        errors
-    })
     const pageMap = {
         login: Login,
         register: Register,
