@@ -41,7 +41,7 @@ const setUri = environment => function* (event) {
     yield put(navigationDispatch.fetchPageRequest())
 }
 
-const fetchPage = environment => function* () {
+const fetchPage = environment => function* (event) {
     const userName = yield environment.getUserName()
     const role = yield environment.getRole()
     const permissions = yield environment.getPermissions()

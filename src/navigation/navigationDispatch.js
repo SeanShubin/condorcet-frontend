@@ -1,7 +1,7 @@
 import navigationEvent from "./navigationEvent";
 
 const navigationDispatch = {
-    fetchPageRequest: () => ({type: navigationEvent.FETCH_PAGE_REQUEST}),
+    fetchPageRequest: navigableComponents => ({type: navigationEvent.FETCH_PAGE_REQUEST, navigableComponents}),
     fetchPageSuccess: ({userName, pageName, role, permissions}) => ({type: navigationEvent.FETCH_PAGE_SUCCESS, pageName, userName, role, permissions}),
     history: ({location, action}) => ({type: navigationEvent.HISTORY, location, action}),
     redirect: uri => ({type: navigationEvent.REDIRECT, uri}),

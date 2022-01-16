@@ -30,23 +30,24 @@ const candidatesConnected = createCandidatesConnected({})
 const ballotConnected = createBallotConnected({})
 const tallyConnected = createTallyConnected({})
 const votersConnected = createVotersConnected({})
+const navigableComponents ={
+    loginConnected,
+    registerConnected,
+    dashboardConnected,
+    manageUsersConnected,
+    tablesConnected,
+    debugTablesConnected,
+    eventsConnected,
+    electionsConnected,
+    electionConnected,
+    styleConnected,
+    candidatesConnected,
+    ballotConnected,
+    tallyConnected,
+    votersConnected
+}
 const navigationConnected = createNavigationConnected({
-    extraState: {
-        Login: loginConnected.Component,
-        Register: registerConnected.Component,
-        Dashboard: dashboardConnected.Component,
-        ManageUsers: manageUsersConnected.Component,
-        Tables: tablesConnected.Component,
-        DebugTables: debugTablesConnected.Component,
-        Events: eventsConnected.Component,
-        Elections: electionsConnected.Component,
-        Election: electionConnected.Component,
-        Style: styleConnected.Component,
-        Candidates: candidatesConnected.Component,
-        Ballot: ballotConnected.Component,
-        Tally: tallyConnected.Component,
-        Voters: votersConnected.Component
-    }
+    extraState: navigableComponents
 })
 const connectedArray = [
     loginConnected,
@@ -67,7 +68,7 @@ const connectedArray = [
 ]
 
 const initializeEvents = [
-    navigationDispatch.fetchPageRequest()
+    navigationDispatch.fetchPageRequest(navigableComponents)
 ]
 const historyEvent = ({location, action}) => {
     return navigationDispatch.history({location, action})
