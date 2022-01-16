@@ -20,6 +20,10 @@ const createAuthentication = fetch => {
         await getLoginInformation()
         return loginInformation.role
     }
+    const getPermissions = async () => {
+        await getLoginInformation()
+        return loginInformation.permissions
+    }
     const fetchUsingAccessToken = async (resource, originalInit) => {
         const existingHeaders = (originalInit || {}).headers || []
         const authenticationHeader = {
@@ -58,6 +62,7 @@ const createAuthentication = fetch => {
         authenticatedFetch,
         getUserName,
         getRole,
+        getPermissions,
         clearAccessToken
     }
 }
