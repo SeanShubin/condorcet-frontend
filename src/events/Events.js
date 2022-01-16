@@ -1,4 +1,3 @@
-import './Events.css'
 import ErrorComponent from "../error/ErrorComponent";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
 
@@ -18,7 +17,7 @@ const TableContent = ({headers, rows}) => {
 }
 
 const Events = ({tableData, errors}) => {
-    return <div className={'Events'}>
+    return <div className={'Events columns-1-outer-left'}>
         <h1>Events</h1>
         <ErrorComponent errors={errors}/>
         <TableContent headers={tableData.columnNames} rows={tableData.rows}/>

@@ -1,4 +1,4 @@
-import './ManageUsers.css'
+import React from 'react';
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
@@ -54,7 +54,7 @@ const UserList = ({users, updateUserRoleRequest}) => {
 }
 
 const ManageUsers = ({users, errors, updateUserRoleRequest}) => {
-    return <div className={'ManageUsers'}>
+    return <div className={'ManageUsers columns-1-outer'}>
         <h1>ManageUsers</h1>
         <ErrorComponent errors={errors}/>
         <UserList users={users} updateUserRoleRequest={updateUserRoleRequest}/>

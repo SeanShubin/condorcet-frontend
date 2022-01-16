@@ -1,4 +1,3 @@
-import './Dashboard.css'
 import React from 'react';
 import ErrorComponent from "../error/ErrorComponent";
 import {pluralize} from "../library/text-util";
@@ -30,7 +29,7 @@ const Dashboard = (
         plural: 'debug tables'
     })}`
     const eventCountText = `${eventCount} ${pluralize({quantity: eventCount, singular: 'event', plural: 'events'})}`
-    return <div className={'Dashboard'}>
+    return <div className={'Dashboard columns-1-outer' }>
         <h1>Dashboard</h1>
         <ErrorComponent errors={errors}/>
         <a href={manageUsersPagePath}>{userCountText}</a>

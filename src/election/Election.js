@@ -1,4 +1,4 @@
-import './Election.css'
+import React from "react";
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 import {delta} from "../library/collection-util";
@@ -30,7 +30,7 @@ const NoYes = ({caption, value, changeValue, canUpdate}) => {
     const disabled = !canUpdate
     return <>
         <span>{caption}</span>
-        <div className={'option'}>
+        <div className={'flex'}>
             <button onClick={onClickNo} className={noClass} disabled={disabled}>No</button>
             <button onClick={onClickYes} className={yesClass} disabled={disabled}>Yes</button>
         </div>
@@ -50,13 +50,13 @@ const blankIfFalsy = value => {
 const DateUtc = ({value}) => {
     const utc = userDateToUtc(value)
     if(utc == null) return null
-    return <span className={'subtle-text col-span-2'}>{utc}</span>
+    return <span className={'subtle-text col-span-1-2'}>{utc}</span>
 }
 
 const DateLocal = ({value}) => {
     const localDate = userDateToLocal(value)
     if(localDate == null) return null
-    return <span className={'subtle-text col-span-2'}>{localDate}</span>
+    return <span className={'subtle-text col-span-1-2'}>{localDate}</span>
 }
 
 const statusOfElection = election => {
@@ -197,10 +197,10 @@ const Election = (
     const canLaunch = !hasPendingEdits && !originalElection.allowVote && originalElection.allowEdit
     const canFinalize = !hasPendingEdits && originalElection.allowVote
 
-    return <div className={'Election'}>
+    return <div className={'Election columns-1-outer'}>
         <h1>Election</h1>
         <ErrorComponent errors={errors}/>
-        <div className={'elements'}>
+        <div className={'columns-2'}>
             <span>Owner</span>
             <span>{originalElection.ownerName}</span>
             <span>Status</span>
@@ -227,8 +227,6 @@ const Election = (
                    readOnly={!canEditElection}/>
             <DateLocal className={'col-span-2'} value={noVotingAfter}/>
             <DateUtc className={'col-span-2'} value={noVotingAfter}/>
-        </div>
-        <div className={'elements'}>
             <NoYes caption={'Secret ballot'}
                    value={electionWithEdits.secretBallot}
                    changeValue={updateSecretBallot}

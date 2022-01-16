@@ -1,4 +1,3 @@
-import './Tally.css'
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 import {createElectionPagePath} from "../election/electionConstant";
@@ -169,7 +168,7 @@ const Tally = args => {
     const {
         candidateNames, secretBallot, ballots, preferences, strongestPathMatrix, places, whoVoted
     } = tally
-    return <div className={'Tally'}>
+    return <div className={'Tally flex-column'}>
         <h1>Tally</h1>
         <ErrorComponent errors={errors}/>
         <h2>Rankings</h2>

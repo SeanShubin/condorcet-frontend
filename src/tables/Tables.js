@@ -1,4 +1,3 @@
-import './Tables.css'
 import ErrorComponent from "../error/ErrorComponent";
 import {createTablesPagePath} from "./tablesConstant";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
@@ -38,7 +37,7 @@ const TableContent = ({headers, rows}) => {
 }
 
 const Tables = ({selectedTableName, tableNames, tableData, errors}) => {
-    return <div className={'Tables'}>
+    return <div className={'Tables columns-1-outer-left'}>
         <h1>Tables</h1>
         <ErrorComponent errors={errors}/>
         <TableSelectors tableNames={tableNames} selectedTableName={selectedTableName}/>

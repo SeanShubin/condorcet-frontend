@@ -1,5 +1,4 @@
 import React from 'react';
-import './Login.css'
 import ErrorComponent from "../error/ErrorComponent";
 import {registerPagePath} from "../register/registerConstant";
 import {stylePagePath} from "../style/styleConstant";
@@ -21,7 +20,7 @@ const Login = (
         event.preventDefault()
         loginRequest({nameOrEmail, password})
     }
-    return <form className={'Login'} onSubmit={onSubmit}>
+    return <form className={'Login columns-1-outer'} onSubmit={onSubmit}>
         <h1>Login</h1>
         <ErrorComponent errors={errors}/>
         <input value={nameOrEmail}

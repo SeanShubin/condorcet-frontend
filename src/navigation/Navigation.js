@@ -5,7 +5,10 @@ const PageNotFound = ({page}) => <h1>{`Page '${page}' not found`}</h1>
 
 const LoggedInAs = ({userName, role}) => {
     if (userName === null) return null
-    else return <p className={'subtle-text'}>Logged in as user {userName} and role {role}</p>
+    else return <>
+        <hr/>
+        <p className={'subtle-text'}>Logged in as user {userName} and role {role}</p>
+    </>
 }
 
 const Navigation = (
@@ -49,7 +52,9 @@ const Navigation = (
     return <div className={'Navigation'}>
         <ErrorComponent errors={errors}/>
         <Component/>
-        <LoggedInAs userName={userName} role={role}/>
+        <div className={'columns-1-outer'}>
+            <LoggedInAs userName={userName} role={role}/>
+        </div>
     </div>
 }
 

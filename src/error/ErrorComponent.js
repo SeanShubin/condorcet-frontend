@@ -1,4 +1,3 @@
-import './ErrorComponent.css'
 import * as R from 'ramda'
 
 const ErrorComponent = ({errors}) => {

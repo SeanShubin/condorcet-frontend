@@ -1,4 +1,3 @@
-import './DebugTables.css'
 import ErrorComponent from "../error/ErrorComponent";
 import {createDebugTablesPagePath} from "./debugTablesConstant";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
@@ -38,7 +37,7 @@ const TableContent = ({headers, rows}) => {
 }
 
 const DebugTables = ({selectedTableName, tableNames, tableData, errors}) => {
-    return <div className={'DebugTables'}>
+    return <div className={'DebugTables columns-1-outer-left'}>
         <h1>Debug Tables</h1>
         <ErrorComponent errors={errors}/>
         <TableSelectors tableNames={tableNames} selectedTableName={selectedTableName}/>

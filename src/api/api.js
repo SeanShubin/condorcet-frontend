@@ -51,7 +51,7 @@ const createApi = environment => {
     }
 
     const logout = async () => {
-        return invokeApi('Logout')
+        return invokeApiNoAuth('Logout')
     }
 
     const listUsers = async () => {

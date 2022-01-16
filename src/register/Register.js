@@ -1,4 +1,3 @@
-import './Register.css'
 import React from 'react';
 import ErrorComponent from "../error/ErrorComponent";
 import {loginPagePath} from "../login/loginConstant";
@@ -34,7 +33,7 @@ const Register = (
             passwordDoesNotMatchConfirmationPassword({password, confirmationPassword})
         }
     }
-    return <form className={'Register'} onSubmit={onSubmit}>
+    return <form className={'Register columns-1-outer'} onSubmit={onSubmit}>
         <h1>Register</h1>
         <ErrorComponent errors={errors}/>
         <input value={userName}

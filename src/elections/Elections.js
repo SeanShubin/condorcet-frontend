@@ -1,4 +1,3 @@
-import './Elections.css'
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 import React from "react";
@@ -10,7 +9,7 @@ const ElectionList = ({elections}) => {
         return <li key={election.electionName}><a href={createElectionPagePath(election.electionName)}>{election.electionName}</a></li>
     }
     const electionListElements = R.map(createElectionListElement, elections)
-    return <ul className={'elements'}>
+    return <ul className={'columns-1-inner'}>
         {electionListElements}
     </ul>
 }
@@ -32,7 +31,7 @@ const AddElection = ({electionName, electionNameChanged, addElectionRequest}) =>
 }
 
 const Elections = ({elections, electionName, errors, electionNameChanged, addElectionRequest}) => {
-    return <div className={'Elections'}>
+    return <div className={'Elections columns-1-outer'}>
         <h1>Elections</h1>
         <ErrorComponent errors={errors}/>
         <AddElection electionName={electionName} electionNameChanged={electionNameChanged}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>big table</title>
+    <style>
+        .columns-1 {
+            display: grid;
+            justify-content: left;
+            grid-gap: 0.2rem;
+            grid-template-columns: 1fr;
+            margin:1em;
+        }
+        .columns-2 {
+            display: grid;
+            justify-content: center;
+            grid-gap: 0.2rem;
+            grid-template-columns: auto auto;
+            margin:1em;
+        }
+        td {
+            border: 1px solid black;
+            padding: 0.2rem;
+        }
+        table {
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body onload="updateTable()">
+<div class="columns-2">
+    <span>Rows</span>
+    <input id="rowCount" value="2" oninput="rowCountOnInput(this)"/>
+    <span>Columns</span>
+    <input id="columnCount" value="2" oninput="columnCountOnInput(this)"/>
+    <span>Cells</span>
+    <input id="cellContent" value="cell" oninput="cellContentOnInput(this)"/>
+</div>
+<div class="columns-1">
+    <table>
+        <tbody id="theTableBody">
+        </tbody>
+    </table>
+</div>
+<script type="application/javascript">
+    let rowCount = 2
+    let columnCount = 2
+    let cellText = 'cell'
+    const addCell = element => {
+        const theCell = document.createElement('td')
+        theCell.innerText = cellText
+        element.appendChild(theCell)
+    }
+
+    const addRow = element => {
+        const theRow = document.createElement('tr')
+        for(let i=0;i<columnCount;i++){
+            addCell(theRow)
+        }
+        element.appendChild(theRow)
+    }
+
+    const updateTable = () => {
+        const tableBodyElement = document.getElementById('theTableBody')
+        while(tableBodyElement.firstChild){
+            tableBodyElement.removeChild(tableBodyElement.firstChild)
+        }
+        for (let i=0 ; i<rowCount; i++) {
+            addRow(tableBodyElement)
+        }
+    }
+
+    const rowCountOnInput = element => {
+        const x = parseInt(element.value)
+        if(Number.isInteger(x)){
+            rowCount = x
+        } else {
+            rowCount = 1
+        }
+        updateTable()
+    }
+    const columnCountOnInput = element => {
+        const x = parseInt(element.value)
+        if(Number.isInteger(x)){
+            columnCount = x
+        } else {
+            columnCount = 1
+        }
+        updateTable()
+    }
+    const cellContentOnInput = element => {
+        cellText = element.value
+        updateTable()
+    }
+
+    updateTable()
+</script>
+</body>
+</html>

@@ -1,4 +1,3 @@
-import './Voters.css'
 import React from 'react';
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
@@ -25,7 +24,7 @@ const matchesFilter = filter => target => {
 }
 
 const eligibleClass = eligible => {
-    if(eligible){
+    if (eligible) {
         return 'selected'
     } else {
         return 'not-selected'
@@ -43,9 +42,9 @@ const Voter = ({name, eligible, onClick, canEditVoters}) => {
 }
 
 const VoterList = ({voters, setVoterEligibility, filter, canEditVoters}) => {
-    const createVoterElement = voter =>{
+    const createVoterElement = voter => {
         const onClick = () => {
-            setVoterEligibility({voterName:voter.voterName, eligible:!voter.eligible})
+            setVoterEligibility({voterName: voter.voterName, eligible: !voter.eligible})
         }
         return <Voter key={voter.voterName}
                       name={voter.voterName}
@@ -80,14 +79,14 @@ const Voters = (
     const applyChanges = () => {
         const eligibleVoters = R.filter(R.prop('eligible'), votersWithEdits)
         const eligibleVoterNames = R.map(R.prop('voterName'), eligibleVoters)
-        setVotersRequest({electionName:election.electionName, userNames:eligibleVoterNames})
+        setVotersRequest({electionName: election.electionName, userNames: eligibleVoterNames})
     }
     const discardChanges = () => {
         fetchVotersRequest(election.electionName)
     }
     const setVoterEligibility = updatedVoter => {
         const updateVoter = originalVoter => {
-            if(updatedVoter.voterName === originalVoter.voterName){
+            if (updatedVoter.voterName === originalVoter.voterName) {
                 return updatedVoter
             } else {
                 return originalVoter
@@ -99,33 +98,33 @@ const Voters = (
     const onChangeFilter = event => {
         filterChanged(event.target.value)
     }
-    return <div className={'Voters center-page'}>
-        <div className={'single-column'}>
-            <h1>Voters</h1>
-            <ErrorComponent errors={errors}/>
-            <table>
-                <tbody>
-                <tr>
-                    <td>election</td><td>{election.electionName}</td>
-                </tr>
-                <tr>
-                    <td>owner</td><td>{election.ownerName}</td>
-                </tr>
-                </tbody>
-            </table>
-            <span>Filter (has these characters in this order)</span>
-            <input onChange={onChangeFilter}/>
-            <VoterList
-                voters={votersWithEdits}
-                setVoterEligibility={setVoterEligibility}
-                filter={filter}
-                canEditVoters={canEditVoters}/>
-            <button type={"submit"} onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
-            <button type={"submit"} onClick={discardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
-            <hr/>
-            <a href={createElectionPagePath(election.electionName)}>election {election.electionName}</a>
-            <a href={dashboardPagePath}>dashboard</a>
-        </div>
+    return <div className={'Voters columns-1-outer'}>
+        <h1>Voters</h1>
+        <ErrorComponent errors={errors}/>
+        <table>
+            <tbody>
+            <tr>
+                <td>election</td>
+                <td>{election.electionName}</td>
+            </tr>
+            <tr>
+                <td>owner</td>
+                <td>{election.ownerName}</td>
+            </tr>
+            </tbody>
+        </table>
+        <span>Filter (has these characters in this order)</span>
+        <input onChange={onChangeFilter}/>
+        <VoterList
+            voters={votersWithEdits}
+            setVoterEligibility={setVoterEligibility}
+            filter={filter}
+            canEditVoters={canEditVoters}/>
+        <button type={"submit"} onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
+        <button type={"submit"} onClick={discardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
+        <hr/>
+        <a href={createElectionPagePath(election.electionName)}>election {election.electionName}</a>
+        <a href={dashboardPagePath}>dashboard</a>
     </div>
 }
 

@@ -1,5 +1,4 @@
 import React, {Fragment} from "react";
-import './Ballot.css'
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 import {createElectionPagePath} from "../election/electionConstant";
@@ -128,7 +127,7 @@ const Ballot = ({
         fetchBallotRequest({voterName, electionName})
     }
 
-    return <div className={'Ballot'}>
+    return <div className={'Ballot columns-1-outer'}>
         <h1>Ballot</h1>
         <ErrorComponent errors={errors}/>
         <BallotSummary ballot={ballot}/>

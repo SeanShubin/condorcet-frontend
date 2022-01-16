@@ -1,4 +1,3 @@
-import './Candidates.css'
 import React from 'react';
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
@@ -30,7 +29,7 @@ const Candidates = (
     const discardChanges = () => {
         fetchCandidatesRequest(electionName)
     }
-    return <div className={'Candidates'}>
+    return <div className={'Candidates columns-1-outer'}>
         <h1>Candidates for {electionName}</h1>
         <ErrorComponent errors={errors}/>
         <textarea
