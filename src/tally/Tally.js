@@ -168,7 +168,7 @@ const Tally = args => {
     const {
         candidateNames, secretBallot, ballots, preferences, strongestPathMatrix, places, whoVoted
     } = tally
-    return <div className={'Tally flex-column'}>
+    return <div className={'Tally flex-column-outer'}>
         <h1>Tally</h1>
         <ErrorComponent errors={errors}/>
         <h2>Rankings</h2>

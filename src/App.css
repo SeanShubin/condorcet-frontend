@@ -226,6 +226,18 @@
     justify-content: center;
     grid-gap: 0.5rem;
 }
+.App .flex-column-outer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.App .flex-row-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+}
 
 .App .columns-1-outer {
     display: grid;
@@ -234,18 +246,15 @@
     grid-template-columns: auto;
 }
 
+.App .columns-1-outer * {
+    justify-self: start;
+}
+
 .App .columns-1-outer-left {
     display: grid;
     justify-content: left;
     grid-gap: 0.5rem;
     grid-template-columns: auto;
-}
-
-.App .flex-column {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
 }
 
 .App .columns-1-inner {
@@ -267,12 +276,6 @@
     justify-content: left;
     grid-gap: 0.2rem;
     grid-template-columns: auto auto auto;
-}
-
-.App .flex {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.2rem;
 }
 
 .App .col-span-1-2 {

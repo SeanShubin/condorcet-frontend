@@ -30,7 +30,7 @@ const NoYes = ({caption, value, changeValue, canUpdate}) => {
     const disabled = !canUpdate
     return <>
         <span>{caption}</span>
-        <div className={'flex'}>
+        <div className={'flex-row-inner'}>
             <button onClick={onClickNo} className={noClass} disabled={disabled}>No</button>
             <button onClick={onClickYes} className={yesClass} disabled={disabled}>Yes</button>
         </div>

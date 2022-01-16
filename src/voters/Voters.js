@@ -55,7 +55,7 @@ const VoterList = ({voters, setVoterEligibility, filter, canEditVoters}) => {
     const nameMatchesFilter = voter => matchesFilter(filter)(voter.voterName)
     const filteredVoters = R.filter(nameMatchesFilter, voters)
     const voterElements = R.map(createVoterElement, filteredVoters)
-    return <ul className={'flex'}>
+    return <ul className={'flex-row-inner'}>
         {voterElements}
     </ul>
 }
