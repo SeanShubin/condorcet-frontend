@@ -1,0 +1,7 @@
+const styleEvent = {
+    INITIALIZE: 'REGISTER/INITIALIZE',
+    ERROR_ADDED: 'REGISTER/ERROR_ADDED',
+    CLEAR_ERRORS: 'REGISTER/CLEAR_ERRORS'
+}
+
+export default styleEvent

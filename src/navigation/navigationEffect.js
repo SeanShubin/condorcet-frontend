@@ -14,6 +14,9 @@ import ballotDispatch from "../ballot/ballotDispatch";
 import tallyDispatch from "../tally/tallyDispatch";
 import votersDispatch from "../voters/votersDispatch";
 import * as R from 'ramda'
+import loginDispatch from "../login/loginDispatch";
+import registerDispatch from "../register/registerDispatch";
+import styleDispatch from "../style/styleDispatch";
 
 const redirect = environment => function* (event) {
     const uri = event.uri
@@ -33,15 +36,17 @@ const fetchPage = environment => function* () {
     const uri = environment.history.location.pathname
     const pageName = uri.substring(1)
     let loginInformation = null
-    if(pageName !== 'login' && pageName !== 'register'){
+    if(pageName !== 'login' && pageName !== 'register' && pageName !== 'style'){
         loginInformation = yield environment.fetchLoginInformation()
     }
     const queryString = environment.history.location.search
     const query = R.fromPairs(Array.from(new URLSearchParams(queryString).entries()))
     if (pageName === 'login') {
         yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
+        yield put(loginDispatch.initialize(query))
     } else if (pageName === 'register') {
         yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
+        yield put(registerDispatch.initialize(query))
     } else if (pageName === 'dashboard') {
         yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
         yield put(dashboardDispatch.initialize(query))
@@ -68,6 +73,7 @@ const fetchPage = environment => function* () {
         yield put(candidatesDispatch.initialize(query))
     } else if (pageName === 'style') {
         yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
+        yield put(styleDispatch.initialize(query))
     } else if (pageName === 'ballot') {
         yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
         yield put(ballotDispatch.initialize(query))

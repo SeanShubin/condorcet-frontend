@@ -13,10 +13,12 @@ const Style = () => {
                 <legend>Input</legend>
                 <input value={'input value'}
                        autoFocus={true}
-                       placeholder={'input placeholder'}/>
+                       placeholder={'input placeholder'}
+                       onChange={() => {}}/>
                 <input value={''}
                        autoFocus={true}
-                       placeholder={'input placeholder'}/>
+                       placeholder={'input placeholder'}
+                       onChange={() => {}}/>
             </fieldset>
             <fieldset>
                 <legend>Action</legend>
@@ -66,7 +68,7 @@ const Style = () => {
                     <tbody>
                     <tr>
                         <td>
-                            <select value={'ddd'}>
+                            <select value={'ddd'} onChange={() => {}}>
                                 <option>ccc</option>
                                 <option>ddd</option>
                                 <option>eee</option>
@@ -75,7 +77,7 @@ const Style = () => {
                     </tr>
                     <tr>
                         <td>
-                            <select value={'ggg'}>
+                            <select value={'ggg'} onChange={() => {}}>
                                 <option>fff</option>
                                 <option>ggg</option>
                                 <option>hhh</option>

@@ -14,6 +14,10 @@ const handleError = environment => function* (f){
     }
 }
 
+const initialize = environment => function* (event) {
+    yield
+}
+
 const loginRequest = environment => function* (event) {
     const api = createApi(environment)
     yield* handleError(environment)(function*() {
@@ -24,6 +28,7 @@ const loginRequest = environment => function* (event) {
 }
 
 const loginEffect = {
+    [loginEvent.INITIALIZE]: initialize,
     [loginEvent.LOGIN_REQUEST]: loginRequest
 }
 

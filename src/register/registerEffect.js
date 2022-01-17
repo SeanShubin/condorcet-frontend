@@ -3,26 +3,7 @@ import registerEvent from './registerEvent'
 import {put} from 'redux-saga/effects'
 import navigationDispatch from "../navigation/navigationDispatch";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
-
-const invokeApi = async (name, parameters) => {
-    const result = await fetch(
-        `/proxy/${name}`,
-        {
-            method: 'POST',
-            body: JSON.stringify(parameters)
-        }
-    )
-    if(result.ok){
-        await result.json()
-    } else {
-        const resultJson = await result.json()
-        throw Error(resultJson.userSafeMessage)
-    }
-}
-
-const register = async ({userName, email, password}) => {
-    return invokeApi('Register',{userName, email, password})
-}
+import {createApi} from "../api/api";
 
 const handleError = environment => function* (f){
     yield put(registerDispatch.clearErrors())
@@ -33,15 +14,21 @@ const handleError = environment => function* (f){
     }
 }
 
+const initialize = environment => function* (event) {
+    yield
+}
+
 const registerRequest = environment => function* (event) {
+    const api = createApi(environment)
     yield* handleError(environment)(function*() {
         const {userName, email, password} = event
-        yield register({userName, email, password})
+        yield api.register({userName, email, password})
         yield put(navigationDispatch.redirect(dashboardPagePath))
     })
 }
 
 const registerEffect = {
+    [registerEvent.INITIALIZE]: initialize,
     [registerEvent.REGISTER_REQUEST]: registerRequest
 }
 
