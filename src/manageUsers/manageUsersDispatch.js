@@ -1,6 +1,7 @@
 import manageUsersEvent from "./manageUsersEvent";
 
 const manageUsersDispatch = {
+    initialize: query => ({type: manageUsersEvent.INITIALIZE, query}),
     fetchUsersRequest: () => ({type: manageUsersEvent.FETCH_USERS_REQUEST}),
     usersChanged: users => ({type: manageUsersEvent.USERS_CHANGED, users}),
     updateUserRoleRequest: ({userName, role}) => ({type: manageUsersEvent.UPDATE_USER_ROLE_REQUEST, userName, role}),
