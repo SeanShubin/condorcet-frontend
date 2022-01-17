@@ -1,9 +1,7 @@
 import {lensPathWithDefault} from '../library/lens-util';
 
 const navigationModel = {
-    userName: lensPathWithDefault(['navigation', 'userName'], null),
-    role: lensPathWithDefault(['navigation', 'role'], null),
-    permissions: lensPathWithDefault(['navigation', 'permissions'], []),
+    loginInformation: lensPathWithDefault(['navigation', 'loginInformation'], null),
     pageName: lensPathWithDefault(['navigation', 'pageName'], ''),
     errors: lensPathWithDefault(['navigation', 'errors'], [])
 }

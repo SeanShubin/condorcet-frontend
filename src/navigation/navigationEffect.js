@@ -42,13 +42,15 @@ const setUri = environment => function* (event) {
 }
 
 const fetchPage = environment => function* () {
-    const userName = yield environment.getUserName()
-    const role = yield environment.getRole()
-    const permissions = yield environment.getPermissions()
     const uri = environment.history.location.pathname
+    const pageName = uri.substring(1)
+    let loginInformation = null
+    if(pageName !== 'login' && pageName !== 'register'){
+        loginInformation = yield environment.fetchLoginInformation()
+    }
     const queryString = environment.history.location.search
     const success = pageName => {
-        return navigationDispatch.fetchPageSuccess({pageName, userName, role, permissions})
+        return navigationDispatch.fetchPageSuccess({pageName, loginInformation})
     }
     if (loginUriPattern.test(uri)) {
         yield put(success(loginPageName))
