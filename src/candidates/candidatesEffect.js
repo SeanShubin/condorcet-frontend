@@ -2,8 +2,6 @@ import candidatesDispatch from './candidatesDispatch'
 import candidatesEvent from './candidatesEvent'
 import {put} from 'redux-saga/effects'
 import {createApi} from "../api/api";
-import navigationDispatch from "../navigation/navigationDispatch";
-import {parseFromCandidatesUri} from "./candidatesConstant";
 
 const handleError = environment => function* (f) {
     yield put(candidatesDispatch.clearErrors())

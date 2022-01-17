@@ -1,226 +1,27 @@
 import navigationDispatch from './navigationDispatch'
 import navigationEvent from './navigationEvent'
 import {put} from 'redux-saga/effects'
-import {loginPageName, loginPagePath, loginUriPattern} from "../login/loginConstant";
-import {registerPageName, registerUriPattern} from "../register/registerConstant";
-import {manageUsersPageName, manageUsersUriPattern} from "../manageUsers/manageUsersConstant";
-import {dashboardPageName, dashboardUriPattern} from "../dashboard/dashboardConstant";
-import dashboardDispatch from "../dashboard/dashboardDispatch";
-import manageUsersDispatch from "../manageUsers/manageUsersDispatch";
-import {parseTableFromUri, tablesPageName, tablesUriPattern} from "../tables/tablesConstant";
-import {debugTablesPageName, debugTablesUriPattern, parseDebugTableFromUri} from "../debugTables/debugTablesConstant";
-import tablesDispatch from "../tables/tablesDispatch";
-import debugTablesDispatch from "../debugTables/debugTablesDispatch";
-import {eventsPageName, eventsUriPattern} from "../events/eventsConstant";
-import eventsDispatch from "../events/eventsDispatch";
-import {electionsPageName, electionsUriPattern} from "../elections/electionsConstant";
-import electionsDispatch from "../elections/electionsDispatch";
-import {electionPageName, electionUriPattern, parseFromElectionUri} from "../election/electionConstant";
-import {candidatesPageName, candidatesUriPattern, parseFromCandidatesUri} from "../candidates/candidatesConstant";
-import electionDispatch from "../election/electionDispatch";
-import {stylePageName, styleUriPattern} from "../style/styleConstant";
-import candidatesDispatch from "../candidates/candidatesDispatch";
-import {ballotPageName, ballotUriPattern, parseFromBallotUri} from "../ballot/ballotConstant";
-import ballotDispatch from "../ballot/ballotDispatch";
-import {tallyPageName, tallyUriPattern, parseFromTallyUri} from "../tally/tallyConstant";
-import tallyDispatch from "../tally/tallyDispatch";
-import {parseFromVotersUri, votersPageName, votersUriPattern} from "../voters/votersConstant";
-import votersDispatch from "../voters/votersDispatch";
+import {loginPagePath} from "../login/loginConstant";
 import * as R from 'ramda'
-
-const redirect = environment => function* (event) {
-    const uri = event.uri
-    environment.history.push(uri)
-    environment.history.go(0)
-    yield
-}
 
 const setUri = environment => function* (event) {
     const uri = event.uri
-    const encodedUri = encodeURI(uri)
-    environment.history.push(encodedUri)
+    environment.history.push(uri)
     environment.history.go()
+    yield
 }
 
 const fetchPage = environment => function* (event) {
+    if(!event.navigableComponents) return
     const uri = environment.history.location.pathname
-    const queryString = environment.history.location.search
     const nameMatchesUri = component => {
         return uri === `/${component.name}`
     }
     const component = R.find(nameMatchesUri)(R.values(event.navigableComponents))
-    const query = R.fromPairs(Array.from(new URLSearchParams(queryString).entries()))
-
-    if (loginUriPattern.test(uri)) {
-        let loginInformation
-        if(component.requiresLogin){
-            loginInformation = yield environment.getLoginInformation()
-        } else {
-            loginInformation = null
-        }
-        yield put(navigationDispatch.fetchPageSuccess({
-            pageName:component.name,
-            loginInformation}))
-        if(component.dispatch.initialize){
-            yield put(component.dispatch.initialize(query))
-        }
-    } else if (registerUriPattern.test(uri)) {
-        let loginInformation
-        if(component.requiresLogin){
-            loginInformation = yield environment.getLoginInformation()
-        } else {
-            loginInformation = null
-        }
-        yield put(navigationDispatch.fetchPageSuccess({
-            pageName:component.name,
-            loginInformation}))
-        if(component.dispatch.initialize){
-            yield put(component.dispatch.initialize(query))
-        }
-    } else if (dashboardUriPattern.test(uri)) {
-        let loginInformation
-        if(component.requiresLogin){
-            loginInformation = yield environment.getLoginInformation()
-        } else {
-            loginInformation = null
-        }
-        yield put(navigationDispatch.fetchPageSuccess({
-            pageName:component.name,
-            loginInformation}))
-        if(component.dispatch.initialize){
-            yield put(component.dispatch.initialize(query))
-        }
-    } else if (manageUsersUriPattern.test(uri)) {
-        let loginInformation
-        if(component.requiresLogin){
-            loginInformation = yield environment.getLoginInformation()
-        } else {
-            loginInformation = null
-        }
-        yield put(navigationDispatch.fetchPageSuccess({
-            pageName:component.name,
-            loginInformation}))
-        if(component.dispatch.initialize){
-            yield put(component.dispatch.initialize(query))
-        }
-    } else if (tablesUriPattern.test(uri)) {
-        let loginInformation
-        if(component.requiresLogin){
-            loginInformation = yield environment.getLoginInformation()
-        } else {
-            loginInformation = null
-        }
-        yield put(navigationDispatch.fetchPageSuccess({
-            pageName:component.name,
-            loginInformation}))
-        if(component.dispatch.initialize){
-            yield put(component.dispatch.initialize(query))
-        }
-    } else if (debugTablesUriPattern.test(uri)) {
-        let loginInformation
-        if(component.requiresLogin){
-            loginInformation = yield environment.getLoginInformation()
-        } else {
-            loginInformation = null
-        }
-        yield put(navigationDispatch.fetchPageSuccess({
-            pageName:component.name,
-            loginInformation}))
-        if(component.dispatch.initialize){
-            yield put(component.dispatch.initialize(query))
-        }
-    } else if (eventsUriPattern.test(uri)) {
-        let loginInformation
-        if(component.requiresLogin){
-            loginInformation = yield environment.getLoginInformation()
-        } else {
-            loginInformation = null
-        }
-        yield put(navigationDispatch.fetchPageSuccess({
-            pageName:component.name,
-            loginInformation}))
-        if(component.dispatch.initialize){
-            yield put(component.dispatch.initialize(query))
-        }
-    } else if (electionsUriPattern.test(uri)) {
-        let loginInformation
-        if(component.requiresLogin){
-            loginInformation = yield environment.getLoginInformation()
-        } else {
-            loginInformation = null
-        }
-        yield put(navigationDispatch.fetchPageSuccess({
-            pageName:component.name,
-            loginInformation}))
-        if(component.dispatch.initialize){
-            yield put(component.dispatch.initialize(query))
-        }
-    } else if (electionUriPattern.test(uri)) {
-        let loginInformation
-        if(component.requiresLogin){
-            loginInformation = yield environment.getLoginInformation()
-        } else {
-            loginInformation = null
-        }
-        yield put(navigationDispatch.fetchPageSuccess({
-            pageName:component.name,
-            loginInformation}))
-        if(component.dispatch.initialize){
-            yield put(component.dispatch.initialize(query))
-        }
-    } else if (candidatesUriPattern.test(uri)) {
-        let loginInformation
-        if(component.requiresLogin){
-            loginInformation = yield environment.getLoginInformation()
-        } else {
-            loginInformation = null
-        }
-        yield put(navigationDispatch.fetchPageSuccess({
-            pageName:component.name,
-            loginInformation}))
-        if(component.dispatch.initialize){
-            yield put(component.dispatch.initialize(query))
-        }
-    } else if (styleUriPattern.test(uri)) {
-        let loginInformation
-        if(component.requiresLogin){
-            loginInformation = yield environment.getLoginInformation()
-        } else {
-            loginInformation = null
-        }
-        yield put(navigationDispatch.fetchPageSuccess({
-            pageName:component.name,
-            loginInformation}))
-        if(component.dispatch.initialize){
-            yield put(component.dispatch.initialize(query))
-        }
-    } else if (ballotUriPattern.test(uri)) {
-        let loginInformation
-        if(component.requiresLogin){
-            loginInformation = yield environment.getLoginInformation()
-        } else {
-            loginInformation = null
-        }
-        yield put(navigationDispatch.fetchPageSuccess({
-            pageName:component.name,
-            loginInformation}))
-        if(component.dispatch.initialize){
-            yield put(component.dispatch.initialize(query))
-        }
-    } else if (tallyUriPattern.test(uri)) {
-        let loginInformation
-        if(component.requiresLogin){
-            loginInformation = yield environment.getLoginInformation()
-        } else {
-            loginInformation = null
-        }
-        yield put(navigationDispatch.fetchPageSuccess({
-            pageName:component.name,
-            loginInformation}))
-        if(component.dispatch.initialize){
-            yield put(component.dispatch.initialize(query))
-        }
-    } else if(votersUriPattern.test(uri)){
+    if(uri === loginPagePath && !component) return
+    if(component){
+        const queryString = environment.history.location.search
+        const query = R.fromPairs(Array.from(new URLSearchParams(queryString).entries()))
         let loginInformation
         if(component.requiresLogin){
             loginInformation = yield environment.getLoginInformation()
@@ -234,9 +35,10 @@ const fetchPage = environment => function* (event) {
             yield put(component.dispatch.initialize(query))
         }
     } else {
-        yield put(navigationDispatch.redirect(loginPagePath))
+        yield put(navigationDispatch.setUri(loginPagePath))
     }
 }
+
 
 const history = environment => function* () {
     yield put(navigationDispatch.fetchPageRequest())
@@ -245,7 +47,6 @@ const history = environment => function* () {
 const navigationEffect = {
     [navigationEvent.FETCH_PAGE_REQUEST]: fetchPage,
     [navigationEvent.HISTORY]: history,
-    [navigationEvent.REDIRECT]: redirect,
     [navigationEvent.SET_URI]: setUri
 }
 

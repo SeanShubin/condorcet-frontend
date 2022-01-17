@@ -37,7 +37,7 @@ const registerRequest = environment => function* (event) {
     yield* handleError(environment)(function*() {
         const {userName, email, password} = event
         yield register({userName, email, password})
-        yield put(navigationDispatch.redirect(dashboardPagePath))
+        yield put(navigationDispatch.setUri(dashboardPagePath))
     })
 }
 

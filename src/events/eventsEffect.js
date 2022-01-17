@@ -2,7 +2,6 @@ import eventsDispatch from './eventsDispatch'
 import eventsEvent from './eventsEvent'
 import {put} from 'redux-saga/effects'
 import {createApi} from "../api/api";
-import navigationDispatch from "../navigation/navigationDispatch";
 
 const handleError = environment => function* (f) {
     yield put(eventsDispatch.clearErrors())

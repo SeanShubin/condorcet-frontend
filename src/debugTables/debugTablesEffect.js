@@ -2,8 +2,6 @@ import debugTablesDispatch from './debugTablesDispatch'
 import debugTablesEvent from './debugTablesEvent'
 import {put} from 'redux-saga/effects'
 import {createApi} from "../api/api";
-import {parseDebugTableFromUri} from "./debugTablesConstant";
-import navigationDispatch from "../navigation/navigationDispatch";
 
 const handleError = environment => function* (f){
     yield put(debugTablesDispatch.clearErrors())

@@ -2,8 +2,6 @@ import votersDispatch from './votersDispatch'
 import votersEvent from './votersEvent'
 import {put} from 'redux-saga/effects'
 import {createApi} from "../api/api";
-import navigationDispatch from "../navigation/navigationDispatch";
-import {parseFromVotersUri} from "./votersConstant";
 
 const handleError = environment => function* (f) {
     yield put(votersDispatch.clearErrors())

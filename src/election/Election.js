@@ -4,8 +4,8 @@ import * as R from 'ramda'
 import {delta} from "../library/collection-util";
 import {pluralize} from "../library/text-util";
 import {userDateToLocal, userDateToUtc, userDateToWellFormed, dateFormat} from "../library/date-time-util";
-import {electionsPageName} from "../elections/electionsConstant";
-import {dashboardPageName} from "../dashboard/dashboardConstant";
+import {electionsPagePath} from "../elections/electionsConstant";
+import {dashboardPagePath} from "../dashboard/dashboardConstant";
 import {createCandidatesPagePath} from "../candidates/candidatesConstant";
 import {createBallotPagePath} from "../ballot/ballotConstant";
 import {createTallyPagePath} from "../tally/tallyConstant";
@@ -246,8 +246,8 @@ const Election = (
         <button type={"submit"} onClick={finalizeTallyClicked} disabled={!canFinalize}>Finalize Tally</button>
         <button type={"submit"} onClick={deleteElectionClicked} disabled={!canDelete}>Delete Election</button>
         <hr/>
-        <a href={electionsPageName}>elections</a>
-        <a href={dashboardPageName}>dashboard</a>
+        <a href={electionsPagePath}>elections</a>
+        <a href={dashboardPagePath}>dashboard</a>
     </div>
 }
 

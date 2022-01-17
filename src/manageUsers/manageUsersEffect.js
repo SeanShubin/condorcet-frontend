@@ -2,7 +2,6 @@ import manageUsersDispatch from './manageUsersDispatch'
 import manageUsersEvent from './manageUsersEvent'
 import {put} from 'redux-saga/effects'
 import {createApi} from "../api/api";
-import environment from "../environment/environment";
 
 const handleError = environment => function* (f) {
     yield put(manageUsersDispatch.clearErrors())

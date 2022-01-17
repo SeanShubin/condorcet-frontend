@@ -2,8 +2,6 @@ import tallyDispatch from './tallyDispatch'
 import tallyEvent from './tallyEvent'
 import {put} from 'redux-saga/effects'
 import {createApi} from "../api/api";
-import navigationDispatch from "../navigation/navigationDispatch";
-import {parseFromTallyUri} from "./tallyConstant";
 
 const handleError = environment => function* (f) {
     yield put(tallyDispatch.clearErrors())

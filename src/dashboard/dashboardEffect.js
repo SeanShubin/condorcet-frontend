@@ -4,7 +4,6 @@ import {put} from 'redux-saga/effects'
 import navigationDispatch from "../navigation/navigationDispatch";
 import {loginPagePath} from "../login/loginConstant";
 import {createApi} from "../api/api";
-import environment from "../environment/environment";
 
 const handleError = environment => function* (f) {
     yield put(dashboardDispatch.clearErrors())
@@ -24,7 +23,7 @@ const logoutRequest = environment => function* (event) {
     yield* handleError(environment)(function* () {
         environment.clearAccessToken()
         yield api.logout()
-        yield put(navigationDispatch.redirect(loginPagePath))
+        yield put(navigationDispatch.setUri(loginPagePath))
     })
 }
 

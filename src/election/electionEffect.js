@@ -5,7 +5,6 @@ import navigationDispatch from "../navigation/navigationDispatch";
 import * as R from 'ramda'
 import {userDateToIso, isoDateToWellFormed} from "../library/date-time-util";
 import {createApi} from "../api/api";
-import {parseFromElectionUri} from "./electionConstant";
 
 const handleError = environment => function* (f) {
     yield put(electionDispatch.clearErrors())
