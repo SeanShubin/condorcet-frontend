@@ -2,6 +2,8 @@ import votersDispatch from './votersDispatch'
 import votersEvent from './votersEvent'
 import {put} from 'redux-saga/effects'
 import {createApi} from "../api/api";
+import navigationDispatch from "../navigation/navigationDispatch";
+import {parseFromVotersUri} from "./votersConstant";
 
 const handleError = environment => function* (f) {
     yield put(votersDispatch.clearErrors())
@@ -10,6 +12,12 @@ const handleError = environment => function* (f) {
     } catch (ex) {
         yield put(votersDispatch.errorAdded(ex.message))
     }
+}
+
+const initialize = environment => function* (event) {
+    const query = event.query
+    const electionName = query.election
+    yield put(votersDispatch.fetchVotersRequest(electionName))
 }
 
 const fetchVotersRequest = environment => function* (event) {
@@ -33,6 +41,7 @@ const setVotersRequest = environment => function* (event) {
 }
 
 const votersEffect = {
+    [votersEvent.INITIALIZE]:initialize,
     [votersEvent.FETCH_VOTERS_REQUEST]: fetchVotersRequest,
     [votersEvent.SET_VOTERS_REQUEST]: setVotersRequest,
 }

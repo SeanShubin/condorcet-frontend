@@ -221,12 +221,18 @@ const fetchPage = environment => function* (event) {
             yield put(component.dispatch.initialize(query))
         }
     } else if(votersUriPattern.test(uri)){
-        const loginInformation = yield environment.getLoginInformation()
+        let loginInformation
+        if(component.requiresLogin){
+            loginInformation = yield environment.getLoginInformation()
+        } else {
+            loginInformation = null
+        }
         yield put(navigationDispatch.fetchPageSuccess({
             pageName:component.name,
             loginInformation}))
-        const fetchVotersRequestArgs = parseFromVotersUri(queryString)
-        yield put(votersDispatch.fetchVotersRequest(fetchVotersRequestArgs))
+        if(component.dispatch.initialize){
+            yield put(component.dispatch.initialize(query))
+        }
     } else {
         yield put(navigationDispatch.redirect(loginPagePath))
     }
