@@ -60,7 +60,8 @@ const createConnected = ({
         reducer,
         saga,
         mapStateToProps,
-        model
+        model,
+        dispatch
     }
 }
 

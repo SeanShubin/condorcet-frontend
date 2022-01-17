@@ -12,6 +12,13 @@ const handleError = environment => function* (f) {
     }
 }
 
+const initialize = environment => function* (event) {
+    const {query} = event
+    const voterName = query.voter
+    const electionName = query.election
+    yield put(ballotDispatch.fetchBallotRequest({voterName, electionName}))
+}
+
 const fetchBallotRequest = environment => function* (event) {
     const api = createApi(environment)
     yield* handleError(environment)(function* () {
@@ -33,7 +40,8 @@ const castBallotRequest = environment => function* (event) {
 
 const ballotEffect = {
     [ballotEvent.FETCH_BALLOT_REQUEST]: fetchBallotRequest,
-    [ballotEvent.CAST_BALLOT_REQUEST]: castBallotRequest
+    [ballotEvent.CAST_BALLOT_REQUEST]: castBallotRequest,
+    [ballotEvent.INITIALIZE]: initialize
 }
 
 export default ballotEffect

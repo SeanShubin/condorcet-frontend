@@ -26,6 +26,7 @@ import {tallyPageName, tallyUriPattern, parseFromTallyUri} from "../tally/tallyC
 import tallyDispatch from "../tally/tallyDispatch";
 import {parseFromVotersUri, votersPageName, votersUriPattern} from "../voters/votersConstant";
 import votersDispatch from "../voters/votersDispatch";
+import * as R from 'ramda'
 
 const redirect = environment => function* (event) {
     const uri = event.uri
@@ -47,6 +48,12 @@ const fetchPage = environment => function* (event) {
     const permissions = yield environment.getPermissions()
     const uri = environment.history.location.pathname
     const queryString = environment.history.location.search
+    const nameMatchesUri = component => {
+        return uri === `/${component.name}`
+    }
+    const component = R.find(nameMatchesUri)(R.values(event.navigableComponents))
+    const query = R.fromPairs(Array.from(new URLSearchParams(queryString).entries()))
+
     const success = pageName => {
         return navigationDispatch.fetchPageSuccess({pageName, userName, role, permissions})
     }
@@ -87,9 +94,8 @@ const fetchPage = environment => function* (event) {
     } else if (styleUriPattern.test(uri)) {
         yield put(success(stylePageName))
     } else if (ballotUriPattern.test(uri)) {
-        yield put(success(ballotPageName))
-        const fetchBallotRequestArgs = parseFromBallotUri(queryString)
-        yield put(ballotDispatch.fetchBallotRequest(fetchBallotRequestArgs))
+        yield put(component.dispatch.initialize(query))
+        yield put(success(component.name))
     } else if (tallyUriPattern.test(uri)) {
         yield put(success(tallyPageName))
         const fetchTallyRequestArgs = parseFromTallyUri(queryString)
