@@ -21,7 +21,7 @@ const initialize = environment => function* (event) {
 const fetchVotersRequest = environment => function* (event) {
     const api = createApi(environment)
     yield* handleError(environment)(function* () {
-        const {userName} = yield environment.getLoginInformation()
+        const {userName} = yield environment.fetchLoginInformation()
         const {electionName} = event
         const election = yield api.getElection(electionName)
         const voters = yield api.listEligibility(electionName)

@@ -6,7 +6,7 @@ const createAuthentication = fetch => {
     const isLoggedIn = () => {
         return !!loginInformation
     }
-    const getLoginInformation = async () => {
+    const fetchLoginInformation = async () => {
         if(loginInformation) return loginInformation
         const refreshResponse = await fetch('/proxy/Refresh')
         if(refreshResponse.ok){
@@ -56,7 +56,7 @@ const createAuthentication = fetch => {
     }
     return {
         authenticatedFetch,
-        getLoginInformation,
+        fetchLoginInformation,
         clearAccessToken,
         isLoggedIn
     }

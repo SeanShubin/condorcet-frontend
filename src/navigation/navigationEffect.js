@@ -22,11 +22,9 @@ const fetchPage = environment => function* (event) {
     if(component){
         const queryString = environment.history.location.search
         const query = R.fromPairs(Array.from(new URLSearchParams(queryString).entries()))
-        let loginInformation
+        let loginInformation = null
         if(component.requiresLogin){
-            loginInformation = yield environment.getLoginInformation()
-        } else {
-            loginInformation = null
+            loginInformation = yield environment.fetchLoginInformation()
         }
         yield put(navigationDispatch.fetchPageSuccess({
             pageName:component.name,

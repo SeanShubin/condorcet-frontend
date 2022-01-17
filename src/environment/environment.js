@@ -16,13 +16,13 @@ const createEnvironment = (
     }
     const {
         authenticatedFetch,
-        getLoginInformation,
+        fetchLoginInformation,
         clearAccessToken,
         isLoggedIn
     } = createAuthentication(fetch)
     return {
         authenticatedFetch,
-        getLoginInformation,
+        fetchLoginInformation,
         clearAccessToken,
         history,
         fetch: fetch,
