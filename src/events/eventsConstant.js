@@ -1,4 +1,3 @@
-const eventsUriPattern = /^\/events($|\/)/
 const eventsPagePath = '/events'
 
-export {eventsUriPattern, eventsPagePath}
+export {eventsPagePath}

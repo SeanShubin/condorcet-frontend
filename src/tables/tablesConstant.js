@@ -1,4 +1,3 @@
-const tablesUriPattern = /^\/tables($|\/)/
 const defaultTable = 'user'
 
 const orDefaultTable = table => {
@@ -9,13 +8,8 @@ const orDefaultTable = table => {
     }
 }
 
-const parseTableFromUri = uri => {
-    const params = new URLSearchParams(uri)
-    return orDefaultTable(params.get('table'))
-}
-
 const createTablesPagePath = table => {
     return `/tables?table=${orDefaultTable(table)}`
 }
 
-export {tablesUriPattern, createTablesPagePath, parseTableFromUri}
+export {createTablesPagePath}

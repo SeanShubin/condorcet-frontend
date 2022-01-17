@@ -1,4 +1,3 @@
-const debugTablesUriPattern = /^\/debugTables($|\/)/
 const defaultTable = 'user'
 
 const orDefaultTable = table => {
@@ -9,13 +8,8 @@ const orDefaultTable = table => {
     }
 }
 
-const parseDebugTableFromUri = uri => {
-    const params = new URLSearchParams(uri)
-    return orDefaultTable(params.get('table'))
-}
-
 const createDebugTablesPagePath = table => {
     return `/debugTables?table=${orDefaultTable(table)}`
 }
 
-export {debugTablesUriPattern, createDebugTablesPagePath, parseDebugTableFromUri}
+export {createDebugTablesPagePath}
