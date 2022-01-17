@@ -66,7 +66,6 @@ const history = environment => function* () {
 const navigationEffect = {
     [navigationEvent.FETCH_PAGE_REQUEST]: fetchPage,
     [navigationEvent.HISTORY]: history,
-    [navigationEvent.REDIRECT]: redirect,
     [navigationEvent.SET_URI]: setUri
 }
 
