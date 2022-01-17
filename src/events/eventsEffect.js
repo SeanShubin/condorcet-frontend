@@ -2,6 +2,7 @@ import eventsDispatch from './eventsDispatch'
 import eventsEvent from './eventsEvent'
 import {put} from 'redux-saga/effects'
 import {createApi} from "../api/api";
+import navigationDispatch from "../navigation/navigationDispatch";
 
 const handleError = environment => function* (f) {
     yield put(eventsDispatch.clearErrors())
@@ -10,6 +11,10 @@ const handleError = environment => function* (f) {
     } catch (ex) {
         yield put(eventsDispatch.errorAdded(ex.message))
     }
+}
+
+const initialize = environment => function* (event) {
+    yield put(eventsDispatch.fetchTableRequest())
 }
 
 const fetchTableRequest = environment => function* (event) {
@@ -21,6 +26,7 @@ const fetchTableRequest = environment => function* (event) {
 }
 
 const eventsEffect = {
+    [eventsEvent.INITIALIZE]:initialize,
     [eventsEvent.FETCH_TABLE_REQUEST]: fetchTableRequest
 }
 

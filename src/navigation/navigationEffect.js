@@ -130,11 +130,18 @@ const fetchPage = environment => function* (event) {
             yield put(component.dispatch.initialize(query))
         }
     } else if (eventsUriPattern.test(uri)) {
-        const loginInformation = yield environment.getLoginInformation()
+        let loginInformation
+        if(component.requiresLogin){
+            loginInformation = yield environment.getLoginInformation()
+        } else {
+            loginInformation = null
+        }
         yield put(navigationDispatch.fetchPageSuccess({
             pageName:component.name,
             loginInformation}))
-        yield put(eventsDispatch.fetchTableRequest())
+        if(component.dispatch.initialize){
+            yield put(component.dispatch.initialize(query))
+        }
     } else if (electionsUriPattern.test(uri)) {
         const loginInformation = yield environment.getLoginInformation()
         yield put(navigationDispatch.fetchPageSuccess({
