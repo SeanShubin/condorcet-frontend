@@ -1,6 +1,7 @@
 import tablesEvent from "./tablesEvent";
 
 const tablesDispatch = {
+    initialize: query => ({type:tablesEvent.INITIALIZE, query}),
     fetchTableNamesRequest: () => ({type: tablesEvent.FETCH_TABLE_NAMES_REQUEST}),
     fetchTableNamesSuccess: tableNames => ({type: tablesEvent.FETCH_TABLE_NAMES_SUCCESS, tableNames}),
     fetchTableRequest: tableName => ({type: tablesEvent.FETCH_TABLE_REQUEST, tableName}),
