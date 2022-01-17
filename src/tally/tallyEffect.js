@@ -12,6 +12,12 @@ const handleError = environment => function* (f) {
     }
 }
 
+const initialize = environment => function* (event) {
+    const query = event.query
+    const electionName = query.election
+    yield put(tallyDispatch.fetchTallyRequest(electionName))
+}
+
 const fetchTallyRequest = environment => function* (event) {
     const api = createApi(environment)
     yield* handleError(environment)(function* () {
@@ -22,6 +28,7 @@ const fetchTallyRequest = environment => function* (event) {
 }
 
 const tallyEffect = {
+    [tallyEvent.INITIALIZE]: initialize,
     [tallyEvent.FETCH_TALLY_REQUEST]: fetchTallyRequest
 }
 

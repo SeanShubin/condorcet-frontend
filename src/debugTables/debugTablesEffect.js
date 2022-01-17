@@ -12,6 +12,13 @@ const handleError = environment => function* (f){
     }
 }
 
+const initialize = environment => function* (event) {
+    const query = event.query
+    const tableName = query.table
+    yield put(debugTablesDispatch.fetchTableNamesRequest())
+    yield put(debugTablesDispatch.selectedTableChanged(tableName))
+}
+
 const fetchTableNamesRequest = environment => function* () {
     const api = createApi(environment)
     yield* handleError(environment)(function*() {
@@ -37,6 +44,7 @@ const selectedTableChanged = environment => function* (event) {
 }
 
 const debugTablesEffect = {
+    [debugTablesEvent.INITIALIZE]: initialize,
     [debugTablesEvent.FETCH_TABLE_NAMES_REQUEST]: fetchTableNamesRequest,
     [debugTablesEvent.FETCH_TABLE_REQUEST]: fetchTableRequest,
     [debugTablesEvent.SELECTED_TABLE_CHANGED]: selectedTableChanged

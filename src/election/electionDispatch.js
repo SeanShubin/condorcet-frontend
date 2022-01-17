@@ -1,6 +1,7 @@
 import electionEvent from "./electionEvent";
 
 const electionDispatch = {
+    initialize: query => ({type: electionEvent.INITIALIZE, query}),
     fetchElectionRequest: electionName => ({type: electionEvent.FETCH_ELECTION_REQUEST, electionName}),
     fetchElectionSuccess: ({userName, election}) => ({
         type: electionEvent.FETCH_ELECTION_SUCCESS,

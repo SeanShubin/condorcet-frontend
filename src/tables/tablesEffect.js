@@ -12,6 +12,13 @@ const handleError = environment => function* (f){
     }
 }
 
+const initialize = environment => function* (event) {
+    const query = event.query
+    const tableName = query.table
+    yield put(tablesDispatch.fetchTableNamesRequest())
+    yield put(tablesDispatch.selectedTableChanged(tableName))
+}
+
 const fetchTableNamesRequest = environment => function* () {
     const api = createApi(environment)
     yield* handleError(environment)(function*() {
@@ -37,6 +44,7 @@ const selectedTableChanged = environment => function* (event) {
 }
 
 const tablesEffect = {
+    [tablesEvent.INITIALIZE]: initialize,
     [tablesEvent.FETCH_TABLE_NAMES_REQUEST]: fetchTableNamesRequest,
     [tablesEvent.FETCH_TABLE_REQUEST]: fetchTableRequest,
     [tablesEvent.SELECTED_TABLE_CHANGED]: selectedTableChanged

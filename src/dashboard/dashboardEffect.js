@@ -14,12 +14,16 @@ const handleError = environment => function* (f) {
     }
 }
 
+const initialize = environment => function*(event){
+    yield put(dashboardDispatch.fetchCountsRequest())
+}
+
 const logoutRequest = environment => function* (event) {
     const api = createApi(environment)
     yield* handleError(environment)(function* () {
         environment.clearAccessToken()
         yield api.logout()
-        yield put(navigationDispatch.redirect(loginPagePath))
+        yield put(navigationDispatch.setUri(loginPagePath))
     })
 }
 
@@ -41,6 +45,7 @@ const fetchCountsRequest = environment => function* (event) {
 }
 
 const dashboardEffect = {
+    [dashboardEvent.INITIALIZE]: initialize,
     [dashboardEvent.LOGOUT_REQUEST]: logoutRequest,
     [dashboardEvent.FETCH_COUNTS_REQUEST]: fetchCountsRequest
 }

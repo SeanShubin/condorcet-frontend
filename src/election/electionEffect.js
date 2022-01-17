@@ -29,6 +29,12 @@ const convertDatesToInstants = electionEdits => {
     return apiElectionEdits
 }
 
+const initialize = environment => function* (event) {
+    const query = event.query
+    const electionName = query.election
+    yield put(electionDispatch.fetchElectionRequest(electionName))
+}
+
 const fetchElectionRequest = environment => function* (event) {
     const api = createApi(environment)
     yield* handleError(environment)(function* () {
@@ -85,6 +91,7 @@ const updateElectionRequest = environment => function* (event) {
 }
 
 const electionEffect = {
+    [electionEvent.INITIALIZE]: initialize,
     [electionEvent.FETCH_ELECTION_REQUEST]: fetchElectionRequest,
     [electionEvent.DELETE_ELECTION_REQUEST]: deleteElectionRequest,
     [electionEvent.UPDATE_ELECTION_REQUEST]: updateElectionRequest,

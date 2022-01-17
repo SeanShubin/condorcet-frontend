@@ -12,6 +12,10 @@ const handleError = environment => function* (f){
     }
 }
 
+const initialize = environment => function* (event) {
+    yield put(electionsDispatch.fetchElectionsRequest())
+}
+
 const fetchElectionsRequest = environment => function* (event) {
     const api = createApi(environment)
     yield* handleError(environment)(function*() {
@@ -31,6 +35,7 @@ const addElectionRequest = environment => function* (event) {
 }
 
 const electionsEffect = {
+    [electionsEvent.INITIALIZE]: initialize,
     [electionsEvent.FETCH_ELECTIONS_REQUEST]: fetchElectionsRequest,
     [electionsEvent.ADD_ELECTION_REQUEST]: addElectionRequest
 }

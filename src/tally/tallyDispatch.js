@@ -1,6 +1,7 @@
 import tallyEvent from "./tallyEvent";
 
 const tallyDispatch = {
+    initialize: query => ({type: tallyEvent.INITIALIZE, query}),
     fetchTallyRequest: electionName => ({type: tallyEvent.FETCH_TALLY_REQUEST, electionName}),
     fetchTallySuccess: ({electionName, tally}) => ({
         type: tallyEvent.FETCH_TALLY_SUCCESS,

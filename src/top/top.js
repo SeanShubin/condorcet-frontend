@@ -20,50 +20,51 @@ const loginConnected = createLoginConnected({})
 const registerConnected = createRegisterConnected({})
 const dashboardConnected = createDashboardConnected({})
 const manageUsersConnected = createManageUsersConnected({})
+const electionsConnected = createElectionsConnected({})
+const electionConnected = createElectionConnected({})
+const candidatesConnected = createCandidatesConnected({})
+const votersConnected = createVotersConnected({})
+const ballotConnected = createBallotConnected({})
+const tallyConnected = createTallyConnected({})
 const tablesConnected = createTablesConnected({})
 const debugTablesConnected = createDebugTablesConnected({})
 const eventsConnected = createEventsConnected({})
-const electionsConnected = createElectionsConnected({})
-const electionConnected = createElectionConnected({})
 const styleConnected = createStyleConnected({})
-const candidatesConnected = createCandidatesConnected({})
-const ballotConnected = createBallotConnected({})
-const tallyConnected = createTallyConnected({})
-const votersConnected = createVotersConnected({})
+
 const navigationConnected = createNavigationConnected({
     extraState: {
         Login: loginConnected.Component,
         Register: registerConnected.Component,
         Dashboard: dashboardConnected.Component,
         ManageUsers: manageUsersConnected.Component,
+        Elections: electionsConnected.Component,
+        Election: electionConnected.Component,
+        Candidates: candidatesConnected.Component,
+        Voters: votersConnected.Component,
+        Ballot: ballotConnected.Component,
+        Tally: tallyConnected.Component,
         Tables: tablesConnected.Component,
         DebugTables: debugTablesConnected.Component,
         Events: eventsConnected.Component,
-        Elections: electionsConnected.Component,
-        Election: electionConnected.Component,
-        Style: styleConnected.Component,
-        Candidates: candidatesConnected.Component,
-        Ballot: ballotConnected.Component,
-        Tally: tallyConnected.Component,
-        Voters: votersConnected.Component
+        Style: styleConnected.Component
     }
 })
 const connectedArray = [
+    navigationConnected,
     loginConnected,
     registerConnected,
     dashboardConnected,
-    navigationConnected,
     manageUsersConnected,
+    electionsConnected,
+    electionConnected,
+    candidatesConnected,
+    votersConnected,
+    ballotConnected,
+    tallyConnected,
     tablesConnected,
     debugTablesConnected,
     eventsConnected,
-    electionsConnected,
-    electionConnected,
-    styleConnected,
-    candidatesConnected,
-    ballotConnected,
-    tallyConnected,
-    votersConnected
+    styleConnected
 ]
 
 const initializeEvents = [

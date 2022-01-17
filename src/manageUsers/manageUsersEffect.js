@@ -12,6 +12,10 @@ const handleError = environment => function* (f) {
     }
 }
 
+const initialize = environment => function* (event){
+    yield put(manageUsersDispatch.fetchUsersRequest())
+}
+
 const fetchUsersRequest = environment => function* (event) {
     const api = createApi(environment)
     yield* handleError(environment)(function* () {
@@ -30,6 +34,7 @@ const updateUserRoleRequest = environment => function* (event) {
 }
 
 const manageUsersEffect = {
+    [manageUsersEvent.INITIALIZE]: initialize,
     [manageUsersEvent.FETCH_USERS_REQUEST]: fetchUsersRequest,
     [manageUsersEvent.UPDATE_USER_ROLE_REQUEST]: updateUserRoleRequest
 }

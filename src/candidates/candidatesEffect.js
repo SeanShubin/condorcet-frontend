@@ -12,6 +12,12 @@ const handleError = environment => function* (f) {
     }
 }
 
+const initialize = environment => function* (event) {
+    const query = event.query
+    const electionName = query.election
+    yield put(candidatesDispatch.fetchCandidatesRequest(electionName))
+}
+
 const fetchCandidatesRequest = environment => function* (event) {
     const api = createApi(environment)
     yield* handleError(environment)(function* () {
@@ -31,6 +37,7 @@ const setCandidatesRequest = environment => function* (event) {
 }
 
 const candidatesEffect = {
+    [candidatesEvent.INITIALIZE]:initialize,
     [candidatesEvent.FETCH_CANDIDATES_REQUEST]: fetchCandidatesRequest,
     [candidatesEvent.SET_CANDIDATES_REQUEST]: setCandidatesRequest,
 }

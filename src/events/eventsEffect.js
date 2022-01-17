@@ -12,6 +12,10 @@ const handleError = environment => function* (f) {
     }
 }
 
+const initialize = environment => function* (event) {
+    yield put(eventsDispatch.fetchTableRequest())
+}
+
 const fetchTableRequest = environment => function* (event) {
     const api = createApi(environment)
     yield* handleError(environment)(function* () {
@@ -21,6 +25,7 @@ const fetchTableRequest = environment => function* (event) {
 }
 
 const eventsEffect = {
+    [eventsEvent.INITIALIZE]:initialize,
     [eventsEvent.FETCH_TABLE_REQUEST]: fetchTableRequest
 }
 
