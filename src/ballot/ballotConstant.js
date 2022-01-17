@@ -1,5 +1,4 @@
 const ballotUriPattern = /^\/ballot($|\/)/
-const ballotPageName = 'ballot'
 const createBallotPagePath = ({voterName, electionName}) => `/ballot?voter=${voterName}&election=${electionName}`
 const parseFromBallotUri = uri => {
     const params = new URLSearchParams(uri)
@@ -8,4 +7,4 @@ const parseFromBallotUri = uri => {
     return {voterName, electionName}
 }
 
-export {ballotUriPattern, ballotPageName, createBallotPagePath, parseFromBallotUri}
+export {ballotUriPattern, createBallotPagePath, parseFromBallotUri}

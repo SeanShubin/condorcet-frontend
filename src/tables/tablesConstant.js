@@ -1,5 +1,4 @@
 const tablesUriPattern = /^\/tables($|\/)/
-const tablesPageName = 'tables'
 const defaultTable = 'user'
 
 const orDefaultTable = table => {
@@ -19,4 +18,4 @@ const createTablesPagePath = table => {
     return `/tables?table=${orDefaultTable(table)}`
 }
 
-export {tablesUriPattern, tablesPageName, createTablesPagePath, parseTableFromUri}
+export {tablesUriPattern, createTablesPagePath, parseTableFromUri}

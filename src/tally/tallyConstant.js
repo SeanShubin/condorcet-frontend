@@ -1,5 +1,4 @@
 const tallyUriPattern = /^\/tally($|\/)/
-const tallyPageName = 'tally'
 const createTallyPagePath = election => `/tally?election=${election}`
 const parseFromTallyUri = uri => {
     const params = new URLSearchParams(uri)
@@ -7,4 +6,4 @@ const parseFromTallyUri = uri => {
     return election
 }
 
-export {tallyUriPattern, tallyPageName, createTallyPagePath, parseFromTallyUri}
+export {tallyUriPattern, createTallyPagePath, parseFromTallyUri}

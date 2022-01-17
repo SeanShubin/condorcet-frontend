@@ -1,30 +1,30 @@
 import navigationDispatch from './navigationDispatch'
 import navigationEvent from './navigationEvent'
 import {put} from 'redux-saga/effects'
-import {loginPageName, loginPagePath, loginUriPattern} from "../login/loginConstant";
-import {registerPageName, registerUriPattern} from "../register/registerConstant";
-import {manageUsersPageName, manageUsersUriPattern} from "../manageUsers/manageUsersConstant";
-import {dashboardPageName, dashboardUriPattern} from "../dashboard/dashboardConstant";
+import {loginPagePath, loginUriPattern} from "../login/loginConstant";
+import {registerUriPattern} from "../register/registerConstant";
+import {manageUsersUriPattern} from "../manageUsers/manageUsersConstant";
+import {dashboardUriPattern} from "../dashboard/dashboardConstant";
 import dashboardDispatch from "../dashboard/dashboardDispatch";
 import manageUsersDispatch from "../manageUsers/manageUsersDispatch";
-import {parseTableFromUri, tablesPageName, tablesUriPattern} from "../tables/tablesConstant";
-import {debugTablesPageName, debugTablesUriPattern, parseDebugTableFromUri} from "../debugTables/debugTablesConstant";
+import {parseTableFromUri, tablesUriPattern} from "../tables/tablesConstant";
+import {debugTablesUriPattern, parseDebugTableFromUri} from "../debugTables/debugTablesConstant";
 import tablesDispatch from "../tables/tablesDispatch";
 import debugTablesDispatch from "../debugTables/debugTablesDispatch";
-import {eventsPageName, eventsUriPattern} from "../events/eventsConstant";
+import {eventsUriPattern} from "../events/eventsConstant";
 import eventsDispatch from "../events/eventsDispatch";
-import {electionsPageName, electionsUriPattern} from "../elections/electionsConstant";
+import {electionsUriPattern} from "../elections/electionsConstant";
 import electionsDispatch from "../elections/electionsDispatch";
-import {electionPageName, electionUriPattern, parseFromElectionUri} from "../election/electionConstant";
-import {candidatesPageName, candidatesUriPattern, parseFromCandidatesUri} from "../candidates/candidatesConstant";
+import {electionUriPattern, parseFromElectionUri} from "../election/electionConstant";
+import {candidatesUriPattern, parseFromCandidatesUri} from "../candidates/candidatesConstant";
 import electionDispatch from "../election/electionDispatch";
-import {stylePageName, styleUriPattern} from "../style/styleConstant";
+import {styleUriPattern} from "../style/styleConstant";
 import candidatesDispatch from "../candidates/candidatesDispatch";
-import {ballotPageName, ballotUriPattern, parseFromBallotUri} from "../ballot/ballotConstant";
+import {ballotUriPattern, parseFromBallotUri} from "../ballot/ballotConstant";
 import ballotDispatch from "../ballot/ballotDispatch";
-import {tallyPageName, tallyUriPattern, parseFromTallyUri} from "../tally/tallyConstant";
+import {tallyUriPattern, parseFromTallyUri} from "../tally/tallyConstant";
 import tallyDispatch from "../tally/tallyDispatch";
-import {parseFromVotersUri, votersPageName, votersUriPattern} from "../voters/votersConstant";
+import {parseFromVotersUri, votersUriPattern} from "../voters/votersConstant";
 import votersDispatch from "../voters/votersDispatch";
 
 const redirect = environment => function* (event) {
@@ -49,55 +49,52 @@ const fetchPage = environment => function* () {
         loginInformation = yield environment.fetchLoginInformation()
     }
     const queryString = environment.history.location.search
-    const success = pageName => {
-        return navigationDispatch.fetchPageSuccess({pageName, loginInformation})
-    }
     if (loginUriPattern.test(uri)) {
-        yield put(success(loginPageName))
+        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
     } else if (registerUriPattern.test(uri)) {
-        yield put(success(registerPageName))
+        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
     } else if (dashboardUriPattern.test(uri)) {
-        yield put(success(dashboardPageName))
+        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
         yield put(dashboardDispatch.fetchCountsRequest())
     } else if (manageUsersUriPattern.test(uri)) {
-        yield put(success(manageUsersPageName))
+        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
         yield put(manageUsersDispatch.fetchUsersRequest())
     } else if (tablesUriPattern.test(uri)) {
+        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
         const table = parseTableFromUri(queryString)
-        yield put(success(tablesPageName))
         yield put(tablesDispatch.fetchTableNamesRequest())
         yield put(tablesDispatch.selectedTableChanged(table))
     } else if (debugTablesUriPattern.test(uri)) {
+        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
         const table = parseDebugTableFromUri(queryString)
-        yield put(success(debugTablesPageName))
         yield put(debugTablesDispatch.fetchTableNamesRequest())
         yield put(debugTablesDispatch.selectedTableChanged(table))
     } else if (eventsUriPattern.test(uri)) {
-        yield put(success(eventsPageName))
+        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
         yield put(eventsDispatch.fetchTableRequest())
     } else if (electionsUriPattern.test(uri)) {
-        yield put(success(electionsPageName))
+        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
         yield put(electionsDispatch.fetchElectionsRequest())
     } else if (electionUriPattern.test(uri)) {
-        yield put(success(electionPageName))
+        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
         const fetchElectionRequestArgs = parseFromElectionUri(queryString)
         yield put(electionDispatch.fetchElectionRequest(fetchElectionRequestArgs))
     } else if (candidatesUriPattern.test(uri)) {
-        yield put(success(candidatesPageName))
+        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
         const fetchCandidatesRequestArgs = parseFromCandidatesUri(queryString)
         yield put(candidatesDispatch.fetchCandidatesRequest(fetchCandidatesRequestArgs))
     } else if (styleUriPattern.test(uri)) {
-        yield put(success(stylePageName))
+        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
     } else if (ballotUriPattern.test(uri)) {
-        yield put(success(ballotPageName))
+        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
         const fetchBallotRequestArgs = parseFromBallotUri(queryString)
         yield put(ballotDispatch.fetchBallotRequest(fetchBallotRequestArgs))
     } else if (tallyUriPattern.test(uri)) {
-        yield put(success(tallyPageName))
+        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
         const fetchTallyRequestArgs = parseFromTallyUri(queryString)
         yield put(tallyDispatch.fetchTallyRequest(fetchTallyRequestArgs))
     } else if(votersUriPattern.test(uri)){
-        yield put(success(votersPageName))
+        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
         const fetchVotersRequestArgs = parseFromVotersUri(queryString)
         yield put(votersDispatch.fetchVotersRequest(fetchVotersRequestArgs))
     } else {
