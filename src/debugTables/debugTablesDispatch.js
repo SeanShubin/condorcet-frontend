@@ -1,6 +1,7 @@
 import debugTablesEvent from "./debugTablesEvent";
 
 const debugTablesDispatch = {
+    initialize: query => ({type: debugTablesEvent.INITIALIZE, query}),
     fetchTableNamesRequest: () => ({type: debugTablesEvent.FETCH_TABLE_NAMES_REQUEST}),
     fetchTableNamesSuccess: tableNames => ({type: debugTablesEvent.FETCH_TABLE_NAMES_SUCCESS, tableNames}),
     fetchTableRequest: tableName => ({type: debugTablesEvent.FETCH_TABLE_REQUEST, tableName}),
