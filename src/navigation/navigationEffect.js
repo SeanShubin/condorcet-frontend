@@ -62,8 +62,8 @@ const fetchPage = environment => function* (event) {
     } else if (registerUriPattern.test(uri)) {
         yield put(success(registerPageName))
     } else if (dashboardUriPattern.test(uri)) {
-        yield put(success(dashboardPageName))
-        yield put(dashboardDispatch.fetchCountsRequest())
+        yield put(component.dispatch.initialize(query))
+        yield put(success(component.name))
     } else if (manageUsersUriPattern.test(uri)) {
         yield put(success(manageUsersPageName))
         yield put(manageUsersDispatch.fetchUsersRequest())

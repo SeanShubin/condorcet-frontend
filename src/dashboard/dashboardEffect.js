@@ -4,6 +4,7 @@ import {put} from 'redux-saga/effects'
 import navigationDispatch from "../navigation/navigationDispatch";
 import {loginPagePath} from "../login/loginConstant";
 import {createApi} from "../api/api";
+import environment from "../environment/environment";
 
 const handleError = environment => function* (f) {
     yield put(dashboardDispatch.clearErrors())
@@ -12,6 +13,10 @@ const handleError = environment => function* (f) {
     } catch (ex) {
         yield put(dashboardDispatch.errorAdded(ex.message))
     }
+}
+
+const initialize = environment => function*(event){
+    yield put(dashboardDispatch.fetchCountsRequest())
 }
 
 const logoutRequest = environment => function* (event) {
@@ -41,6 +46,7 @@ const fetchCountsRequest = environment => function* (event) {
 }
 
 const dashboardEffect = {
+    [dashboardEvent.INITIALIZE]: initialize,
     [dashboardEvent.LOGOUT_REQUEST]: logoutRequest,
     [dashboardEvent.FETCH_COUNTS_REQUEST]: fetchCountsRequest
 }
