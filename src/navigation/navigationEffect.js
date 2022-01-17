@@ -18,73 +18,44 @@ import loginDispatch from "../login/loginDispatch";
 import registerDispatch from "../register/registerDispatch";
 import styleDispatch from "../style/styleDispatch";
 
-const redirect = environment => function* (event) {
-    const uri = event.uri
-    environment.history.push(uri)
-    environment.history.go(0)
-    yield
+const dispatchMap = {
+    login: loginDispatch,
+    register: registerDispatch,
+    dashboard: dashboardDispatch,
+    manageUsers: manageUsersDispatch,
+    tables: tablesDispatch,
+    debugTables: debugTablesDispatch,
+    events: eventsDispatch,
+    elections: electionsDispatch,
+    election: electionDispatch,
+    candidates: candidatesDispatch,
+    ballot: ballotDispatch,
+    tally: tallyDispatch,
+    voters: votersDispatch,
+    style: styleDispatch
 }
 
 const setUri = environment => function* (event) {
     const uri = event.uri
-    const encodedUri = encodeURI(uri)
-    environment.history.push(encodedUri)
+    environment.history.push(uri)
     yield put(navigationDispatch.fetchPageRequest())
 }
 
 const fetchPage = environment => function* () {
     const uri = environment.history.location.pathname
     const pageName = uri.substring(1)
-    let loginInformation = null
-    if(pageName !== 'login' && pageName !== 'register' && pageName !== 'style'){
-        loginInformation = yield environment.fetchLoginInformation()
-    }
-    const queryString = environment.history.location.search
-    const query = R.fromPairs(Array.from(new URLSearchParams(queryString).entries()))
-    if (pageName === 'login') {
+    const dispatch = dispatchMap[pageName]
+    if (dispatch) {
+        const queryString = environment.history.location.search
+        const query = R.fromPairs(Array.from(new URLSearchParams(queryString).entries()))
+        let loginInformation = null
+        if (pageName !== 'login' && pageName !== 'register' && pageName !== 'style') {
+            loginInformation = yield environment.fetchLoginInformation()
+        }
         yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-        yield put(loginDispatch.initialize(query))
-    } else if (pageName === 'register') {
-        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-        yield put(registerDispatch.initialize(query))
-    } else if (pageName === 'dashboard') {
-        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-        yield put(dashboardDispatch.initialize(query))
-    } else if (pageName === 'manageUsers') {
-        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-        yield put(manageUsersDispatch.initialize(query))
-    } else if (pageName === 'tables') {
-        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-        yield put(tablesDispatch.initialize(query))
-    } else if (pageName === 'debugTables') {
-        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-        yield put(debugTablesDispatch.initialize(query))
-    } else if (pageName === 'events') {
-        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-        yield put(eventsDispatch.initialize(query))
-    } else if (pageName === 'elections') {
-        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-        yield put(electionsDispatch.initialize(query))
-    } else if (pageName === 'election') {
-        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-        yield put(electionDispatch.initialize(query))
-    } else if (pageName === 'candidates') {
-        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-        yield put(candidatesDispatch.initialize(query))
-    } else if (pageName === 'style') {
-        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-        yield put(styleDispatch.initialize(query))
-    } else if (pageName === 'ballot') {
-        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-        yield put(ballotDispatch.initialize(query))
-    } else if (pageName === 'tally') {
-        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-        yield put(tallyDispatch.initialize(query))
-    } else if(pageName === 'voters'){
-        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-        yield put(votersDispatch.initialize(query))
+        yield put(dispatch.initialize(query))
     } else {
-        yield put(navigationDispatch.redirect(loginPagePath))
+        yield put(navigationDispatch.setUri(loginPagePath))
     }
 }
 
