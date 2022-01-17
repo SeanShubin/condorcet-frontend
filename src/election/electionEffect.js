@@ -33,7 +33,7 @@ const fetchElectionRequest = environment => function* (event) {
     const api = createApi(environment)
     yield* handleError(environment)(function* () {
         const {electionName} = event
-        const userName = yield environment.getUserName()
+        const {userName} = yield environment.getLoginInformation()
         const apiElection = yield api.getElection(electionName)
         const election = convertIsoDatesToWellFormed(apiElection)
         yield put(electionDispatch.fetchElectionSuccess({userName, election}))

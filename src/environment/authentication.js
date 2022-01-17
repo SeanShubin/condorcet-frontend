@@ -2,27 +2,23 @@ import {mergeDisallowDuplicateKeys} from "../library/collection-util";
 import {mergeRight} from "ramda";
 
 const createAuthentication = fetch => {
-    let loginInformation = {}
+    let loginInformation = null
+    const isLoggedIn = () => {
+        return !!loginInformation
+    }
     const getLoginInformation = async () => {
-        if(loginInformation.accessToken) return loginInformation
+        if(loginInformation) return loginInformation
         const refreshResponse = await fetch('/proxy/Refresh')
-        loginInformation = await refreshResponse.json()
+        if(refreshResponse.ok){
+            loginInformation = await refreshResponse.json()
+            return loginInformation
+        } else {
+            loginInformation = null
+        }
         return loginInformation
     }
     const clearAccessToken = () => {
-        loginInformation.accessToken = undefined
-    }
-    const getUserName = async () =>{
-        await getLoginInformation()
-        return loginInformation.userName
-    }
-    const getRole = async () => {
-        await getLoginInformation()
-        return loginInformation.role
-    }
-    const getPermissions = async () => {
-        await getLoginInformation()
-        return loginInformation.permissions
+        loginInformation = null
     }
     const fetchUsingAccessToken = async (resource, originalInit) => {
         const existingHeaders = (originalInit || {}).headers || []
@@ -45,7 +41,7 @@ const createAuthentication = fetch => {
         }
     }
     const authenticatedFetch = async (resource, init) => {
-        if (!loginInformation.accessToken) return await fetchUsingRefreshToken(resource, init)
+        if (!loginInformation) return await fetchUsingRefreshToken(resource, init)
         const firstResult = await fetchUsingAccessToken(resource, init)
         if (firstResult.status === 401) {
             const secondResult = await fetchUsingRefreshToken(resource, init)
@@ -60,10 +56,9 @@ const createAuthentication = fetch => {
     }
     return {
         authenticatedFetch,
-        getUserName,
-        getRole,
-        getPermissions,
-        clearAccessToken
+        getLoginInformation,
+        clearAccessToken,
+        isLoggedIn
     }
 }
 

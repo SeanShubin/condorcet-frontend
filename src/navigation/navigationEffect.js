@@ -39,13 +39,10 @@ const setUri = environment => function* (event) {
     const uri = event.uri
     const encodedUri = encodeURI(uri)
     environment.history.push(encodedUri)
-    yield put(navigationDispatch.fetchPageRequest())
+    environment.history.go()
 }
 
 const fetchPage = environment => function* (event) {
-    const userName = yield environment.getUserName()
-    const role = yield environment.getRole()
-    const permissions = yield environment.getPermissions()
     const uri = environment.history.location.pathname
     const queryString = environment.history.location.search
     const nameMatchesUri = component => {
@@ -54,54 +51,101 @@ const fetchPage = environment => function* (event) {
     const component = R.find(nameMatchesUri)(R.values(event.navigableComponents))
     const query = R.fromPairs(Array.from(new URLSearchParams(queryString).entries()))
 
-    const success = pageName => {
-        return navigationDispatch.fetchPageSuccess({pageName, userName, role, permissions})
-    }
     if (loginUriPattern.test(uri)) {
-        yield put(success(loginPageName))
+        yield put(navigationDispatch.fetchPageSuccess({
+            pageName:component.name,
+            loginInformation:null}))
+        if(component.dispatch.initialize){
+            yield put(component.dispatch.initialize(query))
+        }
     } else if (registerUriPattern.test(uri)) {
-        yield put(success(registerPageName))
+        yield put(navigationDispatch.fetchPageSuccess({
+            pageName:component.name,
+            loginInformation:null}))
+        if(component.dispatch.initialize){
+            yield put(component.dispatch.initialize(query))
+        }
     } else if (dashboardUriPattern.test(uri)) {
-        yield put(component.dispatch.initialize(query))
-        yield put(success(component.name))
+        const loginInformation = yield environment.getLoginInformation()
+        yield put(navigationDispatch.fetchPageSuccess({
+            pageName:component.name,
+            loginInformation}))
+        if(component.dispatch.initialize){
+            yield put(component.dispatch.initialize(query))
+        }
     } else if (manageUsersUriPattern.test(uri)) {
-        yield put(success(manageUsersPageName))
+        const loginInformation = yield environment.getLoginInformation()
+        yield put(navigationDispatch.fetchPageSuccess({
+            pageName:component.name,
+            loginInformation}))
         yield put(manageUsersDispatch.fetchUsersRequest())
     } else if (tablesUriPattern.test(uri)) {
         const table = parseTableFromUri(queryString)
-        yield put(success(tablesPageName))
+        const loginInformation = yield environment.getLoginInformation()
+        yield put(navigationDispatch.fetchPageSuccess({
+            pageName:component.name,
+            loginInformation}))
         yield put(tablesDispatch.fetchTableNamesRequest())
         yield put(tablesDispatch.selectedTableChanged(table))
     } else if (debugTablesUriPattern.test(uri)) {
         const table = parseDebugTableFromUri(queryString)
-        yield put(success(debugTablesPageName))
+        const loginInformation = yield environment.getLoginInformation()
+        yield put(navigationDispatch.fetchPageSuccess({
+            pageName:component.name,
+            loginInformation}))
         yield put(debugTablesDispatch.fetchTableNamesRequest())
         yield put(debugTablesDispatch.selectedTableChanged(table))
     } else if (eventsUriPattern.test(uri)) {
-        yield put(success(eventsPageName))
+        const loginInformation = yield environment.getLoginInformation()
+        yield put(navigationDispatch.fetchPageSuccess({
+            pageName:component.name,
+            loginInformation}))
         yield put(eventsDispatch.fetchTableRequest())
     } else if (electionsUriPattern.test(uri)) {
-        yield put(success(electionsPageName))
+        const loginInformation = yield environment.getLoginInformation()
+        yield put(navigationDispatch.fetchPageSuccess({
+            pageName:component.name,
+            loginInformation}))
         yield put(electionsDispatch.fetchElectionsRequest())
     } else if (electionUriPattern.test(uri)) {
-        yield put(success(electionPageName))
+        const loginInformation = yield environment.getLoginInformation()
+        yield put(navigationDispatch.fetchPageSuccess({
+            pageName:component.name,
+            loginInformation}))
         const fetchElectionRequestArgs = parseFromElectionUri(queryString)
         yield put(electionDispatch.fetchElectionRequest(fetchElectionRequestArgs))
     } else if (candidatesUriPattern.test(uri)) {
-        yield put(success(candidatesPageName))
+        const loginInformation = yield environment.getLoginInformation()
+        yield put(navigationDispatch.fetchPageSuccess({
+            pageName:component.name,
+            loginInformation}))
         const fetchCandidatesRequestArgs = parseFromCandidatesUri(queryString)
         yield put(candidatesDispatch.fetchCandidatesRequest(fetchCandidatesRequestArgs))
     } else if (styleUriPattern.test(uri)) {
-        yield put(success(stylePageName))
+        const loginInformation = yield environment.getLoginInformation()
+        yield put(navigationDispatch.fetchPageSuccess({
+            pageName:component.name,
+            loginInformation}))
     } else if (ballotUriPattern.test(uri)) {
-        yield put(component.dispatch.initialize(query))
-        yield put(success(component.name))
+        const loginInformation = yield environment.getLoginInformation()
+        yield put(navigationDispatch.fetchPageSuccess({
+            pageName:component.name,
+            loginInformation}))
+        if(component.dispatch.initialize){
+            yield put(component.dispatch.initialize(query))
+        }
     } else if (tallyUriPattern.test(uri)) {
-        yield put(success(tallyPageName))
+        const loginInformation = yield environment.getLoginInformation()
+        yield put(navigationDispatch.fetchPageSuccess({
+            pageName:component.name,
+            loginInformation}))
         const fetchTallyRequestArgs = parseFromTallyUri(queryString)
         yield put(tallyDispatch.fetchTallyRequest(fetchTallyRequestArgs))
     } else if(votersUriPattern.test(uri)){
-        yield put(success(votersPageName))
+        const loginInformation = yield environment.getLoginInformation()
+        yield put(navigationDispatch.fetchPageSuccess({
+            pageName:component.name,
+            loginInformation}))
         const fetchVotersRequestArgs = parseFromVotersUri(queryString)
         yield put(votersDispatch.fetchVotersRequest(fetchVotersRequestArgs))
     } else {
