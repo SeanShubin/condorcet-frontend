@@ -2,6 +2,7 @@ import electionsDispatch from './electionsDispatch'
 import electionsEvent from './electionsEvent'
 import {put} from 'redux-saga/effects'
 import {createApi} from "../api/api";
+import navigationDispatch from "../navigation/navigationDispatch";
 
 const handleError = environment => function* (f){
     yield put(electionsDispatch.clearErrors())
@@ -10,6 +11,10 @@ const handleError = environment => function* (f){
     } catch(ex) {
         yield put(electionsDispatch.errorAdded(ex.message))
     }
+}
+
+const initialize = environment => function* (event) {
+    yield put(electionsDispatch.fetchElectionsRequest())
 }
 
 const fetchElectionsRequest = environment => function* (event) {
@@ -31,6 +36,7 @@ const addElectionRequest = environment => function* (event) {
 }
 
 const electionsEffect = {
+    [electionsEvent.INITIALIZE]: initialize,
     [electionsEvent.FETCH_ELECTIONS_REQUEST]: fetchElectionsRequest,
     [electionsEvent.ADD_ELECTION_REQUEST]: addElectionRequest
 }
