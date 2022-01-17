@@ -4,6 +4,7 @@ import Style from "./Style";
 const createStyleConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'style',
+        requiresLogin: false,
         View: Style,
         extraState,
         extraDispatch

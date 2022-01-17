@@ -8,6 +8,7 @@ import ManageUsers from './ManageUsers'
 const createManageUsersConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'manageUsers',
+        requiresLogin: true,
         model: manageUsersModel,
         dispatch: manageUsersDispatch,
         View: ManageUsers,

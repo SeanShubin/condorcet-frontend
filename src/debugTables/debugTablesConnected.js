@@ -8,6 +8,7 @@ import DebugTables from './DebugTables'
 const createDebugTablesConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'debugTables',
+        requiresLogin: true,
         model: debugTablesModel,
         dispatch: debugTablesDispatch,
         View: DebugTables,

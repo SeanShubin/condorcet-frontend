@@ -52,21 +52,38 @@ const fetchPage = environment => function* (event) {
     const query = R.fromPairs(Array.from(new URLSearchParams(queryString).entries()))
 
     if (loginUriPattern.test(uri)) {
+        let loginInformation
+        if(component.requiresLogin){
+            loginInformation = yield environment.getLoginInformation()
+        } else {
+            loginInformation = null
+        }
         yield put(navigationDispatch.fetchPageSuccess({
             pageName:component.name,
-            loginInformation:null}))
+            loginInformation}))
         if(component.dispatch.initialize){
             yield put(component.dispatch.initialize(query))
         }
     } else if (registerUriPattern.test(uri)) {
+        let loginInformation
+        if(component.requiresLogin){
+            loginInformation = yield environment.getLoginInformation()
+        } else {
+            loginInformation = null
+        }
         yield put(navigationDispatch.fetchPageSuccess({
             pageName:component.name,
-            loginInformation:null}))
+            loginInformation}))
         if(component.dispatch.initialize){
             yield put(component.dispatch.initialize(query))
         }
     } else if (dashboardUriPattern.test(uri)) {
-        const loginInformation = yield environment.getLoginInformation()
+        let loginInformation
+        if(component.requiresLogin){
+            loginInformation = yield environment.getLoginInformation()
+        } else {
+            loginInformation = null
+        }
         yield put(navigationDispatch.fetchPageSuccess({
             pageName:component.name,
             loginInformation}))
@@ -127,7 +144,12 @@ const fetchPage = environment => function* (event) {
             pageName:component.name,
             loginInformation}))
     } else if (ballotUriPattern.test(uri)) {
-        const loginInformation = yield environment.getLoginInformation()
+        let loginInformation
+        if(component.requiresLogin){
+            loginInformation = yield environment.getLoginInformation()
+        } else {
+            loginInformation = null
+        }
         yield put(navigationDispatch.fetchPageSuccess({
             pageName:component.name,
             loginInformation}))

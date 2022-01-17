@@ -8,6 +8,7 @@ import Events from './Events'
 const createEventsConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'events',
+        requiresLogin: true,
         model: eventsModel,
         dispatch: eventsDispatch,
         View: Events,

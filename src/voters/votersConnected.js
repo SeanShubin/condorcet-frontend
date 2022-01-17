@@ -8,6 +8,7 @@ import Voters from './Voters'
 const createVotersConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'voters',
+        requiresLogin: true,
         model: votersModel,
         dispatch: votersDispatch,
         View: Voters,

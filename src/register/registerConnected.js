@@ -8,6 +8,7 @@ import Register from './Register'
 const createRegisterConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'register',
+        requiresLogin: false,
         model: registerModel,
         dispatch: registerDispatch,
         View: Register,

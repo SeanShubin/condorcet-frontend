@@ -41,6 +41,7 @@ const composeSagaFromEffectMap = effectMap => environment => function* () {
 
 const createConnected = ({
                              name,
+                             requiresLogin,
                              model = {},
                              dispatch,
                              View = (() => <div>Component '{name}' undefined</div>),
@@ -56,6 +57,7 @@ const createConnected = ({
     const saga = composeSagaFromEffectMap(effectMap)
     return {
         name,
+        requiresLogin,
         Component,
         reducer,
         saga,

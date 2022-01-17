@@ -9,6 +9,7 @@ import {createConnected} from "../library/connected-util";
 const createNavigationConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'navigation',
+        requiresLogin: false,
         model: navigationModel,
         dispatch: navigationDispatch,
         View: Navigation,

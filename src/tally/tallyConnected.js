@@ -8,6 +8,7 @@ import Tally from './Tally'
 const createTallyConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'tally',
+        requiresLogin: true,
         model: tallyModel,
         dispatch: tallyDispatch,
         View: Tally,

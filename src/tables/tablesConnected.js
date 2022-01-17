@@ -8,6 +8,7 @@ import Tables from './Tables'
 const createTablesConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'tables',
+        requiresLogin: true,
         model: tablesModel,
         dispatch: tablesDispatch,
         View: Tables,

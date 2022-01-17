@@ -8,6 +8,7 @@ import Login from './Login'
 const createLoginConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'login',
+        requiresLogin: false,
         model: loginModel,
         dispatch: loginDispatch,
         View: Login,

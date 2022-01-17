@@ -8,6 +8,7 @@ import Dashboard from './Dashboard'
 const createDashboardConnected = ({extraState = {}, extraDispatch = {}}) => {
     return createConnected({
         name: 'dashboard',
+        requiresLogin: true,
         model: dashboardModel,
         dispatch: dashboardDispatch,
         View: Dashboard,
