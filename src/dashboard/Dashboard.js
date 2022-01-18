@@ -1,7 +1,7 @@
 import React from 'react';
 import ErrorComponent from "../error/ErrorComponent";
 import {pluralize} from "../library/text-util";
-import {manageUsersPagePath} from "../manageUsers/manageUsersConstant";
+import {usersPagePath} from "../users/usersConstant";
 import {electionsPagePath} from "../elections/electionsConstant";
 import {tablesPagePath} from "../tables/tablesConstant";
 import {debugTablesPagePath} from "../debugTables/debugTablesConstant";
@@ -41,7 +41,7 @@ const Dashboard = (
     return <div className={'Dashboard columns-1-outer' }>
         <h1>Dashboard</h1>
         <ErrorComponent errors={errors}/>
-        <a href={manageUsersPagePath} onClick={onClickAnchor}>{userCountText}</a>
+        <a href={usersPagePath} onClick={onClickAnchor}>{userCountText}</a>
         <a href={electionsPagePath} onClick={onClickAnchor}>{electionCountText}</a>
         <a href={tablesPagePath} onClick={onClickAnchor}>{tableCountText}</a>
         <a href={debugTablesPagePath} onClick={onClickAnchor}>{debugTableCountText}</a>

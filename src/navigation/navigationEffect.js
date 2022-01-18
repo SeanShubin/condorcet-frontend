@@ -3,7 +3,7 @@ import navigationEvent from './navigationEvent'
 import {put} from 'redux-saga/effects'
 import {loginPagePath} from "../login/loginConstant";
 import dashboardDispatch from "../dashboard/dashboardDispatch";
-import manageUsersDispatch from "../manageUsers/manageUsersDispatch";
+import usersDispatch from "../users/usersDispatch";
 import tablesDispatch from "../tables/tablesDispatch";
 import debugTablesDispatch from "../debugTables/debugTablesDispatch";
 import eventsDispatch from "../events/eventsDispatch";
@@ -22,7 +22,7 @@ const dispatchMap = {
     login: loginDispatch,
     register: registerDispatch,
     dashboard: dashboardDispatch,
-    manageUsers: manageUsersDispatch,
+    users: usersDispatch,
     tables: tablesDispatch,
     debugTables: debugTablesDispatch,
     events: eventsDispatch,

@@ -53,7 +53,7 @@ const UserList = ({users, updateUserRoleRequest}) => {
     </table>
 }
 
-const ManageUsers = (
+const Users = (
     {
         users,
         errors,
@@ -68,8 +68,8 @@ const ManageUsers = (
         const uri = href.substring(origin.length)
         globalSetUri(uri)
     }
-    return <div className={'ManageUsers columns-1-outer'}>
-        <h1>ManageUsers</h1>
+    return <div className={'Users columns-1-outer'}>
+        <h1>Users</h1>
         <ErrorComponent errors={errors}/>
         <UserList users={users} updateUserRoleRequest={updateUserRoleRequest}/>
         <hr/>
@@ -77,4 +77,4 @@ const ManageUsers = (
     </div>
 }
 
-export default ManageUsers
+export default Users

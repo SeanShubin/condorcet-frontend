@@ -4,7 +4,7 @@ import createRegisterConnected from '../register/registerConnected'
 import createDashboardConnected from '../dashboard/dashboardConnected'
 import createNavigationConnected from '../navigation/navigationConnected'
 import {composeReducer, composeSagaFromArray} from "../library/compose-util";
-import createManageUsersConnected from "../manageUsers/manageUsersConnected";
+import createUsersConnected from "../users/usersConnected";
 import createTablesConnected from "../tables/tablesConnected";
 import createEventsConnected from "../events/eventsConnected";
 import createElectionsConnected from "../elections/electionsConnected";
@@ -19,7 +19,7 @@ import createVotersConnected from "../voters/votersConnected";
 const loginConnected = createLoginConnected({})
 const registerConnected = createRegisterConnected({})
 const dashboardConnected = createDashboardConnected({})
-const manageUsersConnected = createManageUsersConnected({})
+const usersConnected = createUsersConnected({})
 const electionsConnected = createElectionsConnected({})
 const electionConnected = createElectionConnected({})
 const candidatesConnected = createCandidatesConnected({})
@@ -36,7 +36,7 @@ const navigationConnected = createNavigationConnected({
         Login: loginConnected.Component,
         Register: registerConnected.Component,
         Dashboard: dashboardConnected.Component,
-        ManageUsers: manageUsersConnected.Component,
+        Users: usersConnected.Component,
         Elections: electionsConnected.Component,
         Election: electionConnected.Component,
         Candidates: candidatesConnected.Component,
@@ -54,7 +54,7 @@ const connectedArray = [
     loginConnected,
     registerConnected,
     dashboardConnected,
-    manageUsersConnected,
+    usersConnected,
     electionsConnected,
     electionConnected,
     candidatesConnected,
