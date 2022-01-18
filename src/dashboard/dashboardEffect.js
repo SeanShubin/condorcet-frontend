@@ -23,7 +23,7 @@ const logoutRequest = environment => function* (event) {
     yield* handleError(environment)(function* () {
         environment.clearAccessToken()
         yield api.logout()
-        yield put(navigationDispatch.setUri(loginPagePath))
+        yield put(navigationDispatch.clearBrowserState())
     })
 }
 

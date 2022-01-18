@@ -72,6 +72,11 @@ const setUri = environment => function* (event) {
     yield put(navigationDispatch.fetchPageRequest())
 }
 
+const clearBrowserState = environment => function* (event) {
+    environment.history.push('/')
+    environment.history.go()
+}
+
 const fetchPage = environment => function* () {
     const pathName = environment.history.location.pathname
     const pageName = pathName.substring(1)
@@ -97,7 +102,8 @@ const history = environment => function* () {
 const navigationEffect = {
     [navigationEvent.FETCH_PAGE_REQUEST]: fetchPage,
     [navigationEvent.HISTORY]: history,
-    [navigationEvent.SET_URI]: setUri
+    [navigationEvent.SET_URI]: setUri,
+    [navigationEvent.CLEAR_BROWSER_STATE]: clearBrowserState
 }
 
 export default navigationEffect
