@@ -14,8 +14,13 @@ const Dashboard = (
         tableCount,
         eventCount,
         errors,
-        logoutRequest
+        logoutRequest,
+        globalSetUri
     }) => {
+    const onClickAnchor = event => {
+        event.preventDefault()
+        globalSetUri(event.target.href)
+    }
     const userCountText = `${userCount} ${pluralize({quantity: userCount, singular: 'user', plural: 'users'})}`
     const electionCountText = `${electionCount} ${pluralize({
         quantity: electionCount,
@@ -32,11 +37,11 @@ const Dashboard = (
     return <div className={'Dashboard columns-1-outer' }>
         <h1>Dashboard</h1>
         <ErrorComponent errors={errors}/>
-        <a href={manageUsersPagePath}>{userCountText}</a>
-        <a href={electionsPagePath}>{electionCountText}</a>
-        <a href={createTablesPagePath()}>{tableCountText}</a>
-        <a href={createDebugTablesPagePath()}>{debugTableCountText}</a>
-        <a href={eventsPagePath}>{eventCountText}</a>
+        <a href={manageUsersPagePath} onClick={onClickAnchor}>{userCountText}</a>
+        <a href={electionsPagePath} onClick={onClickAnchor}>{electionCountText}</a>
+        <a href={createTablesPagePath()} onClick={onClickAnchor}>{tableCountText}</a>
+        <a href={createDebugTablesPagePath()} onClick={onClickAnchor}>{debugTableCountText}</a>
+        <a href={eventsPagePath} onClick={onClickAnchor}>{eventCountText}</a>
         <button type={'button'} onClick={logoutRequest}>Logout</button>
     </div>
 }

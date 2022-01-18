@@ -10,8 +10,13 @@ const Login = (
         errors,
         nameOrEmailChanged,
         passwordChanged,
-        loginRequest
+        loginRequest,
+        globalSetUri
     }) => {
+    const onClickAnchor = event => {
+        event.preventDefault()
+        globalSetUri(event.target.href)
+    }
     const onChangeNameOrEmail = event =>
         nameOrEmailChanged(event.target.value)
     const onChangePassword = event =>
@@ -33,8 +38,8 @@ const Login = (
                onChange={onChangePassword}/>
         <button type={'submit'}>Login</button>
         <hr/>
-        <a href={registerPagePath}>Register</a>
-        <a href={stylePagePath}>Style</a>
+        <a href={registerPagePath} onClick={onClickAnchor}>Register</a>
+        <a href={stylePagePath} onClick={onClickAnchor}>Style</a>
     </form>
 }
 

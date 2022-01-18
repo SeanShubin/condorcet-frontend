@@ -2,6 +2,8 @@ import {connect} from 'react-redux';
 import * as R from 'ramda'
 import {mergeDisallowDuplicateKeys} from "./collection-util";
 import {takeEvery} from 'redux-saga/effects';
+import tablesEvent from "../tables/tablesEvent";
+import navigationEvent from "../navigation/navigationEvent";
 
 const composeMapStateToProps = ({model, extraState = {}}) => state => {
     const createGetter = lens => R.view(lens, state)
@@ -10,8 +12,14 @@ const composeMapStateToProps = ({model, extraState = {}}) => state => {
 
 }
 
+const navigationDispatch = {
+    globalSetUri: uri => ({type: navigationEvent.SET_URI, uri})
+}
+
 const composeMapDispatchToProps = ({dispatch, extraDispatch}) => {
-    return mergeDisallowDuplicateKeys(dispatch, extraDispatch)
+    const a = mergeDisallowDuplicateKeys(dispatch, extraDispatch)
+    const b = mergeDisallowDuplicateKeys(a, navigationDispatch)
+    return b
 }
 
 const composeReducer = reducerMap => (state, event) => {

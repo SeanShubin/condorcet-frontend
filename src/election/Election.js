@@ -49,25 +49,25 @@ const blankIfFalsy = value => {
 
 const DateUtc = ({value}) => {
     const utc = userDateToUtc(value)
-    if(utc == null) return null
+    if (utc == null) return null
     return <span className={'subtle-text col-span-1-2'}>{utc}</span>
 }
 
 const DateLocal = ({value}) => {
     const localDate = userDateToLocal(value)
-    if(localDate == null) return null
+    if (localDate == null) return null
     return <span className={'subtle-text col-span-1-2'}>{localDate}</span>
 }
 
 const statusOfElection = election => {
-    if(election.allowEdit) {
-        if(election.allowVote) {
+    if (election.allowEdit) {
+        if (election.allowVote) {
             return "Waiting for votes (editable)"
         } else {
             return "Waiting for launch"
         }
     } else {
-        if(election.allowVote) {
+        if (election.allowVote) {
             return "Waiting for votes (fixed)"
         } else {
             return "Closed"
@@ -76,7 +76,7 @@ const statusOfElection = election => {
 }
 
 const voterCountTextFor = voterCount => {
-    if(voterCount === 0) {
+    if (voterCount === 0) {
         return 'anyone can vote'
     } else {
         return '' + voterCount + ' ' + pluralize({
@@ -87,8 +87,8 @@ const voterCountTextFor = voterCount => {
     }
 }
 
-const Election = (
-    {
+const Election = args => {
+    const {
         userName,
         originalElection,
         electionWithEdits,
@@ -99,8 +99,9 @@ const Election = (
         deleteElectionRequest,
         launchElectionRequest,
         finalizeElectionRequest,
-        errorAdded
-    }) => {
+        errorAdded,
+        globalSetUri
+    } = args
     const hasPendingEdits = !R.equals(originalElection, electionWithEdits)
     const isOwner = userName === originalElection.ownerName
     const canEditElection = isOwner && originalElection.allowEdit && !originalElection.allowVote
@@ -196,7 +197,10 @@ const Election = (
     const status = statusOfElection(originalElection)
     const canLaunch = !hasPendingEdits && !originalElection.allowVote && originalElection.allowEdit
     const canFinalize = !hasPendingEdits && originalElection.allowVote
-
+    const onClickAnchor = event => {
+        event.preventDefault()
+        globalSetUri(event.target.href)
+    }
     return <div className={'Election columns-1-outer'}>
         <h1>Election</h1>
         <ErrorComponent errors={errors}/>
@@ -234,10 +238,10 @@ const Election = (
                    disabled={!originalElection.allowEdit}
             />
         </div>
-        <a href={createCandidatesPagePath(originalElection.electionName)}>{candidateCountText}</a>
-        <a href={createVotersPagePath(originalElection.electionName)}>{voterCountText}</a>
-        <a href={createBallotPagePath({voterName:userName, electionName:originalElection.electionName})}>ballot</a>
-        <a href={createTallyPagePath(originalElection.electionName)}>tally</a>
+        <a href={createCandidatesPagePath(originalElection.electionName)} onClick={onClickAnchor}>{candidateCountText}</a>
+        <a href={createVotersPagePath(originalElection.electionName)} onClick={onClickAnchor}>{voterCountText}</a>
+        <a href={createBallotPagePath({voterName: userName, electionName: originalElection.electionName})} onClick={onClickAnchor}>ballot</a>
+        <a href={createTallyPagePath(originalElection.electionName)} onClick={onClickAnchor}>tally</a>
         <button type={"submit"} onClick={applyChangesClicked} disabled={!hasPendingEdits}>Apply Changes</button>
         <button type={"submit"} onClick={discardChangesClicked} disabled={!hasPendingEdits}>Discard Changes</button>
         <hr/>
@@ -246,8 +250,8 @@ const Election = (
         <button type={"submit"} onClick={finalizeTallyClicked} disabled={!canFinalize}>Finalize Tally</button>
         <button type={"submit"} onClick={deleteElectionClicked} disabled={!canDelete}>Delete Election</button>
         <hr/>
-        <a href={electionsPagePath}>elections</a>
-        <a href={dashboardPagePath}>dashboard</a>
+        <a href={electionsPagePath} onClick={onClickAnchor}>elections</a>
+        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
     </div>
 }
 

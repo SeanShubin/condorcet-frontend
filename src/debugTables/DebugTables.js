@@ -2,22 +2,23 @@ import ErrorComponent from "../error/ErrorComponent";
 import {createDebugTablesPagePath} from "./debugTablesConstant";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
 
-const TableSelector = ({tableName, selectedTableName}) => {
+const TableSelector = ({tableName, selectedTableName, onClickAnchor}) => {
     let className
     if (selectedTableName === tableName) {
         className = 'tab selected'
     } else {
         className = 'tab'
     }
-    return <a href={createDebugTablesPagePath(tableName)}  className={className}>{tableName}</a>
+    return <a href={createDebugTablesPagePath(tableName)} className={className} onClick={onClickAnchor}>{tableName}</a>
 }
 
-const TableSelectors = ({tableNames, selectedTableName}) => {
+const TableSelectors = ({tableNames, selectedTableName, onClickAnchor}) => {
     return <div>
         {tableNames.map(tableName => <TableSelector
             key={tableName}
             tableName={tableName}
-            selectedTableName={selectedTableName}/>)}
+            selectedTableName={selectedTableName}
+        onClickAnchor={onClickAnchor}/>)}
     </div>
 }
 
@@ -36,14 +37,25 @@ const TableContent = ({headers, rows}) => {
     </table>
 }
 
-const DebugTables = ({selectedTableName, tableNames, tableData, errors}) => {
+const DebugTables = (
+    {
+        selectedTableName,
+        tableNames,
+        tableData,
+        errors,
+        globalSetUri
+    }) => {
+    const onClickAnchor = event => {
+        event.preventDefault()
+        globalSetUri(event.target.href)
+    }
     return <div className={'DebugTables columns-1-outer-left'}>
         <h1>Debug Tables</h1>
         <ErrorComponent errors={errors}/>
-        <TableSelectors tableNames={tableNames} selectedTableName={selectedTableName}/>
+        <TableSelectors tableNames={tableNames} selectedTableName={selectedTableName} onClickAnchor={onClickAnchor}/>
         <TableContent headers={tableData.columnNames} rows={tableData.rows}/>
         <hr/>
-        <a href={dashboardPagePath}>dashboard</a>
+        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
     </div>
 }
 

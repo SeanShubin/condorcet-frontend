@@ -53,13 +53,23 @@ const UserList = ({users, updateUserRoleRequest}) => {
     </table>
 }
 
-const ManageUsers = ({users, errors, updateUserRoleRequest}) => {
+const ManageUsers = (
+    {
+        users,
+        errors,
+        updateUserRoleRequest,
+        globalSetUri
+    }) => {
+    const onClickAnchor = event => {
+        event.preventDefault()
+        globalSetUri(event.target.href)
+    }
     return <div className={'ManageUsers columns-1-outer'}>
         <h1>ManageUsers</h1>
         <ErrorComponent errors={errors}/>
         <UserList users={users} updateUserRoleRequest={updateUserRoleRequest}/>
         <hr/>
-        <a href={dashboardPagePath}>dashboard</a>
+        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
     </div>
 }
 

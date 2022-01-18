@@ -162,8 +162,13 @@ const Tally = args => {
     const {
         electionName,
         tally,
-        errors
+        errors,
+        globalSetUri
     } = args
+    const onClickAnchor = event => {
+        event.preventDefault()
+        globalSetUri(event.target.href)
+    }
     if (!tally) return <h1>No Data</h1>
     const {
         candidateNames, secretBallot, ballots, preferences, strongestPathMatrix, places, whoVoted
@@ -185,8 +190,8 @@ const Tally = args => {
         <h2>Ballots</h2>
         <BallotsTable candidateNames={candidateNames} ballots={ballots} secretBallot={secretBallot}/>
         <hr/>
-        <a href={createElectionPagePath(electionName)}>election {electionName}</a>
-        <a href={dashboardPagePath}>dashboard</a>
+        <a href={createElectionPagePath(electionName)} onClick={onClickAnchor}>election {electionName}</a>
+        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
     </div>
 }
 

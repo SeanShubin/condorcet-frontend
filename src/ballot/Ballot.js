@@ -66,17 +66,29 @@ const EffectiveRankings = ({rankings}) => {
 }
 
 const BallotSummary = ({ballot}) => {
-    if(ballot === null) return null
-    const {voterName,electionName,confirmation,whenCast}=ballot
+    if (ballot === null) return null
+    const {voterName, electionName, confirmation, whenCast} = ballot
     const whenCastLocal = isoDateToLocal(whenCast)
     return <>
         <p>Ballot for voter {voterName} in election {electionName}</p>
         <table>
             <tbody>
-            <tr><td>voter</td><td>{voterName}</td></tr>
-            <tr><td>election</td><td>{electionName}</td></tr>
-            <tr><td>confirmation</td><td>{confirmation}</td></tr>
-            <tr><td>when cast</td><td>{whenCastLocal}</td></tr>
+            <tr>
+                <td>voter</td>
+                <td>{voterName}</td>
+            </tr>
+            <tr>
+                <td>election</td>
+                <td>{electionName}</td>
+            </tr>
+            <tr>
+                <td>confirmation</td>
+                <td>{confirmation}</td>
+            </tr>
+            <tr>
+                <td>when cast</td>
+                <td>{whenCastLocal}</td>
+            </tr>
             </tbody>
         </table>
     </>
@@ -87,9 +99,9 @@ const effectiveRankingsFrom = rankings => {
     const notNullRanks = R.reject(R.isNil, ranks)
     const distinctRanks = R.uniq(notNullRanks)
     const distinctOrderedRanks = R.sortBy(R.identity, distinctRanks)
-    const normalized = R.range(1,distinctOrderedRanks.length+1)
+    const normalized = R.range(1, distinctOrderedRanks.length + 1)
     const newRankMap = R.zipObj(distinctOrderedRanks, normalized)
-    const lastRank = distinctOrderedRanks.length+1
+    const lastRank = distinctOrderedRanks.length + 1
     const defaultToLastRank = R.defaultTo(lastRank)
 
     const toEffectiveRank = rank => {
@@ -115,8 +127,14 @@ const Ballot = ({
                     errors,
                     fetchBallotRequest,
                     castBallotRequest,
-                    updateRank
+                    updateRank,
+                    globalSetUri
                 }) => {
+    const onClickAnchor = event => {
+        event.preventDefault()
+        globalSetUri(event.target.href)
+    }
+
     const hasPendingEdits = !R.equals(originalRankings, editedRankings)
     const effectiveRankings = effectiveRankingsFrom(editedRankings)
 
@@ -136,8 +154,8 @@ const Ballot = ({
         <button type={"submit"} onClick={onClickCastBallot} disabled={!hasPendingEdits}>Cast Ballot</button>
         <button type={"submit"} onClick={onClickDiscardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
         <hr/>
-        <a href={createElectionPagePath(electionName)}>election {electionName}</a>
-        <a href={dashboardPagePath}>dashboard</a>
+        <a href={createElectionPagePath(electionName)} onClick={onClickAnchor}>election {electionName}</a>
+        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
     </div>
 }
 

@@ -71,8 +71,13 @@ const Voters = (
         filterChanged,
         updateVoterEdits,
         setVotersRequest,
-        fetchVotersRequest
+        fetchVotersRequest,
+        globalSetUri
     }) => {
+    const onClickAnchor = event => {
+        event.preventDefault()
+        globalSetUri(event.target.href)
+    }
     const hasPendingEdits = !R.equals(originalVoters, votersWithEdits)
     const isOwner = userName === election.ownerName
     const canEditVoters = isOwner && election.allowEdit
@@ -123,8 +128,8 @@ const Voters = (
         <button type={"submit"} onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
         <button type={"submit"} onClick={discardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
         <hr/>
-        <a href={createElectionPagePath(election.electionName)}>election {election.electionName}</a>
-        <a href={dashboardPagePath}>dashboard</a>
+        <a href={createElectionPagePath(election.electionName)} onClick={onClickAnchor}>election {election.electionName}</a>
+        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
     </div>
 }
 

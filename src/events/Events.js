@@ -16,13 +16,22 @@ const TableContent = ({headers, rows}) => {
     </table>
 }
 
-const Events = ({tableData, errors}) => {
+const Events = (
+    {
+        tableData,
+        errors,
+        globalSetUri
+    }) => {
+    const onClickAnchor = event => {
+        event.preventDefault()
+        globalSetUri(event.target.href)
+    }
     return <div className={'Events columns-1-outer-left'}>
         <h1>Events</h1>
         <ErrorComponent errors={errors}/>
         <TableContent headers={tableData.columnNames} rows={tableData.rows}/>
         <hr/>
-        <a href={dashboardPagePath}>dashboard</a>
+        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
     </div>
 }
 

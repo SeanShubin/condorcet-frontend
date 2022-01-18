@@ -14,8 +14,13 @@ const Register = (
         passwordChanged,
         confirmationPasswordChanged,
         passwordDoesNotMatchConfirmationPassword,
-        registerRequest
+        registerRequest,
+        globalSetUri
     }) => {
+    const onClickAnchor = event => {
+        event.preventDefault()
+        globalSetUri(event.target.href)
+    }
     const onChangeName = event =>{
         nameChanged(event.target.value)
     }
@@ -53,7 +58,7 @@ const Register = (
                onChange={onChangeConfirmationPassword}/>
         <button type={'submit'}>Register</button>
         <hr/>
-        <a href={loginPagePath}>Login</a>
+        <a href={loginPagePath} onClick={onClickAnchor}>Login</a>
     </form>
 }
 

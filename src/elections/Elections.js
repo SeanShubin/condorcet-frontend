@@ -4,9 +4,9 @@ import React from "react";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
 import {createElectionPagePath} from "../election/electionConstant";
 
-const ElectionList = ({elections}) => {
+const ElectionList = ({elections, onClickAnchor}) => {
     const createElectionListElement = election => {
-        return <li key={election.electionName}><a href={createElectionPagePath(election.electionName)}>{election.electionName}</a></li>
+        return <li key={election.electionName}><a href={createElectionPagePath(election.electionName)} onClick={onClickAnchor}>{election.electionName}</a></li>
     }
     const electionListElements = R.map(createElectionListElement, elections)
     return <ul className={'columns-1-inner'}>
@@ -30,15 +30,27 @@ const AddElection = ({electionName, electionNameChanged, addElectionRequest}) =>
                   onChange={onChange}/>
 }
 
-const Elections = ({elections, electionName, errors, electionNameChanged, addElectionRequest}) => {
+const Elections = (
+    {
+        elections,
+        electionName,
+        errors,
+        electionNameChanged,
+        addElectionRequest,
+        globalSetUri
+    }) => {
+    const onClickAnchor = event => {
+        event.preventDefault()
+        globalSetUri(event.target.href)
+    }
     return <div className={'Elections columns-1-outer'}>
         <h1>Elections</h1>
         <ErrorComponent errors={errors}/>
         <AddElection electionName={electionName} electionNameChanged={electionNameChanged}
                      addElectionRequest={addElectionRequest}/>
-        <ElectionList elections={elections}/>
+        <ElectionList elections={elections} onClickAnchor={onClickAnchor}/>
         <hr/>
-        <a href={dashboardPagePath}>dashboard</a>
+        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
     </div>
 }
 

@@ -12,8 +12,13 @@ const Candidates = (
         updateCandidateEdits,
         setCandidatesRequest,
         fetchCandidatesRequest,
-        errors
+        errors,
+        globalSetUri
     }) => {
+    const onClickAnchor = event => {
+        event.preventDefault()
+        globalSetUri(event.target.href)
+    }
     const hasPendingEdits = !R.equals(originalCandidates, candidatesWithEdits)
     const candidatesString = R.join('\n', candidatesWithEdits)
     const candidatesCount = candidatesWithEdits.length
@@ -40,8 +45,8 @@ const Candidates = (
         <button type={"submit"} onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
         <button type={"submit"} onClick={discardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
         <hr/>
-        <a href={createElectionPagePath(electionName)}>election {electionName}</a>
-        <a href={dashboardPagePath}>dashboard</a>
+        <a href={createElectionPagePath(electionName)} onClick={onClickAnchor}>election {electionName}</a>
+        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
     </div>
 }
 
