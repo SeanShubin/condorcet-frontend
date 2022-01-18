@@ -69,7 +69,6 @@ const setUri = environment => function* (event) {
     })
     const merged = newPathname + '?' + builder.toString()
     environment.history.push(merged)
-    yield put(navigationDispatch.fetchPageRequest())
 }
 
 const clearBrowserState = environment => function* (event) {
@@ -77,7 +76,7 @@ const clearBrowserState = environment => function* (event) {
     environment.history.go()
 }
 
-const fetchPage = environment => function* () {
+const fetchPageRequest = environment => function* () {
     const pathName = environment.history.location.pathname
     const pageName = pathName.substring(1)
     const dispatch = dispatchMap[pageName]
@@ -100,7 +99,7 @@ const history = environment => function* () {
 }
 
 const navigationEffect = {
-    [navigationEvent.FETCH_PAGE_REQUEST]: fetchPage,
+    [navigationEvent.FETCH_PAGE_REQUEST]: fetchPageRequest,
     [navigationEvent.HISTORY]: history,
     [navigationEvent.SET_URI]: setUri,
     [navigationEvent.CLEAR_BROWSER_STATE]: clearBrowserState
