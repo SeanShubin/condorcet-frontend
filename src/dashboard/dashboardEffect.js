@@ -2,7 +2,6 @@ import dashboardDispatch from './dashboardDispatch'
 import dashboardEvent from './dashboardEvent'
 import {put} from 'redux-saga/effects'
 import navigationDispatch from "../navigation/navigationDispatch";
-import {loginPagePath} from "../login/loginConstant";
 import {createApi} from "../api/api";
 
 const handleError = environment => function* (f) {
