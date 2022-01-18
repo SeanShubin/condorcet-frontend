@@ -39,9 +39,9 @@ const TableContent = ({headers, rows}) => {
 
 const Tables = (
     {
-        selectedTableName,
         tableNames,
-        tableData,
+        selectedTableName,
+        selectedTableData,
         errors,
         globalSetUri
     }) => {
@@ -57,7 +57,7 @@ const Tables = (
         <h1>Tables</h1>
         <ErrorComponent errors={errors}/>
         <TableSelectors tableNames={tableNames} selectedTableName={selectedTableName} onClickAnchor={onClickAnchor}/>
-        <TableContent headers={tableData.columnNames} rows={tableData.rows}/>
+        <TableContent headers={selectedTableData.columnNames} rows={selectedTableData.rows}/>
         <hr/>
         <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
     </div>

@@ -69,11 +69,13 @@ const setUri = environment => function* (event) {
     })
     const merged = newPathname + '?' + builder.toString()
     environment.history.push(merged)
+    yield
 }
 
 const clearBrowserState = environment => function* (event) {
     environment.history.push('/')
     environment.history.go()
+    yield
 }
 
 const fetchPageRequest = environment => function* () {

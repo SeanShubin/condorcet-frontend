@@ -3,16 +3,16 @@ import tablesModel from "./tablesModel";
 import {appendToArray} from "../library/collection-util";
 import * as R from 'ramda'
 
-const fetchTableNamesSuccess = (state, event) => R.set(tablesModel.tableNames, event.tableNames, state)
-const fetchTableSuccess = (state, event) => R.set(tablesModel.tableData, event.tableData, state)
-const selectedTableChanged = (state, event) => R.set(tablesModel.selectedTableName, event.selectedTableName, state)
+const setTableData = (state, event) => R.pipe(
+    R.set(tablesModel.tableNames, event.tableNames),
+    R.set(tablesModel.selectedTableName, event.selectedTableName),
+    R.set(tablesModel.selectedTableData, event.selectedTableData))(state)
+
 const errorAdded = (state, event) => appendToArray(tablesModel.errors, event.message, state)
 const clearErrors = (state, event) => R.set(tablesModel.errors, [], state)
 
 const tablesReducer = {
-    [tablesEvent.FETCH_TABLE_NAMES_SUCCESS]: fetchTableNamesSuccess,
-    [tablesEvent.FETCH_TABLE_SUCCESS]: fetchTableSuccess,
-    [tablesEvent.SELECTED_TABLE_CHANGED]: selectedTableChanged,
+    [tablesEvent.SET_TABLE_DATA]: setTableData,
     [tablesEvent.ERROR_ADDED]: errorAdded,
     [tablesEvent.CLEAR_ERRORS]: clearErrors
 }
