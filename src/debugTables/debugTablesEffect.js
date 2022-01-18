@@ -5,55 +5,32 @@ import {createApi} from "../api/api";
 import navigationDispatch from "../navigation/navigationDispatch";
 import {createDebugTablesPagePath} from "./debugTablesConstant";
 
-const handleError = environment => function* (f){
+const handleError = environment => function* (f) {
     yield put(debugTablesDispatch.clearErrors())
     try {
         yield* f(environment)
-    } catch(ex) {
+    } catch (ex) {
         yield put(debugTablesDispatch.errorAdded(ex.message))
     }
 }
 
 const initialize = environment => function* (event) {
-    const query = event.query
-    const tableName = query.table
-    if(tableName){
-        yield put(debugTablesDispatch.fetchTableNamesRequest())
-        yield put(debugTablesDispatch.selectedTableChanged(tableName))
-    } else {
-        yield put(navigationDispatch.setUri(createDebugTablesPagePath('user')))
-    }
-}
-
-const fetchTableNamesRequest = environment => function* () {
     const api = createApi(environment)
-    yield* handleError(environment)(function*() {
-        const tableNames = yield api.listTables()
-        yield put(debugTablesDispatch.fetchTableNamesSuccess(tableNames))
-    })
-}
-
-const fetchTableRequest = environment => function* (event) {
-    const api = createApi(environment)
-    const {tableName } = event
-    yield* handleError(environment)(function*() {
-        const tableData = yield api.debugTableData(tableName)
-        yield put(debugTablesDispatch.fetchTableSuccess(tableData))
-    })
-}
-
-const selectedTableChanged = environment => function* (event) {
-    const {selectedTableName} = event
-    yield* handleError(environment)(function*() {
-        yield put(debugTablesDispatch.fetchTableRequest(selectedTableName))
+    yield* handleError(environment)(function* () {
+        const query = event.query
+        const selectedTableName = query.table
+        if (selectedTableName) {
+            const tableNames = yield api.listTables()
+            const selectedTableData = yield api.debugTableData(selectedTableName)
+            yield put(debugTablesDispatch.setTableData({tableNames, selectedTableName, selectedTableData}))
+        } else {
+            yield put(navigationDispatch.setUri(createDebugTablesPagePath('user')))
+        }
     })
 }
 
 const debugTablesEffect = {
-    [debugTablesEvent.INITIALIZE]: initialize,
-    [debugTablesEvent.FETCH_TABLE_NAMES_REQUEST]: fetchTableNamesRequest,
-    [debugTablesEvent.FETCH_TABLE_REQUEST]: fetchTableRequest,
-    [debugTablesEvent.SELECTED_TABLE_CHANGED]: selectedTableChanged
+    [debugTablesEvent.INITIALIZE]: initialize
 }
 
 export default debugTablesEffect
