@@ -102,6 +102,14 @@ const Election = args => {
         errorAdded,
         globalSetUri
     } = args
+    const onClickAnchor = event => {
+        event.preventDefault()
+        const target = event.target
+        const origin = target.origin
+        const href = target.href
+        const uri = href.substring(origin.length)
+        globalSetUri(uri)
+    }
     const hasPendingEdits = !R.equals(originalElection, electionWithEdits)
     const isOwner = userName === originalElection.ownerName
     const canEditElection = isOwner && originalElection.allowEdit && !originalElection.allowVote
@@ -197,10 +205,6 @@ const Election = args => {
     const status = statusOfElection(originalElection)
     const canLaunch = !hasPendingEdits && !originalElection.allowVote && originalElection.allowEdit
     const canFinalize = !hasPendingEdits && originalElection.allowVote
-    const onClickAnchor = event => {
-        event.preventDefault()
-        globalSetUri(event.target.href)
-    }
     return <div className={'Election columns-1-outer'}>
         <h1>Election</h1>
         <ErrorComponent errors={errors}/>

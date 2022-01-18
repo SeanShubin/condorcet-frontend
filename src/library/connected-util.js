@@ -2,7 +2,6 @@ import {connect} from 'react-redux';
 import * as R from 'ramda'
 import {mergeDisallowDuplicateKeys} from "./collection-util";
 import {takeEvery} from 'redux-saga/effects';
-import tablesEvent from "../tables/tablesEvent";
 import navigationEvent from "../navigation/navigationEvent";
 
 const composeMapStateToProps = ({model, extraState = {}}) => state => {

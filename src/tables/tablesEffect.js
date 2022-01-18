@@ -2,6 +2,8 @@ import tablesDispatch from './tablesDispatch'
 import tablesEvent from './tablesEvent'
 import {put} from 'redux-saga/effects'
 import {createApi} from "../api/api";
+import navigationDispatch from "../navigation/navigationDispatch";
+import {createTablesPagePath} from "./tablesConstant";
 
 const handleError = environment => function* (f){
     yield put(tablesDispatch.clearErrors())
@@ -15,8 +17,12 @@ const handleError = environment => function* (f){
 const initialize = environment => function* (event) {
     const query = event.query
     const tableName = query.table
-    yield put(tablesDispatch.fetchTableNamesRequest())
-    yield put(tablesDispatch.selectedTableChanged(tableName))
+    if(query.table){
+        yield put(tablesDispatch.fetchTableNamesRequest())
+        yield put(tablesDispatch.selectedTableChanged(tableName))
+    } else {
+        yield put(navigationDispatch.setUri(createTablesPagePath('user')))
+    }
 }
 
 const fetchTableNamesRequest = environment => function* () {

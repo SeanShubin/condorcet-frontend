@@ -62,7 +62,11 @@ const ManageUsers = (
     }) => {
     const onClickAnchor = event => {
         event.preventDefault()
-        globalSetUri(event.target.href)
+        const target = event.target
+        const origin = target.origin
+        const href = target.href
+        const uri = href.substring(origin.length)
+        globalSetUri(uri)
     }
     return <div className={'ManageUsers columns-1-outer'}>
         <h1>ManageUsers</h1>

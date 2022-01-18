@@ -24,7 +24,11 @@ const Events = (
     }) => {
     const onClickAnchor = event => {
         event.preventDefault()
-        globalSetUri(event.target.href)
+        const target = event.target
+        const origin = target.origin
+        const href = target.href
+        const uri = href.substring(origin.length)
+        globalSetUri(uri)
     }
     return <div className={'Events columns-1-outer-left'}>
         <h1>Events</h1>

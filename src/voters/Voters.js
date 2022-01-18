@@ -76,7 +76,11 @@ const Voters = (
     }) => {
     const onClickAnchor = event => {
         event.preventDefault()
-        globalSetUri(event.target.href)
+        const target = event.target
+        const origin = target.origin
+        const href = target.href
+        const uri = href.substring(origin.length)
+        globalSetUri(uri)
     }
     const hasPendingEdits = !R.equals(originalVoters, votersWithEdits)
     const isOwner = userName === election.ownerName

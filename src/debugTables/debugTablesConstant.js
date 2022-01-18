@@ -1,15 +1,7 @@
-const defaultTable = 'user'
-
-const orDefaultTable = table => {
-    if(table) {
-        return table
-    } else {
-        return defaultTable
-    }
-}
+const debugTablesPagePath = '/debugTables'
 
 const createDebugTablesPagePath = table => {
-    return `/debugTables?table=${orDefaultTable(table)}`
+    return `/debugTables?table=${table}`
 }
 
-export {createDebugTablesPagePath}
+export {debugTablesPagePath,createDebugTablesPagePath}

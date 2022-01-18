@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>url parser</title>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ramda/0.25.0/ramda.min.js"></script>
+<script type="application/javascript">
+    const rootElement = document.getElementById('root')
+    const emit = text => {
+        const p = document.createElement('p')
+        p.textContent = text
+        rootElement.appendChild(p)
+    }
+    const origin = window.location.origin
+    const oldPath = '/foo/bar?aaa=bbb&ccc=ddd'
+    const newPath = '/foo/baz?ccc=eee&fff=ggg'
+    const expected = '/foo/baz?aaa=bbb&ccc=eee&fff=ggg'
+    const oldUrl = new URL(origin + oldPath)
+    const newUrl = new URL(origin + newPath)
+    const oldSearchArray = Array.from(oldUrl.searchParams.entries())
+    const newSearchArray = Array.from(newUrl.searchParams.entries())
+    const oldSearchMap = R.fromPairs(oldSearchArray)
+    const newSearchMap = R.fromPairs(newSearchArray)
+    const mergedMap = R.mergeRight(oldSearchMap, newSearchMap)
+    const mergedArray = R.toPairs(mergedMap)
+    const builder = new URLSearchParams()
+    mergedArray.forEach(element => {
+        builder.append(element[0], element[1])
+    })
+    const result = newUrl.origin + newUrl.pathname + '?' + builder.toString()
+    result
+    emit(newUrl.origin + newUrl.pathname + builder.toString())
+</script>
+</body>
+</html>

@@ -3,9 +3,9 @@ import ErrorComponent from "../error/ErrorComponent";
 import {pluralize} from "../library/text-util";
 import {manageUsersPagePath} from "../manageUsers/manageUsersConstant";
 import {electionsPagePath} from "../elections/electionsConstant";
-import {createTablesPagePath} from "../tables/tablesConstant";
+import {tablesPagePath} from "../tables/tablesConstant";
+import {debugTablesPagePath} from "../debugTables/debugTablesConstant";
 import {eventsPagePath} from "../events/eventsConstant";
-import {createDebugTablesPagePath} from "../debugTables/debugTablesConstant";
 
 const Dashboard = (
     {
@@ -19,7 +19,11 @@ const Dashboard = (
     }) => {
     const onClickAnchor = event => {
         event.preventDefault()
-        globalSetUri(event.target.href)
+        const target = event.target
+        const origin = target.origin
+        const href = target.href
+        const uri = href.substring(origin.length)
+        globalSetUri(uri)
     }
     const userCountText = `${userCount} ${pluralize({quantity: userCount, singular: 'user', plural: 'users'})}`
     const electionCountText = `${electionCount} ${pluralize({
@@ -39,8 +43,8 @@ const Dashboard = (
         <ErrorComponent errors={errors}/>
         <a href={manageUsersPagePath} onClick={onClickAnchor}>{userCountText}</a>
         <a href={electionsPagePath} onClick={onClickAnchor}>{electionCountText}</a>
-        <a href={createTablesPagePath()} onClick={onClickAnchor}>{tableCountText}</a>
-        <a href={createDebugTablesPagePath()} onClick={onClickAnchor}>{debugTableCountText}</a>
+        <a href={tablesPagePath} onClick={onClickAnchor}>{tableCountText}</a>
+        <a href={debugTablesPagePath} onClick={onClickAnchor}>{debugTableCountText}</a>
         <a href={eventsPagePath} onClick={onClickAnchor}>{eventCountText}</a>
         <button type={'button'} onClick={logoutRequest}>Logout</button>
     </div>

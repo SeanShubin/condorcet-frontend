@@ -1,15 +1,7 @@
-const defaultTable = 'user'
-
-const orDefaultTable = table => {
-    if(table) {
-        return table
-    } else {
-        return defaultTable
-    }
-}
+const tablesPagePath = '/tables'
 
 const createTablesPagePath = table => {
-    return `/tables?table=${orDefaultTable(table)}`
+    return `/tables?table=${table}`
 }
 
-export {createTablesPagePath}
+export {tablesPagePath, createTablesPagePath}

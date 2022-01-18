@@ -167,7 +167,11 @@ const Tally = args => {
     } = args
     const onClickAnchor = event => {
         event.preventDefault()
-        globalSetUri(event.target.href)
+        const target = event.target
+        const origin = target.origin
+        const href = target.href
+        const uri = href.substring(origin.length)
+        globalSetUri(uri)
     }
     if (!tally) return <h1>No Data</h1>
     const {

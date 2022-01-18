@@ -35,15 +35,46 @@ const dispatchMap = {
     style: styleDispatch
 }
 
+const parsePathnameSearch = s => {
+    const indexOfQuestion = s.indexOf('?')
+    if(indexOfQuestion === -1){
+        const pathname = s
+        const search = ''
+        return {pathname, search}
+    } else {
+        const pathname = s.substring(0, indexOfQuestion)
+        const search = s.substring(indexOfQuestion)
+        return {pathname, search}
+    }
+}
+
 const setUri = environment => function* (event) {
     const uri = event.uri
-    environment.history.push(uri)
+    const parsed = parsePathnameSearch(uri)
+    const newPathname = parsed.pathname
+    const newSearch = parsed.search
+    const location = environment.history.location
+    const oldSearch = location.search
+    const oldSearchParams = new URLSearchParams(oldSearch)
+    const newSearchParams = new URLSearchParams(newSearch)
+    const oldSearchArray = Array.from(oldSearchParams.entries())
+    const newSearchArray = Array.from(newSearchParams.entries())
+    const oldSearchMap = R.fromPairs(oldSearchArray)
+    const newSearchMap = R.fromPairs(newSearchArray)
+    const mergedMap = R.mergeRight(oldSearchMap, newSearchMap)
+    const mergedArray = R.toPairs(mergedMap)
+    const builder = new URLSearchParams()
+    mergedArray.forEach(element => {
+        builder.append(element[0], element[1])
+    })
+    const merged = newPathname + '?' + builder.toString()
+    environment.history.push(merged)
     yield put(navigationDispatch.fetchPageRequest())
 }
 
 const fetchPage = environment => function* () {
-    const uri = environment.history.location.pathname
-    const pageName = uri.substring(1)
+    const pathName = environment.history.location.pathname
+    const pageName = pathName.substring(1)
     const dispatch = dispatchMap[pageName]
     if (dispatch) {
         const queryString = environment.history.location.search
