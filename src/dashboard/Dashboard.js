@@ -6,6 +6,7 @@ import {electionsPagePath} from "../elections/electionsConstant";
 import {tablesPagePath} from "../tables/tablesConstant";
 import {debugTablesPagePath} from "../debugTables/debugTablesConstant";
 import {eventsPagePath} from "../events/eventsConstant";
+import {Link} from "../library/uri-util";
 
 const Dashboard = (
     {
@@ -17,14 +18,6 @@ const Dashboard = (
         logoutRequest,
         globalSetUri
     }) => {
-    const onClickAnchor = event => {
-        event.preventDefault()
-        const target = event.target
-        const origin = target.origin
-        const href = target.href
-        const uri = href.substring(origin.length)
-        globalSetUri(uri)
-    }
     const userCountText = `${userCount} ${pluralize({quantity: userCount, singular: 'user', plural: 'users'})}`
     const electionCountText = `${electionCount} ${pluralize({
         quantity: electionCount,
@@ -41,11 +34,11 @@ const Dashboard = (
     return <div className={'Dashboard columns-1-outer' }>
         <h1>Dashboard</h1>
         <ErrorComponent errors={errors}/>
-        <a href={usersPagePath} onClick={onClickAnchor}>{userCountText}</a>
-        <a href={electionsPagePath} onClick={onClickAnchor}>{electionCountText}</a>
-        <a href={tablesPagePath} onClick={onClickAnchor}>{tableCountText}</a>
-        <a href={debugTablesPagePath} onClick={onClickAnchor}>{debugTableCountText}</a>
-        <a href={eventsPagePath} onClick={onClickAnchor}>{eventCountText}</a>
+        <Link href={usersPagePath} setUri={globalSetUri}>{userCountText}</Link>
+        <Link href={electionsPagePath} setUri={globalSetUri}>{electionCountText}</Link>
+        <Link href={tablesPagePath} setUri={globalSetUri}>{tableCountText}</Link>
+        <Link href={debugTablesPagePath} setUri={globalSetUri}>{debugTableCountText}</Link>
+        <Link href={eventsPagePath} setUri={globalSetUri}>{eventCountText}</Link>
         <button type={'button'} onClick={logoutRequest}>Logout</button>
     </div>
 }

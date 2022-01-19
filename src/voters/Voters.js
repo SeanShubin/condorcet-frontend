@@ -3,6 +3,7 @@ import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 import {createElectionPagePath} from "../election/electionConstant";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
+import {Link} from "../library/uri-util";
 
 const equalsIgnoreCase = (first, second) => {
     return first.toLowerCase() === second.toLowerCase()
@@ -74,14 +75,6 @@ const Voters = (
         fetchVotersRequest,
         globalSetUri
     }) => {
-    const onClickAnchor = event => {
-        event.preventDefault()
-        const target = event.target
-        const origin = target.origin
-        const href = target.href
-        const uri = href.substring(origin.length)
-        globalSetUri(uri)
-    }
     const hasPendingEdits = !R.equals(originalVoters, votersWithEdits)
     const isOwner = userName === election.ownerName
     const canEditVoters = isOwner && election.allowEdit
@@ -132,8 +125,8 @@ const Voters = (
         <button type={"submit"} onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
         <button type={"submit"} onClick={discardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
         <hr/>
-        <a href={createElectionPagePath(election.electionName)} onClick={onClickAnchor}>election {election.electionName}</a>
-        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
+        <Link href={createElectionPagePath(election.electionName)} setUri={globalSetUri}>election {election.electionName}</Link>
+        <Link href={dashboardPagePath} setUri={globalSetUri}>dashboard</Link>
     </div>
 }
 

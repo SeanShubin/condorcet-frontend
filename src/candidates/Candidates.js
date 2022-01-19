@@ -3,6 +3,7 @@ import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 import {createElectionPagePath} from "../election/electionConstant";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
+import {Link} from "../library/uri-util";
 
 const Candidates = (
     {
@@ -15,14 +16,6 @@ const Candidates = (
         errors,
         globalSetUri
     }) => {
-    const onClickAnchor = event => {
-        event.preventDefault()
-        const target = event.target
-        const origin = target.origin
-        const href = target.href
-        const uri = href.substring(origin.length)
-        globalSetUri(uri)
-    }
     const hasPendingEdits = !R.equals(originalCandidates, candidatesWithEdits)
     const candidatesString = R.join('\n', candidatesWithEdits)
     const candidatesCount = candidatesWithEdits.length
@@ -49,8 +42,8 @@ const Candidates = (
         <button type={"submit"} onClick={applyChanges} disabled={!hasPendingEdits}>Apply Changes</button>
         <button type={"submit"} onClick={discardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
         <hr/>
-        <a href={createElectionPagePath(electionName)} onClick={onClickAnchor}>election {electionName}</a>
-        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
+        <Link href={createElectionPagePath(electionName)} setUri={globalSetUri}>election {electionName}</Link>
+        <Link href={dashboardPagePath} setUri={globalSetUri}>dashboard</Link>
     </div>
 }
 

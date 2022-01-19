@@ -2,6 +2,7 @@ import React from 'react';
 import ErrorComponent from "../error/ErrorComponent";
 import {registerPagePath} from "../register/registerConstant";
 import {stylePagePath} from "../style/styleConstant";
+import {Link} from "../library/uri-util";
 
 const Login = (
     {
@@ -13,14 +14,6 @@ const Login = (
         loginRequest,
         globalSetUri
     }) => {
-    const onClickAnchor = event => {
-        event.preventDefault()
-        const target = event.target
-        const origin = target.origin
-        const href = target.href
-        const uri = href.substring(origin.length)
-        globalSetUri(uri)
-    }
     const onChangeNameOrEmail = event =>
         nameOrEmailChanged(event.target.value)
     const onChangePassword = event =>
@@ -42,8 +35,8 @@ const Login = (
                onChange={onChangePassword}/>
         <button type={'submit'}>Login</button>
         <hr/>
-        <a href={registerPagePath} onClick={onClickAnchor}>Register</a>
-        <a href={stylePagePath} onClick={onClickAnchor}>Style</a>
+        <Link href={registerPagePath} setUri={globalSetUri}>Register</Link>
+        <Link href={stylePagePath} setUri={globalSetUri}>Style</Link>
     </form>
 }
 

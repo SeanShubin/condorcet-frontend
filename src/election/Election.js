@@ -10,6 +10,7 @@ import {createTallyPagePath} from "../tally/tallyConstant";
 import {createVotersPagePath} from "../voters/votersConstant";
 import {electionsPagePath} from "../elections/electionsConstant";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
+import {Link} from "../library/uri-util";
 
 const NoYes = ({caption, value, changeValue, canUpdate}) => {
     let noClass;
@@ -102,14 +103,6 @@ const Election = args => {
         errorAdded,
         globalSetUri
     } = args
-    const onClickAnchor = event => {
-        event.preventDefault()
-        const target = event.target
-        const origin = target.origin
-        const href = target.href
-        const uri = href.substring(origin.length)
-        globalSetUri(uri)
-    }
     const hasPendingEdits = !R.equals(originalElection, electionWithEdits)
     const isOwner = userName === originalElection.ownerName
     const canEditElection = isOwner && originalElection.allowEdit && !originalElection.allowVote
@@ -242,10 +235,10 @@ const Election = args => {
                    disabled={!originalElection.allowEdit}
             />
         </div>
-        <a href={createCandidatesPagePath(originalElection.electionName)} onClick={onClickAnchor}>{candidateCountText}</a>
-        <a href={createVotersPagePath(originalElection.electionName)} onClick={onClickAnchor}>{voterCountText}</a>
-        <a href={createBallotPagePath({voterName: userName, electionName: originalElection.electionName})} onClick={onClickAnchor}>ballot</a>
-        <a href={createTallyPagePath(originalElection.electionName)} onClick={onClickAnchor}>tally</a>
+        <Link href={createCandidatesPagePath(originalElection.electionName)} setUri={globalSetUri}>{candidateCountText}</Link>
+        <Link href={createVotersPagePath(originalElection.electionName)} setUri={globalSetUri}>{voterCountText}</Link>
+        <Link href={createBallotPagePath({voterName: userName, electionName: originalElection.electionName})} setUri={globalSetUri}>ballot</Link>
+        <Link href={createTallyPagePath(originalElection.electionName)} setUri={globalSetUri}>tally</Link>
         <button type={"submit"} onClick={applyChangesClicked} disabled={!hasPendingEdits}>Apply Changes</button>
         <button type={"submit"} onClick={discardChangesClicked} disabled={!hasPendingEdits}>Discard Changes</button>
         <hr/>
@@ -254,8 +247,8 @@ const Election = args => {
         <button type={"submit"} onClick={finalizeTallyClicked} disabled={!canFinalize}>Finalize Tally</button>
         <button type={"submit"} onClick={deleteElectionClicked} disabled={!canDelete}>Delete Election</button>
         <hr/>
-        <a href={electionsPagePath} onClick={onClickAnchor}>elections</a>
-        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
+        <Link href={electionsPagePath} setUri={globalSetUri}>elections</Link>
+        <Link href={dashboardPagePath} setUri={globalSetUri}>dashboard</Link>
     </div>
 }
 

@@ -3,6 +3,7 @@ import * as R from 'ramda'
 import {createElectionPagePath} from "../election/electionConstant";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
 import {isoDateToLocal} from "../library/date-time-util";
+import {Link} from "../library/uri-util";
 
 const StrengthTable = ({preferences}) => {
     const createCell = preference => <td key={preference.destination}>{preference.strength}</td>
@@ -165,14 +166,6 @@ const Tally = args => {
         errors,
         globalSetUri
     } = args
-    const onClickAnchor = event => {
-        event.preventDefault()
-        const target = event.target
-        const origin = target.origin
-        const href = target.href
-        const uri = href.substring(origin.length)
-        globalSetUri(uri)
-    }
     if (!tally) return <h1>No Data</h1>
     const {
         candidateNames, secretBallot, ballots, preferences, strongestPathMatrix, places, whoVoted
@@ -194,8 +187,8 @@ const Tally = args => {
         <h2>Ballots</h2>
         <BallotsTable candidateNames={candidateNames} ballots={ballots} secretBallot={secretBallot}/>
         <hr/>
-        <a href={createElectionPagePath(electionName)} onClick={onClickAnchor}>election {electionName}</a>
-        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
+        <Link href={createElectionPagePath(electionName)} setUri={globalSetUri}>election {electionName}</Link>
+        <Link href={dashboardPagePath} setUri={globalSetUri}>dashboard</Link>
     </div>
 }
 

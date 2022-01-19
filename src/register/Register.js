@@ -1,6 +1,7 @@
 import React from 'react';
 import ErrorComponent from "../error/ErrorComponent";
 import {loginPagePath} from "../login/loginConstant";
+import {Link} from "../library/uri-util";
 
 const Register = (
     {
@@ -17,14 +18,6 @@ const Register = (
         registerRequest,
         globalSetUri
     }) => {
-    const onClickAnchor = event => {
-        event.preventDefault()
-        const target = event.target
-        const origin = target.origin
-        const href = target.href
-        const uri = href.substring(origin.length)
-        globalSetUri(uri)
-    }
     const onChangeName = event =>{
         nameChanged(event.target.value)
     }
@@ -62,7 +55,7 @@ const Register = (
                onChange={onChangeConfirmationPassword}/>
         <button type={'submit'}>Register</button>
         <hr/>
-        <a href={loginPagePath} onClick={onClickAnchor}>Login</a>
+        <Link href={loginPagePath} setUri={globalSetUri}>Login</Link>
     </form>
 }
 

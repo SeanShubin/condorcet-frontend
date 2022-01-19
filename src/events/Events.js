@@ -1,5 +1,6 @@
 import ErrorComponent from "../error/ErrorComponent";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
+import {Link} from "../library/uri-util";
 
 const TableHeader = ({header}) => <th>{header}</th>
 
@@ -22,20 +23,12 @@ const Events = (
         errors,
         globalSetUri
     }) => {
-    const onClickAnchor = event => {
-        event.preventDefault()
-        const target = event.target
-        const origin = target.origin
-        const href = target.href
-        const uri = href.substring(origin.length)
-        globalSetUri(uri)
-    }
     return <div className={'Events columns-1-outer-left'}>
         <h1>Events</h1>
         <ErrorComponent errors={errors}/>
         <TableContent headers={tableData.columnNames} rows={tableData.rows}/>
         <hr/>
-        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
+        <Link href={dashboardPagePath} setUri={globalSetUri}>dashboard</Link>
     </div>
 }
 

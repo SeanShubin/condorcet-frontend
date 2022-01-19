@@ -1,24 +1,25 @@
 import ErrorComponent from "../error/ErrorComponent";
 import {createTablesPagePath} from "./tablesConstant";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
+import {Link} from "../library/uri-util";
 
-const TableSelector = ({tableName, selectedTableName, onClickAnchor}) => {
+const TableSelector = ({tableName, selectedTableName, setUri}) => {
     let className
     if (selectedTableName === tableName) {
         className = 'tab selected'
     } else {
         className = 'tab'
     }
-    return <a href={createTablesPagePath(tableName)} className={className} onClick={onClickAnchor}>{tableName}</a>
+    return <Link href={createTablesPagePath(tableName)} className={className} setUri={setUri}>{tableName}</Link>
 }
 
-const TableSelectors = ({tableNames, selectedTableName, onClickAnchor}) => {
+const TableSelectors = ({tableNames, selectedTableName, setUri}) => {
     return <div>
         {tableNames.map(tableName => <TableSelector
             key={tableName}
             tableName={tableName}
             selectedTableName={selectedTableName}
-            onClickAnchor={onClickAnchor}/>)}
+            setUri={setUri}/>)}
     </div>
 }
 
@@ -45,21 +46,13 @@ const Tables = (
         errors,
         globalSetUri
     }) => {
-    const onClickAnchor = event => {
-        event.preventDefault()
-        const target = event.target
-        const origin = target.origin
-        const href = target.href
-        const uri = href.substring(origin.length)
-        globalSetUri(uri)
-    }
     return <div className={'Tables columns-1-outer-left'}>
         <h1>Tables</h1>
         <ErrorComponent errors={errors}/>
-        <TableSelectors tableNames={tableNames} selectedTableName={selectedTableName} onClickAnchor={onClickAnchor}/>
+        <TableSelectors tableNames={tableNames} selectedTableName={selectedTableName} setUri={globalSetUri}/>
         <TableContent headers={selectedTableData.columnNames} rows={selectedTableData.rows}/>
         <hr/>
-        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
+        <Link href={dashboardPagePath} setUri={globalSetUri}>dashboard</Link>
     </div>
 }
 

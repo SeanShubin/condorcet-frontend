@@ -1,6 +1,9 @@
 import React from "react";
+import * as R from 'ramda'
 
-const Link = ({setUri, href, children}) => {
+const Link = args => {
+    const {setUri, href, children} = args
+    const otherArgs = R.omit(['setUri', 'href', 'children'], args)
     const onClick = event => {
         event.preventDefault()
         const target = event.target
@@ -9,7 +12,7 @@ const Link = ({setUri, href, children}) => {
         const uri = href.substring(origin.length)
         setUri(uri)
     }
-    return <a href={href} onClick={onClick}>{children}</a>
+    return <a {...otherArgs} href={href} onClick={onClick} >{children}</a>
 }
 
 export {Link}

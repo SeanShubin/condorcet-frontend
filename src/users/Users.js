@@ -2,6 +2,7 @@ import React from 'react';
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
+import {Link} from "../library/uri-util";
 
 const HeaderCell = ({caption}) => <th key={caption}><span>{caption}</span></th>
 
@@ -60,20 +61,12 @@ const Users = (
         updateUserRoleRequest,
         globalSetUri
     }) => {
-    const onClickAnchor = event => {
-        event.preventDefault()
-        const target = event.target
-        const origin = target.origin
-        const href = target.href
-        const uri = href.substring(origin.length)
-        globalSetUri(uri)
-    }
     return <div className={'Users columns-1-outer'}>
         <h1>Users</h1>
         <ErrorComponent errors={errors}/>
         <UserList users={users} updateUserRoleRequest={updateUserRoleRequest}/>
         <hr/>
-        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
+        <Link href={dashboardPagePath} setUri={globalSetUri}>dashboard</Link>
     </div>
 }
 

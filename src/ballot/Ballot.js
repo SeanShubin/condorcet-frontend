@@ -4,6 +4,7 @@ import * as R from 'ramda'
 import {createElectionPagePath} from "../election/electionConstant";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
 import {isoDateToLocal} from "../library/date-time-util";
+import {Link} from "../library/uri-util";
 
 const rankToString = rank => {
     const parsed = parseInt(rank)
@@ -130,15 +131,6 @@ const Ballot = ({
                     updateRank,
                     globalSetUri
                 }) => {
-    const onClickAnchor = event => {
-        event.preventDefault()
-        const target = event.target
-        const origin = target.origin
-        const href = target.href
-        const uri = href.substring(origin.length)
-        globalSetUri(uri)
-    }
-
     const hasPendingEdits = !R.equals(originalRankings, editedRankings)
     const effectiveRankings = effectiveRankingsFrom(editedRankings)
 
@@ -158,8 +150,8 @@ const Ballot = ({
         <button type={"submit"} onClick={onClickCastBallot} disabled={!hasPendingEdits}>Cast Ballot</button>
         <button type={"submit"} onClick={onClickDiscardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
         <hr/>
-        <a href={createElectionPagePath(electionName)} onClick={onClickAnchor}>election {electionName}</a>
-        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
+        <Link href={createElectionPagePath(electionName)} setUri={globalSetUri}>election {electionName}</Link>
+        <Link href={dashboardPagePath} setUri={globalSetUri}>dashboard</Link>
     </div>
 }
 

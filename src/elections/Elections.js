@@ -5,9 +5,9 @@ import {dashboardPagePath} from "../dashboard/dashboardConstant";
 import {createElectionPagePath} from "../election/electionConstant";
 import {Link} from "../library/uri-util";
 
-const ElectionList = ({elections, onClickAnchor}) => {
+const ElectionList = ({elections, setUri}) => {
     const createElectionListElement = election => {
-        return <li key={election.electionName}><a href={createElectionPagePath(election.electionName)} onClick={onClickAnchor}>{election.electionName}</a></li>
+        return <li key={election.electionName}><Link href={createElectionPagePath(election.electionName)} setUri={setUri}>{election.electionName}</Link></li>
     }
     const electionListElements = R.map(createElectionListElement, elections)
     return <ul className={'columns-1-inner'}>
@@ -40,20 +40,12 @@ const Elections = (
         addElectionRequest,
         globalSetUri
     }) => {
-    const onClickAnchor = event => {
-        event.preventDefault()
-        const target = event.target
-        const origin = target.origin
-        const href = target.href
-        const uri = href.substring(origin.length)
-        globalSetUri(uri)
-    }
     return <div className={'Elections columns-1-outer'}>
         <h1>Elections</h1>
         <ErrorComponent errors={errors}/>
         <AddElection electionName={electionName} electionNameChanged={electionNameChanged}
                      addElectionRequest={addElectionRequest}/>
-        <ElectionList elections={elections} onClickAnchor={onClickAnchor}/>
+        <ElectionList elections={elections} setUri={globalSetUri}/>
         <hr/>
         <Link href={dashboardPagePath} setUri={globalSetUri}>dashboard</Link>
     </div>
