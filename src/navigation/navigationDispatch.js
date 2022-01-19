@@ -6,7 +6,8 @@ const navigationDispatch = {
     history: ({location, action}) => ({type: navigationEvent.HISTORY, location, action}),
     setUri: uri => ({type: navigationEvent.SET_URI, uri}),
     clearBrowserState: () => ({type:navigationEvent.CLEAR_BROWSER_STATE}),
-    errorAdded: message => ({type: navigationEvent.ERROR_ADDED, message})
+    errorAdded: message => ({type: navigationEvent.ERROR_ADDED, message}),
+    clearErrors: () => ({type: navigationEvent.CLEAR_ERRORS})
 }
 
 export default navigationDispatch

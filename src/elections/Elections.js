@@ -3,6 +3,7 @@ import * as R from 'ramda'
 import React from "react";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
 import {createElectionPagePath} from "../election/electionConstant";
+import {Link} from "../library/uri-util";
 
 const ElectionList = ({elections, onClickAnchor}) => {
     const createElectionListElement = election => {
@@ -54,7 +55,7 @@ const Elections = (
                      addElectionRequest={addElectionRequest}/>
         <ElectionList elections={elections} onClickAnchor={onClickAnchor}/>
         <hr/>
-        <a href={dashboardPagePath} onClick={onClickAnchor}>dashboard</a>
+        <Link href={dashboardPagePath} setUri={globalSetUri}>dashboard</Link>
     </div>
 }
 

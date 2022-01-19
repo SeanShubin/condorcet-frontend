@@ -218,6 +218,7 @@
     border-bottom-style: solid;
     border-bottom-width: 1px;
     border-bottom-color: var(--divider);
+    margin-top: 1rem;
     width: 100%;
 }
 

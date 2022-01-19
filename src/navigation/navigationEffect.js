@@ -17,6 +17,7 @@ import * as R from 'ramda'
 import loginDispatch from "../login/loginDispatch";
 import registerDispatch from "../register/registerDispatch";
 import styleDispatch from "../style/styleDispatch";
+import {MANAGE_USERS, VIEW_SECRETS} from "../api/api";
 
 const dispatchMap = {
     login: loginDispatch,
@@ -78,6 +79,15 @@ const clearBrowserState = environment => function* (event) {
     yield
 }
 
+const doNotNeedAnyPermissions = ['login', 'register', 'style']
+const needManageUsersPermission = ['users']
+const needViewSecretsPermission = ['tables', 'debugTables', 'events']
+
+const getPermissions = loginInformation => {
+    if(loginInformation == null) return []
+    return loginInformation.permissions
+}
+
 const fetchPageRequest = environment => function* () {
     const pathName = environment.history.location.pathname
     const pageName = pathName.substring(1)
@@ -86,11 +96,19 @@ const fetchPageRequest = environment => function* () {
         const queryString = environment.history.location.search
         const query = R.fromPairs(Array.from(new URLSearchParams(queryString).entries()))
         let loginInformation = null
-        if (pageName !== 'login' && pageName !== 'register' && pageName !== 'style') {
+        if (!R.includes(pageName, doNotNeedAnyPermissions)) {
             loginInformation = yield environment.fetchLoginInformation()
         }
-        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-        yield put(dispatch.initialize(query))
+        const permissions = getPermissions(loginInformation)
+        yield put(navigationDispatch.clearErrors())
+        if(R.includes(pageName, needManageUsersPermission) && !R.includes(MANAGE_USERS, permissions)){
+            yield put(navigationDispatch.errorAdded(`You need ${MANAGE_USERS} permission to view the ${pageName} page`))
+        } else if(R.includes(pageName, needViewSecretsPermission) && !R.includes(VIEW_SECRETS, permissions)) {
+            yield put(navigationDispatch.errorAdded(`You need ${VIEW_SECRETS} permission to view the ${pageName} page`))
+        } else {
+            yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
+            yield put(dispatch.initialize(query))
+        }
     } else {
         yield put(navigationDispatch.setUri(loginPagePath))
     }
