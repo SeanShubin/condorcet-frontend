@@ -101,16 +101,18 @@ const fetchPageRequest = environment => function* () {
         }
         const permissions = getPermissions(loginInformation)
         yield put(navigationDispatch.clearErrors())
+        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
         if(R.includes(pageName, needManageUsersPermission) && !R.includes(MANAGE_USERS, permissions)){
             yield put(navigationDispatch.errorAdded(`You need ${MANAGE_USERS} permission to view the ${pageName} page`))
         } else if(R.includes(pageName, needViewSecretsPermission) && !R.includes(VIEW_SECRETS, permissions)) {
             yield put(navigationDispatch.errorAdded(`You need ${VIEW_SECRETS} permission to view the ${pageName} page`))
         } else {
-            yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
             yield put(dispatch.initialize(query))
         }
-    } else {
+    } else if(pageName === '') {
         yield put(navigationDispatch.setUri(loginPagePath))
+    } else {
+        yield put(navigationDispatch.errorAdded(`Page '${pageName}' not found`))
     }
 }
 

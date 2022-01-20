@@ -5,11 +5,20 @@ import {Link} from "../library/uri-util";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
 import {loginPagePath} from "../login/loginConstant";
 
-const PageNotFound = ({pageName, setUri}) => <div className={'columns-1-outer'}>
-    <h1>{`Page '${pageName}' not found`}</h1>
-    <Link setUri={setUri} href={dashboardPagePath}>dashboard</Link>
-    <Link setUri={setUri} href={loginPagePath}>login</Link>
-</div>
+const PageHasErrors = ({pageName, setUri, errors, loginInformation}) => {
+    let DashboardLink
+    if(loginInformation) {
+        DashboardLink = () => <Link setUri={setUri} href={dashboardPagePath}>dashboard</Link>
+    } else {
+        DashboardLink = (() => null)
+    }
+    return <div className={'columns-1-outer'}>
+        <h1>{`Can't navigate to '${pageName}'`}</h1>
+        <ErrorComponent errors={errors}/>
+        <DashboardLink/>
+        <Link setUri={setUri} href={loginPagePath}>login</Link>
+    </div>
+}
 
 const LoggedInAs = ({loginInformation}) => {
     if (loginInformation === null) return null
@@ -67,10 +76,15 @@ const Navigation = args => {
         tally: Tally,
         voters: Voters
     }
-    const AppliedPageNotFound = () => <PageNotFound setUri={setUri} pageName={pageName}/>
-    const Component = pageMap[pageName] || AppliedPageNotFound
+    let Component
+    if(errors.length > 0){
+        Component = () => <PageHasErrors setUri={setUri}
+                                         pageName={pageName} errors={errors}
+                                         loginInformation={loginInformation}/>
+    } else {
+        Component = pageMap[pageName] || (() => null)
+    }
     return <div className={'Navigation'}>
-        <ErrorComponent errors={errors}/>
         <Component/>
         <LoggedInAs loginInformation={loginInformation}/>
     </div>

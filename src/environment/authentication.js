@@ -4,7 +4,6 @@ import {mergeRight} from "ramda";
 const createAuthentication = fetch => {
     let loginInformation = null
     const fetchLoginInformation = async () => {
-        if(loginInformation) return loginInformation
         const refreshResponse = await fetch('/proxy/Refresh')
         if(refreshResponse.ok){
             loginInformation = await refreshResponse.json()
