@@ -2,7 +2,7 @@ import dashboardDispatch from './dashboardDispatch'
 import dashboardEvent from './dashboardEvent'
 import {put} from 'redux-saga/effects'
 import navigationDispatch from "../navigation/navigationDispatch";
-import {createApi} from "../api/api";
+import {createApi, hasPermission, MANAGE_USERS, VIEW_SECRETS} from "../api/api";
 
 const handleError = environment => function* (f) {
     yield put(dashboardDispatch.clearErrors())
@@ -14,7 +14,14 @@ const handleError = environment => function* (f) {
 }
 
 const initialize = environment => function*(event){
-    yield put(dashboardDispatch.fetchCountsRequest())
+    yield* handleError(environment)(function* () {
+        const canViewSecrets = hasPermission(event.loginInformation)(VIEW_SECRETS)
+        const canManageUsers = hasPermission(event.loginInformation)(MANAGE_USERS)
+        yield put(dashboardDispatch.fetchCountsRequest({
+            canViewSecrets,
+            canManageUsers
+        }))
+    })
 }
 
 const logoutRequest = environment => function* (event) {
@@ -29,17 +36,27 @@ const logoutRequest = environment => function* (event) {
 const fetchCountsRequest = environment => function* (event) {
     const api = createApi(environment)
     yield* handleError(environment)(function* () {
-        const userCount = yield api.userCount()
+        const canViewSecrets = event.canViewSecrets
+        const canManageUsers = event.canManageUsers
         const electionCount = yield api.electionCount()
-        const tableCount = yield api.tableCount()
-        const eventCount = yield api.eventCount()
-        const allCounts = {
+        let userCount
+        if(canManageUsers){
+            userCount = yield api.userCount()
+        }
+        let tableCount
+        let eventCount
+        if(canViewSecrets){
+            tableCount = yield api.tableCount()
+            eventCount = yield api.eventCount()
+        }
+        yield put(dashboardDispatch.fetchCountsSuccess({
+            canViewSecrets,
+            canManageUsers,
             userCount,
             electionCount,
             tableCount,
             eventCount
-        }
-        yield put(dashboardDispatch.fetchCountsSuccess(allCounts))
+        }))
     })
 }
 

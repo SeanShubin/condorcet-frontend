@@ -4,10 +4,12 @@ import {appendToArray} from "../library/collection-util";
 import * as R from 'ramda'
 
 const fetchCountsSuccess = (state, event) => R.pipe(
-    R.set(dashboardModel.userCount, event.counts.userCount),
-    R.set(dashboardModel.electionCount, event.counts.electionCount),
-    R.set(dashboardModel.tableCount, event.counts.tableCount),
-    R.set(dashboardModel.eventCount, event.counts.eventCount),
+    R.set(dashboardModel.canManageUsers, event.canManageUsers),
+    R.set(dashboardModel.canViewSecrets, event.canViewSecrets),
+    R.set(dashboardModel.userCount, event.userCount),
+    R.set(dashboardModel.electionCount, event.electionCount),
+    R.set(dashboardModel.tableCount, event.tableCount),
+    R.set(dashboardModel.eventCount, event.eventCount),
 )(state)
 
 const clearErrors = (state, event) => R.set(dashboardModel.errors, [], state)

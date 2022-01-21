@@ -1,7 +1,7 @@
 import registerEvent from "./registerEvent";
 
 const registerDispatch = {
-    initialize: query => ({type:registerEvent.INITIALIZE, query}),
+    initialize: ({query, loginInformation}) => ({type:registerEvent.INITIALIZE, query, loginInformation}),
     nameChanged: userName => ({type: registerEvent.USER_NAME_CHANGED, userName}),
     emailChanged: email => ({type: registerEvent.EMAIL_CHANGED, email}),
     passwordChanged: password => ({type: registerEvent.PASSWORD_CHANGED, password}),

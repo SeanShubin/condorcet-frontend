@@ -1,3 +1,5 @@
+import * as R from 'ramda'
+
 const createApi = environment => {
     const authenticatedFetch = environment.authenticatedFetch
     const fetch = environment.fetch
@@ -190,6 +192,15 @@ const createApi = environment => {
     }
 }
 
+const hasPermission = loginInformation => permission => {
+    if(loginInformation) {
+        if(R.includes(permission, loginInformation.permissions)) {
+            return true
+        }
+    }
+    return false
+}
+
 const TRANSFER_OWNER = "TRANSFER_OWNER"
 const VIEW_SECRETS = "VIEW_SECRETS"
 const MANAGE_USERS = "MANAGE_USERS"
@@ -197,4 +208,4 @@ const USE_APPLICATION = "USE_APPLICATION"
 const VIEW_APPLICATION = "VIEW_APPLICATION"
 
 
-export {createApi, TRANSFER_OWNER, VIEW_SECRETS, MANAGE_USERS, USE_APPLICATION, VIEW_APPLICATION}
+export {createApi, hasPermission, TRANSFER_OWNER, VIEW_SECRETS, MANAGE_USERS, USE_APPLICATION, VIEW_APPLICATION}

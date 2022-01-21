@@ -1,10 +1,25 @@
 import dashboardEvent from "./dashboardEvent";
 
 const dashboardDispatch = {
-    initialize: query => ({type:dashboardEvent.INITIALIZE, query}),
+    initialize: ({query, loginInformation}) => ({type: dashboardEvent.INITIALIZE, query, loginInformation}),
     logoutRequest: () => ({type: dashboardEvent.LOGOUT_REQUEST}),
-    fetchCountsRequest: () => ({type: dashboardEvent.FETCH_COUNTS_REQUEST}),
-    fetchCountsSuccess: counts => ({type: dashboardEvent.FETCH_COUNTS_SUCCESS, counts}),
+    fetchCountsRequest: ({canViewSecrets, canManageUsers}) => ({type: dashboardEvent.FETCH_COUNTS_REQUEST, canViewSecrets, canManageUsers}),
+    fetchCountsSuccess: ({
+                             canViewSecrets,
+                             canManageUsers,
+                             userCount,
+                             electionCount,
+                             tableCount,
+                             eventCount
+                         }) => ({
+        type: dashboardEvent.FETCH_COUNTS_SUCCESS,
+        canViewSecrets,
+        canManageUsers,
+        userCount,
+        electionCount,
+        tableCount,
+        eventCount
+    }),
     clearErrors: () => ({type: dashboardEvent.CLEAR_ERRORS}),
     errorAdded: message => ({type: dashboardEvent.ERROR_ADDED, message})
 }

@@ -1,7 +1,7 @@
 import electionsEvent from "./electionsEvent";
 
 const electionsDispatch = {
-    initialize: query => ({type: electionsEvent.INITIALIZE, query}),
+    initialize: ({query, loginInformation}) => ({type: electionsEvent.INITIALIZE, query, loginInformation}),
     fetchElectionsRequest: () => ({type: electionsEvent.FETCH_ELECTIONS_REQUEST}),
     fetchElectionsSuccess: elections => ({type: electionsEvent.FETCH_ELECTIONS_SUCCESS, elections}),
     addElectionRequest: electionName => ({type: electionsEvent.ADD_ELECTION_REQUEST, electionName}),

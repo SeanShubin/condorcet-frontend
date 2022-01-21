@@ -1,7 +1,7 @@
 import ballotEvent from "./ballotEvent";
 
 const ballotDispatch = {
-    initialize: query => ({type:ballotEvent.INITIALIZE, query}),
+    initialize: ({query, loginInformation}) => ({type:ballotEvent.INITIALIZE, query, loginInformation}),
     fetchBallotRequest: ({voterName, electionName}) => ({
         type: ballotEvent.FETCH_BALLOT_REQUEST,
         voterName,

@@ -1,7 +1,7 @@
 import usersEvent from "./usersEvent";
 
 const usersDispatch = {
-    initialize: query => ({type: usersEvent.INITIALIZE, query}),
+    initialize: ({query, loginInformation}) => ({type: usersEvent.INITIALIZE, query, loginInformation}),
     fetchUsersRequest: () => ({type: usersEvent.FETCH_USERS_REQUEST}),
     usersChanged: users => ({type: usersEvent.USERS_CHANGED, users}),
     updateUserRoleRequest: ({userName, role}) => ({type: usersEvent.UPDATE_USER_ROLE_REQUEST, userName, role}),

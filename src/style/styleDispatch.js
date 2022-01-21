@@ -1,7 +1,7 @@
 import styleEvent from "./styleEvent";
 
 const styleDispatch = {
-    initialize: query => ({type:styleEvent.INITIALIZE, query}),
+    initialize: ({query, loginInformation}) => ({type:styleEvent.INITIALIZE, query, loginInformation}),
     errorAdded: message => ({type: styleEvent.ERROR_ADDED, message}),
     clearErrors: () => ({type: styleEvent.CLEAR_ERRORS})
 }

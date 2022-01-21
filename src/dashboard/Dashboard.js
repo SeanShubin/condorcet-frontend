@@ -8,22 +8,16 @@ import {debugTablesPagePath} from "../debugTables/debugTablesConstant";
 import {eventsPagePath} from "../events/eventsConstant";
 import {Link} from "../library/uri-util";
 
-const Dashboard = (
-    {
-        userCount,
-        electionCount,
-        tableCount,
-        eventCount,
-        errors,
-        logoutRequest,
-        globalSetUri
-    }) => {
-    const userCountText = `${userCount} ${pluralize({quantity: userCount, singular: 'user', plural: 'users'})}`
-    const electionCountText = `${electionCount} ${pluralize({
-        quantity: electionCount,
-        singular: 'election',
-        plural: 'elections'
-    })}`
+const ManageUsersLink = ({setUri, canManageUsers, userCount}) => {
+    if (canManageUsers) {
+        const userCountText = `${userCount} ${pluralize({quantity: userCount, singular: 'user', plural: 'users'})}`
+        return <Link href={usersPagePath} setUri={setUri}>{userCountText}</Link>
+    } else {
+        return null
+    }
+}
+
+const DebugLinks = ({canViewSecrets, setUri, tableCount, eventCount}) => {
     const tableCountText = `${tableCount} ${pluralize({quantity: tableCount, singular: 'table', plural: 'tables'})}`
     const debugTableCountText = `${tableCount} ${pluralize({
         quantity: tableCount,
@@ -31,14 +25,41 @@ const Dashboard = (
         plural: 'debug tables'
     })}`
     const eventCountText = `${eventCount} ${pluralize({quantity: eventCount, singular: 'event', plural: 'events'})}`
-    return <div className={'Dashboard columns-1-outer' }>
+    if (canViewSecrets) {
+        return <>
+            <Link href={tablesPagePath} setUri={setUri}>{tableCountText}</Link>
+            <Link href={debugTablesPagePath} setUri={setUri}>{debugTableCountText}</Link>
+            <Link href={eventsPagePath} setUri={setUri}>{eventCountText}</Link>
+        </>
+    } else {
+        return null
+    }
+}
+
+const Dashboard = args => {
+    const {
+        canViewSecrets,
+        canManageUsers,
+        userCount,
+        electionCount,
+        tableCount,
+        eventCount,
+        errors,
+        logoutRequest,
+        globalSetUri
+    } = args
+    const electionCountText = `${electionCount} ${pluralize({
+        quantity: electionCount,
+        singular: 'election',
+        plural: 'elections'
+    })}`
+
+    return <div className={'Dashboard columns-1-outer'}>
         <h1>Dashboard</h1>
         <ErrorComponent errors={errors}/>
-        <Link href={usersPagePath} setUri={globalSetUri}>{userCountText}</Link>
+        <ManageUsersLink canManageUsers={canManageUsers} setUri={globalSetUri} userCount={userCount}/>
         <Link href={electionsPagePath} setUri={globalSetUri}>{electionCountText}</Link>
-        <Link href={tablesPagePath} setUri={globalSetUri}>{tableCountText}</Link>
-        <Link href={debugTablesPagePath} setUri={globalSetUri}>{debugTableCountText}</Link>
-        <Link href={eventsPagePath} setUri={globalSetUri}>{eventCountText}</Link>
+        <DebugLinks canViewSecrets={canViewSecrets} setUri={globalSetUri} tableCount={tableCount} eventCount={eventCount}/>
         <button type={'button'} onClick={logoutRequest}>Logout</button>
     </div>
 }

@@ -107,7 +107,7 @@ const fetchPageRequest = environment => function* () {
         } else if(R.includes(pageName, needViewSecretsPermission) && !R.includes(VIEW_SECRETS, permissions)) {
             yield put(navigationDispatch.errorAdded(`You need ${VIEW_SECRETS} permission to view the ${pageName} page`))
         } else {
-            yield put(dispatch.initialize(query))
+            yield put(dispatch.initialize({query, loginInformation}))
         }
     } else if(pageName === '') {
         yield put(navigationDispatch.setUri(loginPagePath))

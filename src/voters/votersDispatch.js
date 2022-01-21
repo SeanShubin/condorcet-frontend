@@ -1,7 +1,7 @@
 import votersEvent from "./votersEvent";
 
 const votersDispatch = {
-    initialize: query => ({type: votersEvent.INITIALIZE, query}),
+    initialize: ({query, loginInformation}) => ({type: votersEvent.INITIALIZE, query, loginInformation}),
     fetchVotersRequest: electionName => ({type: votersEvent.FETCH_VOTERS_REQUEST, electionName}),
     fetchVotersSuccess: ({voters, election, userName}) => ({type: votersEvent.FETCH_VOTERS_SUCCESS, voters, election, userName}),
     filterChanged: filter => ({type:votersEvent.FILTER_CHANGED, filter}),
