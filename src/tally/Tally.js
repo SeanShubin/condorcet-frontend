@@ -159,6 +159,64 @@ const VoterTable = ({voters, secretBallot}) => {
     </>
 }
 
+const rankedPairStrengths = ({preferences, candidates}) => firstIndex => secondIndex => {
+    const firstCandidate = candidates[firstIndex]
+    const secondCandidate = candidates[secondIndex]
+    const firstStrength = preferences[firstIndex][secondIndex].strength
+    const secondStrength = preferences[secondIndex][firstIndex].strength
+    return {
+        first:{index:firstIndex, candidate:firstCandidate, strength:firstStrength},
+        second:{index:secondIndex, candidate:secondCandidate, strength: secondStrength}
+    }
+}
+
+const formatRankedPair = rankedPair => {
+    const firstStrength = rankedPair.first.strength
+    const secondStrength = rankedPair.second.strength
+    const totalStrength = firstStrength + secondStrength
+    const relativeStrength = firstStrength / totalStrength
+    const percentageStrength = (relativeStrength * 100).toFixed(2) + '%'
+    const description = `${firstStrength}/${totalStrength} vs ${secondStrength}/${totalStrength}`
+    return {
+        first: rankedPair.first.candidate,
+        percentage: percentageStrength,
+        second: rankedPair.second.candidate,
+        description
+    }
+}
+
+const rankedPairsForCandidate = ({preferences, candidates}) => candidateIndex => {
+    const indices = R.filter(i => i !== candidateIndex, R.range(0, candidates.length))
+    const strengths = R.map(rankedPairStrengths({preferences, candidates})(candidateIndex), indices)
+    const isGreater = rankedPairStrength => {
+        if(rankedPairStrength.first.strength < rankedPairStrength.second.strength) return false
+        if(rankedPairStrength.first.strength > rankedPairStrength.second.strength) return true
+        return rankedPairStrength.first.index > rankedPairStrength.second.index
+    }
+    const greaterStrengths = R.filter(isGreater, strengths)
+    const formatted = R.map(formatRankedPair, greaterStrengths)
+    return formatted
+}
+
+const rankedPairsRows = ({candidates, preferences}) => {
+    const indices = R.range(0, candidates.length)
+    return R.chain(rankedPairsForCandidate({preferences, candidates}), indices)
+}
+
+const RankedPairsReport = ({candidateNames, preferences}) => {
+    const dataRows = rankedPairsRows({preferences, candidates:candidateNames})
+    const createRenderedRow = row => {
+        const key = `${row.first}-${row.second}`
+        return <tr key={key}><td>{row.percentage}</td><td>{row.first}</td><td>{row.second}</td><td>{row.description}</td></tr>
+    }
+    const renderedRows = R.map(createRenderedRow, dataRows)
+    return <table>
+        <tbody>
+        {renderedRows}
+        </tbody>
+    </table>
+}
+
 const TallyBody = ({tally}) => {
     if(!tally) return null
     const {
@@ -170,9 +228,11 @@ const TallyBody = ({tally}) => {
         <h2>Candidates</h2>
         <CandidateTable candidateNames={candidateNames}/>
         <h2>Strengths</h2>
+        <RankedPairsReport candidateNames={candidateNames} preferences={preferences}/>
         <StrengthTable preferences={preferences}/>
         <PreferenceTable preferences={preferences}/>
         <h2>Strongest Paths</h2>
+        <RankedPairsReport candidateNames={candidateNames} preferences={strongestPathMatrix}/>
         <StrengthTable preferences={strongestPathMatrix}/>
         <PreferenceTable preferences={strongestPathMatrix}/>
         <VoterTable voters={whoVoted} secretBallot={secretBallot}/>
