@@ -13,17 +13,20 @@ const handleError = environment => function* (f) {
 }
 
 const initialize = environment => function* (event) {
-    const query = event.query
-    const electionName = query.election
-    yield put(tallyDispatch.fetchTallyRequest(electionName))
+    yield* handleError(environment)(function* () {
+        const query = event.query
+        const electionName = query.election
+        yield put(tallyDispatch.setElectionName(electionName))
+        yield put(tallyDispatch.fetchTallyRequest(electionName))
+    })
 }
 
 const fetchTallyRequest = environment => function* (event) {
     const api = createApi(environment)
     yield* handleError(environment)(function* () {
-        const {electionName} = event
+        const electionName = event.electionName
         const tally = yield api.tally(electionName)
-        yield put(tallyDispatch.fetchTallySuccess({tally, electionName}))
+        yield put(tallyDispatch.fetchTallySuccess(tally))
     })
 }
 

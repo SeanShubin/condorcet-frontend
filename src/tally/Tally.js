@@ -159,20 +159,12 @@ const VoterTable = ({voters, secretBallot}) => {
     </>
 }
 
-const Tally = args => {
-    const {
-        electionName,
-        tally,
-        errors,
-        globalSetUri
-    } = args
-    if (!tally) return <h1>No Data</h1>
+const TallyBody = ({tally}) => {
+    if(!tally) return null
     const {
         candidateNames, secretBallot, ballots, preferences, strongestPathMatrix, places, whoVoted
     } = tally
-    return <div className={'Tally flex-column-outer'}>
-        <h1>Tally</h1>
-        <ErrorComponent errors={errors}/>
+    return <>
         <h2>Rankings</h2>
         <PlacesTable places={places}/>
         <h2>Candidates</h2>
@@ -186,6 +178,20 @@ const Tally = args => {
         <VoterTable voters={whoVoted} secretBallot={secretBallot}/>
         <h2>Ballots</h2>
         <BallotsTable candidateNames={candidateNames} ballots={ballots} secretBallot={secretBallot}/>
+    </>
+}
+
+const Tally = args => {
+    const {
+        electionName,
+        tally,
+        errors,
+        globalSetUri
+    } = args
+    return <div className={'Tally flex-column-outer'}>
+        <h1>Tally</h1>
+        <ErrorComponent errors={errors}/>
+        <TallyBody tally={tally}/>
         <hr/>
         <Link href={createElectionPagePath(electionName)} setUri={globalSetUri}>election {electionName}</Link>
         <Link href={dashboardPagePath} setUri={globalSetUri}>dashboard</Link>

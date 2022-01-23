@@ -2,10 +2,10 @@ import tallyEvent from "./tallyEvent";
 
 const tallyDispatch = {
     initialize: ({query, loginInformation}) => ({type: tallyEvent.INITIALIZE, query, loginInformation}),
+    setElectionName: electionName => ({type:tallyEvent.SET_ELECTION_NAME, electionName}),
     fetchTallyRequest: electionName => ({type: tallyEvent.FETCH_TALLY_REQUEST, electionName}),
-    fetchTallySuccess: ({electionName, tally}) => ({
+    fetchTallySuccess: tally => ({
         type: tallyEvent.FETCH_TALLY_SUCCESS,
-        electionName,
         tally
     }),
     errorAdded: message => ({type: tallyEvent.ERROR_ADDED, message}),
