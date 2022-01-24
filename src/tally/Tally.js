@@ -88,7 +88,8 @@ const PlacesTable = ({places}) => {
 
 const BallotsTable = ({candidateNames, ballots, secretBallot}) => {
     const createRankingCell = ({confirmation, candidateName, rank}) => {
-        return <td key={confirmation + candidateName}>[{rank}] {candidateName}</td>
+        const key = `${confirmation}-${candidateName}`
+        return <td key={key}>{rank}</td>
     }
     const createRow = ({voterName, confirmation, whenCast, rankings}) => {
         const attachConfirmation = ({candidateName, rank}) => ({
@@ -114,19 +115,36 @@ const BallotsTable = ({candidateNames, ballots, secretBallot}) => {
         }
     }
     const createTableHeader = secretBallot => {
+        const createCandidateNameHeader = candidateName => <th key={candidateName}>{candidateName}</th>
+        const candidateNameHeaders = R.map(createCandidateNameHeader, candidateNames)
         if(secretBallot) {
-            return <tr>
-                <th>confirmation</th>
-                <th colSpan={candidateNames.length}>rankings</th>
-                <th>when cast</th>
-            </tr>
+            return <>
+                <tr>
+                    <th>confirmation</th>
+                    <th colSpan={candidateNames.length}>rankings</th>
+                    <th>when cast</th>
+                </tr>
+                <tr>
+                    <th/>
+                    {candidateNameHeaders}
+                    <th/>
+                </tr>
+            </>
         } else {
-            return <tr>
-                <th>voter</th>
-                <th>confirmation</th>
-                <th colSpan={candidateNames.length}>rankings</th>
-                <th>when cast</th>
-            </tr>
+            return <>
+                <tr>
+                    <th>voter</th>
+                    <th>confirmation</th>
+                    <th colSpan={candidateNames.length}>rankings</th>
+                    <th>when cast</th>
+                </tr>
+                <tr>
+                    <th/>
+                    <th/>
+                    {candidateNameHeaders}
+                    <th/>
+                </tr>
+            </>
         }
     }
     const tableRows = R.map(createRow, ballots)
