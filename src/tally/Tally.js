@@ -87,18 +87,14 @@ const PlacesTable = ({places}) => {
 }
 
 const BallotsTable = ({candidateNames, ballots, secretBallot}) => {
-    const createRankingCell = ({confirmation, candidateName, rank}) => {
-        const key = `${confirmation}-${candidateName}`
-        return <td key={key}>{rank}</td>
-    }
     const createRow = ({voterName, confirmation, whenCast, rankings}) => {
-        const attachConfirmation = ({candidateName, rank}) => ({
-            candidateName,
-            rank,
-            confirmation
-        })
-        const rankingsWithConfirmation = R.map(attachConfirmation, rankings)
-        const rankingCells = R.map(createRankingCell, rankingsWithConfirmation)
+        const createCandidateRankEntry = ranking => [ranking.candidateName, ranking.rank]
+        const candidateRankingMap = R.fromPairs(R.map(createCandidateRankEntry, rankings))
+        const createRankingCell = candidateName => {
+            const rank = candidateRankingMap[candidateName]
+            return <td key={candidateName}>{rank}</td>
+        }
+        const rankingCells = R.map(createRankingCell, candidateNames)
         if(secretBallot){
             return <tr key={confirmation}>
                 <td>{confirmation}</td>
@@ -115,7 +111,7 @@ const BallotsTable = ({candidateNames, ballots, secretBallot}) => {
         }
     }
     const createTableHeader = secretBallot => {
-        const createCandidateNameHeader = candidateName => <th key={candidateName}>{candidateName}</th>
+        const createCandidateNameHeader = candidateName => <td key={candidateName}>{candidateName}</td>
         const candidateNameHeaders = R.map(createCandidateNameHeader, candidateNames)
         if(secretBallot) {
             return <>
