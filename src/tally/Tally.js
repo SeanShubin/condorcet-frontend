@@ -239,8 +239,8 @@ const TallyBody = ({tally}) => {
     return <>
         <h2>Rankings</h2>
         <PlacesTable places={places}/>
-        <h2>Candidates</h2>
-        <CandidateTable candidateNames={candidateNames}/>
+        <h2>Ballots</h2>
+        <BallotsTable candidateNames={candidateNames} ballots={ballots} secretBallot={secretBallot}/>
         <h2>Strengths</h2>
         <RankedPairsReport candidateNames={candidateNames} preferences={preferences}/>
         <StrengthTable preferences={preferences}/>
@@ -250,8 +250,6 @@ const TallyBody = ({tally}) => {
         <StrengthTable preferences={strongestPathMatrix}/>
         <PreferenceTable preferences={strongestPathMatrix}/>
         <VoterTable voters={whoVoted} secretBallot={secretBallot}/>
-        <h2>Ballots</h2>
-        <BallotsTable candidateNames={candidateNames} ballots={ballots} secretBallot={secretBallot}/>
     </>
 }
 
