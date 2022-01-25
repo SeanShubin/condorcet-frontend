@@ -7,6 +7,25 @@ const createEnvironment = (
         history,
         console
     }) => {
+    const fetchWithBetterJsonErrorMessage = async (resource, init) => {
+        const response = await fetch(resource, init)
+        const json = async () => {
+            const text = await response.text()
+            try {
+                const jsonValue = JSON.parse(text)
+                return jsonValue
+            } catch (ex) {
+                throw Error(`unable to parse json from ${JSON.stringify({resource, init})}, got:\n${text}`)
+            }
+        }
+        return {
+            headers: response.headers,
+            ok: response.ok,
+            status: response.status,
+            json,
+            text: response.text
+        }
+    }
     const genericError = ({name, args, error}) => {
         const showHidden = false
         const depth = null // no depth limit, go all the way down
@@ -18,13 +37,13 @@ const createEnvironment = (
         authenticatedFetch,
         fetchLoginInformation,
         clearAccessToken,
-    } = createAuthentication(fetch)
+    } = createAuthentication(fetchWithBetterJsonErrorMessage)
     return {
         authenticatedFetch,
         fetchLoginInformation,
         clearAccessToken,
         history,
-        fetch: fetch,
+        fetch: fetchWithBetterJsonErrorMessage,
         genericError
     }
 }
