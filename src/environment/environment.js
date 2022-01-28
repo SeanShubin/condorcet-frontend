@@ -18,13 +18,8 @@ const createEnvironment = (
                 throw Error(`unable to parse json from ${JSON.stringify({resource, init})}, got:\n${text}`)
             }
         }
-        return {
-            headers: response.headers,
-            ok: response.ok,
-            status: response.status,
-            json,
-            text: response.text
-        }
+        response.json = json
+        return response
     }
     const genericError = ({name, args, error}) => {
         const showHidden = false
@@ -43,7 +38,7 @@ const createEnvironment = (
         fetchLoginInformation,
         clearAccessToken,
         history,
-        fetch: fetchWithBetterJsonErrorMessage,
+        fetch:fetchWithBetterJsonErrorMessage,
         genericError
     }
 }
