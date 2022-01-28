@@ -15,7 +15,7 @@ const createEnvironment = (
                 const jsonValue = JSON.parse(text)
                 return jsonValue
             } catch (ex) {
-                throw Error(`unable to parse json from ${JSON.stringify({resource, init})}, got:\n${text}`)
+                throw Error(`unable to parse json from ${resource}, got:\n${text}`)
             }
         }
         response.json = json
