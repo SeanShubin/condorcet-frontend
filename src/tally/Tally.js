@@ -4,6 +4,8 @@ import {createElectionPagePath} from "../election/electionConstant";
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
 import {isoDateToLocal} from "../library/date-time-util";
 import {Link} from "../library/uri-util";
+import {electionsPagePath} from "../elections/electionsConstant";
+import React from "react";
 
 const StrengthTable = ({preferences}) => {
     const createCell = preference => <td key={preference.destination}>{preference.strength}</td>
@@ -266,6 +268,7 @@ const Tally = args => {
         <TallyBody tally={tally}/>
         <hr/>
         <Link href={createElectionPagePath(electionName)} setUri={globalSetUri}>election {electionName}</Link>
+        <Link href={electionsPagePath} setUri={globalSetUri}>elections</Link>
         <Link href={dashboardPagePath} setUri={globalSetUri}>dashboard</Link>
     </div>
 }
