@@ -233,14 +233,15 @@ const RankedPairsReport = ({candidateNames, preferences}) => {
 const TallyBody = ({tally}) => {
     if(!tally) return null
     const {
-        candidateNames, secretBallot, ballots, preferences, strongestPathMatrix, places, whoVoted
+        electionName, candidateNames, secretBallot, ballots, preferences, strongestPathMatrix, places, whoVoted
     } = tally
     return <>
+        <h2>Election: {electionName}</h2>
         <h2>Rankings</h2>
         <PlacesTable places={places}/>
         <h2>Ballots</h2>
         <BallotsTable candidateNames={candidateNames} ballots={ballots} secretBallot={secretBallot}/>
-        <h2>Strengths</h2>
+        <h2>Preferences</h2>
         <RankedPairsReport candidateNames={candidateNames} preferences={preferences}/>
         <StrengthTable preferences={preferences}/>
         <PreferenceTable preferences={preferences}/>
