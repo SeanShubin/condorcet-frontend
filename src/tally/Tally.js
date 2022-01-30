@@ -101,7 +101,6 @@ const BallotsTable = ({candidateNames, ballots, secretBallot}) => {
             return <tr key={confirmation}>
                 <td>{confirmation}</td>
                 {rankingCells}
-                <td>{isoDateToLocal(whenCast)}</td>
             </tr>
         }else {
             return <tr key={confirmation}>
@@ -120,12 +119,10 @@ const BallotsTable = ({candidateNames, ballots, secretBallot}) => {
                 <tr>
                     <th>confirmation</th>
                     <th colSpan={candidateNames.length}>rankings</th>
-                    <th>when cast</th>
                 </tr>
                 <tr>
                     <th/>
                     {candidateNameHeaders}
-                    <th/>
                 </tr>
             </>
         } else {
