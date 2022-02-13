@@ -79,3 +79,21 @@ and be more explicit and intentional about what css styles are applied
 
 - should look into Json Web Token
   - https://afteracademy.com/blog/implement-json-web-token-jwt-authentication-using-access-token-and-refresh-token
+
+## Nginx
+config file is at /usr/local/etc/nginx/nginx.conf
+
+html content symlink is at /usr/local/Cellar/nginx/1.21.6/html
+html content is at /usr/local/var/www
+
+to stop nginx `nginx -s quit`
+
+Confirmed to work
+```
+location  /proxy {
+    rewrite /proxy/(.*) /$1 break;
+    proxy_pass         http://localhost:8080;
+    proxy_redirect     off;
+    proxy_set_header   Host $host;
+}
+```
