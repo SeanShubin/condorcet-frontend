@@ -32,9 +32,11 @@ const createEnvironment = (
         authenticatedFetch,
         fetchLoginInformation,
         clearAccessToken,
+        setLoginInformation
     } = createAuthentication(fetchWithBetterJsonErrorMessage)
     return {
         authenticatedFetch,
+        setLoginInformation,
         fetchLoginInformation,
         clearAccessToken,
         history,

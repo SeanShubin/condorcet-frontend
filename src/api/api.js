@@ -32,6 +32,10 @@ const createApi = environment => {
         return invokeApiNoAuth('Authenticate', {nameOrEmail, password})
     }
 
+    const authenticateWithToken = async bearerToken => {
+        return invokeApiNoAuth('AuthenticateWithToken', {bearerToken})
+    }
+
     const register = async ({userName, email, password}) => {
         return invokeApiNoAuth('Register', {userName, email, password})
     }
@@ -161,6 +165,7 @@ const createApi = environment => {
 
     return {
         authenticate,
+        authenticateWithToken,
         register,
         logout,
         userCount,

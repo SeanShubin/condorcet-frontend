@@ -1,13 +1,15 @@
 import {mergeDisallowDuplicateKeys} from "../library/collection-util";
-import {mergeRight} from "ramda";
+import * as R from "ramda";
 
 const createAuthentication = fetch => {
     let loginInformation = null
+    const setLoginInformation = newLoginInformation => {
+        loginInformation = newLoginInformation
+    }
     const fetchLoginInformation = async () => {
         const refreshResponse = await fetch('/proxy/Refresh')
         if(refreshResponse.ok){
             loginInformation = await refreshResponse.json()
-            return loginInformation
         } else {
             loginInformation = null
         }
@@ -22,7 +24,7 @@ const createAuthentication = fetch => {
             'Authorization': `Bearer ${loginInformation.accessToken}`
         }
         const headers = mergeDisallowDuplicateKeys(existingHeaders, authenticationHeader)
-        const init = mergeRight(originalInit, {headers})
+        const init = R.mergeRight(originalInit, {headers})
         const response = await fetch(resource, init)
         return response
 
@@ -52,6 +54,7 @@ const createAuthentication = fetch => {
     }
     return {
         authenticatedFetch,
+        setLoginInformation,
         fetchLoginInformation,
         clearAccessToken,
     }

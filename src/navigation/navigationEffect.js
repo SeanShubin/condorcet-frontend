@@ -17,7 +17,7 @@ import * as R from 'ramda'
 import loginDispatch from "../login/loginDispatch";
 import registerDispatch from "../register/registerDispatch";
 import styleDispatch from "../style/styleDispatch";
-import {MANAGE_USERS, VIEW_SECRETS} from "../api/api";
+import {createApi, MANAGE_USERS, VIEW_SECRETS} from "../api/api";
 
 const dispatchMap = {
     login: loginDispatch,
@@ -34,6 +34,15 @@ const dispatchMap = {
     tally: tallyDispatch,
     voters: votersDispatch,
     style: styleDispatch
+}
+
+const handleError = environment => function* (f){
+    yield put(navigationDispatch.clearErrors())
+    try {
+        yield* f(environment)
+    } catch(ex) {
+        yield put(navigationDispatch.errorAdded(ex.message))
+    }
 }
 
 const parsePathnameSearch = s => {
@@ -66,7 +75,9 @@ const setUri = environment => function* (event) {
     const mergedArray = R.toPairs(mergedMap)
     const builder = new URLSearchParams()
     mergedArray.forEach(element => {
-        builder.append(element[0], element[1])
+        if(element[0] !== 'accessToken') {
+            builder.append(element[0], element[1])
+        }
     })
     const merged = newPathname + '?' + builder.toString()
     environment.history.push(merged)
@@ -89,31 +100,38 @@ const getPermissions = loginInformation => {
 }
 
 const fetchPageRequest = environment => function* () {
-    const pathName = environment.history.location.pathname
-    const pageName = pathName.substring(1)
-    const dispatch = dispatchMap[pageName]
-    if (dispatch) {
-        const queryString = environment.history.location.search
-        const query = R.fromPairs(Array.from(new URLSearchParams(queryString).entries()))
-        let loginInformation = null
-        if (!R.includes(pageName, doNotNeedAnyPermissions)) {
-            loginInformation = yield environment.fetchLoginInformation()
-        }
-        const permissions = getPermissions(loginInformation)
-        yield put(navigationDispatch.clearErrors())
-        yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-        if(R.includes(pageName, needManageUsersPermission) && !R.includes(MANAGE_USERS, permissions)){
-            yield put(navigationDispatch.errorAdded(`You need ${MANAGE_USERS} permission to view the ${pageName} page`))
-        } else if(R.includes(pageName, needViewSecretsPermission) && !R.includes(VIEW_SECRETS, permissions)) {
-            yield put(navigationDispatch.errorAdded(`You need ${VIEW_SECRETS} permission to view the ${pageName} page`))
+    const api = createApi(environment)
+    yield* handleError(environment)(function*() {
+        const pathName = environment.history.location.pathname
+        const pageName = pathName.substring(1)
+        const dispatch = dispatchMap[pageName]
+        if (dispatch) {
+            const queryString = environment.history.location.search
+            const query = R.fromPairs(Array.from(new URLSearchParams(queryString).entries()))
+            const accessToken = query.accessToken
+            let loginInformation = null
+            if(accessToken){
+                const loginInformation = yield api.authenticateWithToken(accessToken)
+                environment.setLoginInformation(loginInformation)
+            }
+            if (!R.includes(pageName, doNotNeedAnyPermissions)) {
+                loginInformation = yield environment.fetchLoginInformation()
+            }
+            const permissions = getPermissions(loginInformation)
+            yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
+            if(R.includes(pageName, needManageUsersPermission) && !R.includes(MANAGE_USERS, permissions)){
+                yield put(navigationDispatch.errorAdded(`You need ${MANAGE_USERS} permission to view the ${pageName} page`))
+            } else if(R.includes(pageName, needViewSecretsPermission) && !R.includes(VIEW_SECRETS, permissions)) {
+                yield put(navigationDispatch.errorAdded(`You need ${VIEW_SECRETS} permission to view the ${pageName} page`))
+            } else {
+                yield put(dispatch.initialize({query, loginInformation}))
+            }
+        } else if(pageName === '') {
+            yield put(navigationDispatch.setUri(loginPagePath))
         } else {
-            yield put(dispatch.initialize({query, loginInformation}))
+            yield put(navigationDispatch.errorAdded(`Page '${pageName}' not found`))
         }
-    } else if(pageName === '') {
-        yield put(navigationDispatch.setUri(loginPagePath))
-    } else {
-        yield put(navigationDispatch.errorAdded(`Page '${pageName}' not found`))
-    }
+    })
 }
 
 const history = environment => function* () {
