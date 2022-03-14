@@ -36,18 +36,18 @@ const dispatchMap = {
     style: styleDispatch
 }
 
-const handleError = environment => function* (f){
+const handleError = environment => function* (f) {
     yield put(navigationDispatch.clearErrors())
     try {
         yield* f(environment)
-    } catch(ex) {
+    } catch (ex) {
         yield put(navigationDispatch.errorAdded(ex.message))
     }
 }
 
 const parsePathnameSearch = s => {
     const indexOfQuestion = s.indexOf('?')
-    if(indexOfQuestion === -1){
+    if (indexOfQuestion === -1) {
         const pathname = s
         const search = ''
         return {pathname, search}
@@ -75,7 +75,7 @@ const setUri = environment => function* (event) {
     const mergedArray = R.toPairs(mergedMap)
     const builder = new URLSearchParams()
     mergedArray.forEach(element => {
-        if(element[0] !== 'accessToken') {
+        if (element[0] !== 'accessToken') {
             builder.append(element[0], element[1])
         }
     })
@@ -95,38 +95,41 @@ const needManageUsersPermission = ['users']
 const needViewSecretsPermission = ['tables', 'debugTables', 'events']
 
 const getPermissions = loginInformation => {
-    if(loginInformation == null) return []
+    if (loginInformation == null) return []
     return loginInformation.permissions
 }
 
 const fetchPageRequest = environment => function* () {
     const api = createApi(environment)
-    yield* handleError(environment)(function*() {
+    yield* handleError(environment)(function* () {
         const pathName = environment.history.location.pathname
         const pageName = pathName.substring(1)
         const dispatch = dispatchMap[pageName]
         if (dispatch) {
             const queryString = environment.history.location.search
-            const query = R.fromPairs(Array.from(new URLSearchParams(queryString).entries()))
-            const accessToken = query.accessToken
+            const urlSearchParams = new URLSearchParams(queryString)
+            const query = R.fromPairs(Array.from(urlSearchParams.entries()))
             let loginInformation = null
-            if(accessToken){
+            if (urlSearchParams.has('accessToken')) {
+                const accessToken = urlSearchParams.get('accessToken')
                 const loginInformation = yield api.authenticateWithToken(accessToken)
                 environment.setLoginInformation(loginInformation)
+                urlSearchParams.delete('accessToken')
+                environment.history.push(environment.history.location.pathname + '?' + urlSearchParams.toString())
             }
             if (!R.includes(pageName, doNotNeedAnyPermissions)) {
                 loginInformation = yield environment.fetchLoginInformation()
             }
             const permissions = getPermissions(loginInformation)
             yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-            if(R.includes(pageName, needManageUsersPermission) && !R.includes(MANAGE_USERS, permissions)){
+            if (R.includes(pageName, needManageUsersPermission) && !R.includes(MANAGE_USERS, permissions)) {
                 yield put(navigationDispatch.errorAdded(`You need ${MANAGE_USERS} permission to view the ${pageName} page`))
-            } else if(R.includes(pageName, needViewSecretsPermission) && !R.includes(VIEW_SECRETS, permissions)) {
+            } else if (R.includes(pageName, needViewSecretsPermission) && !R.includes(VIEW_SECRETS, permissions)) {
                 yield put(navigationDispatch.errorAdded(`You need ${VIEW_SECRETS} permission to view the ${pageName} page`))
             } else {
                 yield put(dispatch.initialize({query, loginInformation}))
             }
-        } else if(pageName === '') {
+        } else if (pageName === '') {
             yield put(navigationDispatch.setUri(loginPagePath))
         } else {
             yield put(navigationDispatch.errorAdded(`Page '${pageName}' not found`))
