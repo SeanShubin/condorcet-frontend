@@ -5,11 +5,11 @@ module.exports = function (app) {
         target: 'http://localhost:8080',
         changeOrigin: true,
         pathRewrite: {
-            '^/proxy/': '/',
+            '^/api/': '/',
         }
     };
     app.use(
-        '/proxy/',
+        '/api/',
         createProxyMiddleware(options)
     );
 };

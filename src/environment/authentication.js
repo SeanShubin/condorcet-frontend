@@ -7,7 +7,7 @@ const createAuthentication = fetch => {
         loginInformation = newLoginInformation
     }
     const fetchLoginInformation = async () => {
-        const refreshResponse = await fetch('/proxy/Refresh')
+        const refreshResponse = await fetch('/api/Refresh')
         if(refreshResponse.ok){
             loginInformation = await refreshResponse.json()
         } else {
@@ -30,7 +30,7 @@ const createAuthentication = fetch => {
 
     }
     const fetchUsingRefreshToken = async (resource, init) => {
-        const refreshResponse = await fetch('/proxy/Refresh')
+        const refreshResponse = await fetch('/api/Refresh')
         if (refreshResponse.ok) {
             loginInformation = await refreshResponse.json()
             return await fetchUsingAccessToken(resource, init)

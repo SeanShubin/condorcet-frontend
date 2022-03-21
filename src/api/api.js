@@ -5,7 +5,7 @@ const createApi = environment => {
     const fetch = environment.fetch
     const invokeApiBase = theFetch => async (name, parameters) => {
         const result = await theFetch(
-            `/proxy/${name}`,
+            `/api/${name}`,
             {
                 method: 'POST',
                 body: JSON.stringify(parameters)
