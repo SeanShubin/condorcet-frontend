@@ -107,6 +107,8 @@ const Election = args => {
     const isOwner = userName === originalElection.ownerName
     const canEditElection = isOwner && originalElection.allowEdit && !originalElection.allowVote
     const canDelete = isOwner && !hasPendingEdits
+    const canLaunch = isOwner && !hasPendingEdits && !originalElection.allowVote && originalElection.allowEdit
+    const canFinalize = isOwner && !hasPendingEdits && originalElection.allowVote
 
     const updateElectionName = event => {
         updateElectionEdits(R.mergeRight(electionWithEdits, {
@@ -196,8 +198,6 @@ const Election = args => {
     })}`
     const voterCountText = voterCountTextFor(voterCount)
     const status = statusOfElection(originalElection)
-    const canLaunch = !hasPendingEdits && !originalElection.allowVote && originalElection.allowEdit
-    const canFinalize = !hasPendingEdits && originalElection.allowVote
     return <div className={'Election columns-1-outer'}>
         <h1>Election</h1>
         <ErrorComponent errors={errors}/>
