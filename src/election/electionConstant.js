@@ -1,3 +1,3 @@
-const createElectionPagePath = election => `/election?election=${election}`
+const createElectionPagePath = electionName => `/election?election=${electionName}`
 
 export {createElectionPagePath}
