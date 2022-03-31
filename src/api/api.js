@@ -163,6 +163,10 @@ const createApi = environment => {
         return invokeApi('GetBallot', {voterName, electionName})
     }
 
+    const changePassword = async({userName, password}) => {
+        return invokeApi('ChangePassword', {userName, password})
+    }
+
     return {
         authenticate,
         authenticateWithToken,
@@ -193,7 +197,8 @@ const createApi = environment => {
         castBallot,
         tally,
         listRankings,
-        getBallot
+        getBallot,
+        changePassword
     }
 }
 

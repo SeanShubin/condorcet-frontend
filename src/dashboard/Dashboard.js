@@ -6,6 +6,7 @@ import {electionsPagePath} from "../elections/electionsConstant";
 import {tablesPagePath} from "../tables/tablesConstant";
 import {debugTablesPagePath} from "../debugTables/debugTablesConstant";
 import {eventsPagePath} from "../events/eventsConstant";
+import {changePasswordPagePath} from "../changePassword/changePasswordConstant";
 import {Link} from "../library/uri-util";
 
 const ManageUsersLink = ({setUri, canManageUsers, userCount}) => {
@@ -60,6 +61,7 @@ const Dashboard = args => {
         <ManageUsersLink canManageUsers={canManageUsers} setUri={globalSetUri} userCount={userCount}/>
         <Link href={electionsPagePath} setUri={globalSetUri}>{electionCountText}</Link>
         <DebugLinks canViewSecrets={canViewSecrets} setUri={globalSetUri} tableCount={tableCount} eventCount={eventCount}/>
+        <Link href={changePasswordPagePath} setUri={globalSetUri}>change password</Link>
         <button type={'button'} onClick={logoutRequest}>Logout</button>
     </div>
 }

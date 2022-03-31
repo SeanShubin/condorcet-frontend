@@ -7,7 +7,7 @@ import {loginPagePath} from "../login/loginConstant";
 
 const PageHasErrors = ({pageName, setUri, errors, loginInformation}) => {
     let DashboardLink
-    if(loginInformation) {
+    if (loginInformation) {
         DashboardLink = () => <Link setUri={setUri} href={dashboardPagePath}>dashboard</Link>
     } else {
         DashboardLink = (() => null)
@@ -58,6 +58,7 @@ const Navigation = args => {
         Ballot,
         Tally,
         Voters,
+        ChangePassword,
         setUri
     } = args
     const pageMap = {
@@ -74,10 +75,11 @@ const Navigation = args => {
         candidates: Candidates,
         ballot: Ballot,
         tally: Tally,
-        voters: Voters
+        voters: Voters,
+        changePassword: ChangePassword
     }
     let Component
-    if(errors.length > 0){
+    if (errors.length > 0) {
         Component = () => <PageHasErrors setUri={setUri}
                                          pageName={pageName} errors={errors}
                                          loginInformation={loginInformation}/>
