@@ -1,5 +1,18 @@
 # Condorcet Frontend
 
+## Todo list
+- password reset
+- redirect to login page on expired token
+  - go back to original page after login
+- archive election results
+  - preserve information so that it does not get lost when deleting election or user 
+- delete election/user
+  - depends on archiving elections
+- confirmations for destructive operations
+- changes after vote
+  - for some kinds of elections it makes sense to allow changes to the election after voting has started
+  - still need to preserve the kinds of elections where everything is fixed once voting starts
+
 ## Prerequisites
 
 Make sure [condorcet-backend](https://github.com/SeanShubin/condorcet-backend) is running
