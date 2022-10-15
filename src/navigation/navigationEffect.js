@@ -19,6 +19,7 @@ import registerDispatch from "../register/registerDispatch";
 import styleDispatch from "../style/styleDispatch";
 import {createApi, MANAGE_USERS, VIEW_SECRETS} from "../api/api";
 import changePasswordDispatch from "../changePassword/changePasswordDispatch";
+import resetPasswordDispatch from "../resetPassword/resetPasswordDispatch";
 
 const dispatchMap = {
     login: loginDispatch,
@@ -35,7 +36,8 @@ const dispatchMap = {
     tally: tallyDispatch,
     voters: votersDispatch,
     style: styleDispatch,
-    changePassword: changePasswordDispatch
+    changePassword: changePasswordDispatch,
+    resetPassword: resetPasswordDispatch
 }
 
 const handleError = environment => function* (f) {
@@ -92,7 +94,7 @@ const clearBrowserState = environment => function* (event) {
     yield
 }
 
-const doNotNeedAnyPermissions = ['login', 'register', 'style']
+const doNotNeedAnyPermissions = ['login', 'register', 'resetPassword', 'style']
 const needManageUsersPermission = ['users']
 const needViewSecretsPermission = ['tables', 'debugTables', 'events']
 

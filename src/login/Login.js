@@ -2,6 +2,7 @@ import React from 'react';
 import ErrorComponent from "../error/ErrorComponent";
 import {registerPagePath} from "../register/registerConstant";
 import {stylePagePath} from "../style/styleConstant";
+import {resetPasswordPagePath} from "../resetPassword/resetPasswordConstant";
 import {Link} from "../library/uri-util";
 
 const Login = (
@@ -36,6 +37,7 @@ const Login = (
         <button type={'submit'}>Login</button>
         <hr/>
         <Link href={registerPagePath} setUri={globalSetUri}>Register</Link>
+        <Link href={resetPasswordPagePath} setUri={globalSetUri}>Reset Password</Link>
         <Link href={stylePagePath} setUri={globalSetUri}>Style</Link>
     </form>
 }

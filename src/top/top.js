@@ -16,6 +16,7 @@ import createBallotConnected from "../ballot/ballotConnected";
 import createTallyConnected from "../tally/tallyConnected";
 import createVotersConnected from "../voters/votersConnected";
 import createChangePasswordConnected from "../changePassword/changePasswordConnected";
+import createResetPasswordConnected from "../resetPassword/resetPasswordConnected";
 
 const loginConnected = createLoginConnected({})
 const registerConnected = createRegisterConnected({})
@@ -32,6 +33,7 @@ const debugTablesConnected = createDebugTablesConnected({})
 const eventsConnected = createEventsConnected({})
 const styleConnected = createStyleConnected({})
 const changePasswordConnected = createChangePasswordConnected({})
+const resetPasswordConnected = createResetPasswordConnected({})
 
 const navigationConnected = createNavigationConnected({
     extraState: {
@@ -49,7 +51,8 @@ const navigationConnected = createNavigationConnected({
         DebugTables: debugTablesConnected.Component,
         Events: eventsConnected.Component,
         Style: styleConnected.Component,
-        ChangePassword: changePasswordConnected.Component
+        ChangePassword: changePasswordConnected.Component,
+        ResetPassword: resetPasswordConnected.Component
     }
 })
 const connectedArray = [
@@ -68,7 +71,8 @@ const connectedArray = [
     debugTablesConnected,
     eventsConnected,
     styleConnected,
-    changePasswordConnected
+    changePasswordConnected,
+    resetPasswordConnected
 ]
 
 const initializeEvents = [

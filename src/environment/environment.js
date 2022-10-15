@@ -5,7 +5,8 @@ const createEnvironment = (
     {
         fetch,
         history,
-        console
+        console,
+        location
     }) => {
     const fetchWithBetterJsonErrorMessage = async (resource, init) => {
         const response = await fetch(resource, init)
@@ -41,7 +42,8 @@ const createEnvironment = (
         clearAccessToken,
         history,
         fetch:fetchWithBetterJsonErrorMessage,
-        genericError
+        genericError,
+        location
     }
 }
 

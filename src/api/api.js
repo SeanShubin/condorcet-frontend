@@ -167,6 +167,10 @@ const createApi = environment => {
         return invokeApi('ChangePassword', {userName, password})
     }
 
+    const resetPassword = async ({email, baseUri}) => {
+        return invokeApiNoAuth('SendLoginLinkByEmail', {email, baseUri})
+    }
+
     return {
         authenticate,
         authenticateWithToken,
@@ -198,7 +202,8 @@ const createApi = environment => {
         tally,
         listRankings,
         getBallot,
-        changePassword
+        changePassword,
+        resetPassword
     }
 }
 
