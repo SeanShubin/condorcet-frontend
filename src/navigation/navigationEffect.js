@@ -121,17 +121,24 @@ const fetchPageRequest = environment => function* () {
                 urlSearchParams.delete('accessToken')
                 environment.history.push(environment.history.location.pathname + '?' + urlSearchParams.toString())
             }
-            if (!R.includes(pageName, doNotNeedAnyPermissions)) {
-                loginInformation = yield environment.fetchLoginInformation()
-            }
-            const permissions = getPermissions(loginInformation)
-            yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
-            if (R.includes(pageName, needManageUsersPermission) && !R.includes(MANAGE_USERS, permissions)) {
-                yield put(navigationDispatch.errorAdded(`You need ${MANAGE_USERS} permission to view the ${pageName} page`))
-            } else if (R.includes(pageName, needViewSecretsPermission) && !R.includes(VIEW_SECRETS, permissions)) {
-                yield put(navigationDispatch.errorAdded(`You need ${VIEW_SECRETS} permission to view the ${pageName} page`))
-            } else {
+            if (R.includes(pageName, doNotNeedAnyPermissions)) {
+                yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
                 yield put(dispatch.initialize({query, loginInformation}))
+            } else {
+                loginInformation = yield environment.fetchLoginInformation()
+                if(loginInformation == null){
+                    yield put(navigationDispatch.setUri(loginPagePath))
+                } else {
+                    const permissions = getPermissions(loginInformation)
+                    yield put(navigationDispatch.fetchPageSuccess({pageName, loginInformation}))
+                    if (R.includes(pageName, needManageUsersPermission) && !R.includes(MANAGE_USERS, permissions)) {
+                        yield put(navigationDispatch.errorAdded(`You need ${MANAGE_USERS} permission to view the ${pageName} page`))
+                    } else if (R.includes(pageName, needViewSecretsPermission) && !R.includes(VIEW_SECRETS, permissions)) {
+                        yield put(navigationDispatch.errorAdded(`You need ${VIEW_SECRETS} permission to view the ${pageName} page`))
+                    } else {
+                        yield put(dispatch.initialize({query, loginInformation}))
+                    }
+                }
             }
         } else if (pageName === '') {
             yield put(navigationDispatch.setUri(loginPagePath))
