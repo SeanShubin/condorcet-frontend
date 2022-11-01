@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ordering</title>
+    <style>
+        body > div {
+            justify-content: center;
+        }
+
+        .voter-ordering-outer {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            gap: 2px;
+        }
+
+        .voter-ordering-outer > * {
+            justify-self: start;
+        }
+
+        .rank {
+            grid-row: span 2;
+            align-self: center;
+        }
+
+        .arrow.only {
+            grid-row: span 2;
+        }
+
+        .same-rank {
+            grid-row: span 2;
+            align-self: center;
+        }
+
+        .candidate {
+            grid-row: span 2;
+            align-self: center;
+        }
+
+        .merge {
+            grid-column: span 3;
+        }
+
+        .voter-ordering-inner {
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 1px;
+        }
+
+        .voter-ordering-inner > * {
+            justify-self: start;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="voter-ordering-outer">
+    <button class="arrow only">↓</button>
+    <span class="rank">1</span>
+    <span class="same-rank">Red</span>
+    <button class="merge">⇉→</button>
+    <button class="arrow first">↑</button>
+    <span class="rank">2</span>
+    <span class="same-rank voter-ordering-inner">
+        <button class="arrow first">↑</button>
+        <span class="candidate">Green</span>
+        <button class="arrow second">↓</button>
+        <button class="arrow first">↑</button>
+        <span class="candidate">Blue</span>
+        <button class="arrow second">↓</button>
+    </span>
+    <button class="arrow second">↓</button>
+    <button class="merge">⇉→</button>
+    <button class="arrow only">↑</button>
+    <span class="rank">3</span>
+    <span class="same-rank">Yellow</span>
+</div>
+</body>
+</html>
