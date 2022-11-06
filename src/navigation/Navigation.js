@@ -60,6 +60,7 @@ const Navigation = args => {
         Voters,
         ChangePassword,
         ResetPassword,
+        User,
         setUri
     } = args
     const pageMap = {
@@ -78,7 +79,8 @@ const Navigation = args => {
         tally: Tally,
         voters: Voters,
         changePassword: ChangePassword,
-        resetPassword:ResetPassword
+        resetPassword:ResetPassword,
+        user:User
     }
     let Component
     if (errors.length > 0) {

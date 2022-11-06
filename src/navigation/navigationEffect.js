@@ -20,6 +20,7 @@ import styleDispatch from "../style/styleDispatch";
 import {createApi, MANAGE_USERS, VIEW_SECRETS} from "../api/api";
 import changePasswordDispatch from "../changePassword/changePasswordDispatch";
 import resetPasswordDispatch from "../resetPassword/resetPasswordDispatch";
+import userDispatch from "../user/userDispatch";
 
 const dispatchMap = {
     login: loginDispatch,
@@ -37,7 +38,8 @@ const dispatchMap = {
     voters: votersDispatch,
     style: styleDispatch,
     changePassword: changePasswordDispatch,
-    resetPassword: resetPasswordDispatch
+    resetPassword: resetPasswordDispatch,
+    user: userDispatch
 }
 
 const handleError = environment => function* (f) {

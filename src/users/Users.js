@@ -2,6 +2,7 @@ import React from 'react';
 import ErrorComponent from "../error/ErrorComponent";
 import * as R from 'ramda'
 import {dashboardPagePath} from "../dashboard/dashboardConstant";
+import {userPagePath} from "../user/userConstant";
 import {Link} from "../library/uri-util";
 
 const HeaderCell = ({caption}) => <th key={caption}><span>{caption}</span></th>
@@ -11,7 +12,7 @@ const HeaderRow = ({captions}) => {
     return <tr>{headerCells}</tr>
 }
 
-const BodyRow = ({user, updateUserRoleRequest}) => {
+const BodyRow = ({user, updateUserRoleRequest, setUri}) => {
     const RoleOption = ({role}) => {
         return <option key={role}>{role}</option>
     }
@@ -30,26 +31,29 @@ const BodyRow = ({user, updateUserRoleRequest}) => {
                 {R.map(role => <RoleOption key={role} role={role}/>, user.allowedRoles)}
             </select>
         </td>
+        <td><Link href={userPagePath(user.userName)} setUri={setUri}>edit</Link></td>
     </tr>
 }
 
-const BodyRows = ({users, updateUserRoleRequest}) => {
+const BodyRows = ({users, updateUserRoleRequest, setUri}) => {
     const createBodyRow = user => {
         return <BodyRow key={user.userName}
                         user={user}
-                        updateUserRoleRequest={updateUserRoleRequest}/>
+                        updateUserRoleRequest={updateUserRoleRequest}
+                        setUri={setUri}
+        />
     }
     return R.map(createBodyRow, users)
 }
 
-const UserList = ({users, updateUserRoleRequest}) => {
-    const captions = ['name', 'role']
+const UserList = ({users, updateUserRoleRequest, setUri}) => {
+    const captions = ['name', 'role', '']
     return <table>
         <thead>
         <HeaderRow captions={captions}/>
         </thead>
         <tbody>
-        <BodyRows users={users} updateUserRoleRequest={updateUserRoleRequest}/>
+        <BodyRows users={users} updateUserRoleRequest={updateUserRoleRequest} setUri={setUri}/>
         </tbody>
     </table>
 }
@@ -64,7 +68,7 @@ const Users = (
     return <div className={'Users columns-1-outer'}>
         <h1>Users</h1>
         <ErrorComponent errors={errors}/>
-        <UserList users={users} updateUserRoleRequest={updateUserRoleRequest}/>
+        <UserList users={users} updateUserRoleRequest={updateUserRoleRequest} setUri={globalSetUri}/>
         <hr/>
         <Link href={dashboardPagePath} setUri={globalSetUri}>dashboard</Link>
     </div>

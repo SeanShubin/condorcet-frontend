@@ -17,6 +17,7 @@ import createTallyConnected from "../tally/tallyConnected";
 import createVotersConnected from "../voters/votersConnected";
 import createChangePasswordConnected from "../changePassword/changePasswordConnected";
 import createResetPasswordConnected from "../resetPassword/resetPasswordConnected";
+import createUserConnected from "../user/userConnected";
 
 const loginConnected = createLoginConnected({})
 const registerConnected = createRegisterConnected({})
@@ -34,6 +35,7 @@ const eventsConnected = createEventsConnected({})
 const styleConnected = createStyleConnected({})
 const changePasswordConnected = createChangePasswordConnected({})
 const resetPasswordConnected = createResetPasswordConnected({})
+const userConnected = createUserConnected({})
 
 const navigationConnected = createNavigationConnected({
     extraState: {
@@ -52,7 +54,8 @@ const navigationConnected = createNavigationConnected({
         Events: eventsConnected.Component,
         Style: styleConnected.Component,
         ChangePassword: changePasswordConnected.Component,
-        ResetPassword: resetPasswordConnected.Component
+        ResetPassword: resetPasswordConnected.Component,
+        User: userConnected.Component
     }
 })
 const connectedArray = [
@@ -72,7 +75,8 @@ const connectedArray = [
     eventsConnected,
     styleConnected,
     changePasswordConnected,
-    resetPasswordConnected
+    resetPasswordConnected,
+    userConnected
 ]
 
 const initializeEvents = [
