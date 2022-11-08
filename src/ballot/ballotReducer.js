@@ -5,9 +5,12 @@ import * as R from 'ramda'
 
 const clearBallot = (state, event) => {
     const originalRankings = R.view(ballotModel.originalRankings, state)
-    const setRankToNull = ({candidateName, rank}) => ({candidateName, rank:null})
+    const setRankToNull = ({candidateName, rank}) => ({candidateName, rank: null})
     const newRankings = R.map(setRankToNull, originalRankings)
-    return R.set(ballotModel.editedRankings, newRankings, state)
+    return R.pipe(
+        R.set(ballotModel.editedRankings, newRankings),
+        R.set(ballotModel.moveFromRank, null)
+    )(state)
 }
 
 const fetchBallotSuccess = (state, event) => R.pipe(
@@ -15,7 +18,8 @@ const fetchBallotSuccess = (state, event) => R.pipe(
     R.set(ballotModel.electionName, event.electionName),
     R.set(ballotModel.ballot, event.ballot),
     R.set(ballotModel.originalRankings, event.rankings),
-    R.set(ballotModel.editedRankings, event.rankings)
+    R.set(ballotModel.editedRankings, event.rankings),
+    R.set(ballotModel.moveFromRank, null)
 )(state)
 
 const nextRank = rankings => {
@@ -26,8 +30,8 @@ const addAfterLastRanked = ({rankings, candidateName}) => {
     const targetCandidateName = candidateName
     const targetCandidateRank = nextRank(rankings)
     const updateCandidate = ({candidateName, rank}) => {
-        if(candidateName === targetCandidateName){
-            return {candidateName, rank:targetCandidateRank}
+        if (candidateName === targetCandidateName) {
+            return {candidateName, rank: targetCandidateRank}
         } else {
             return {candidateName, rank}
         }
@@ -38,25 +42,25 @@ const addAfterLastRanked = ({rankings, candidateName}) => {
 
 const moveRankGreaterNumber = ({rankings, moveFromRank, moveToRank}) => {
     const setRank = ({candidateName, rank}) => {
-        if(!rank || rank < moveFromRank || rank > moveToRank) return {candidateName, rank}
-        if(rank === moveFromRank) return {candidateName, rank:moveToRank}
-        else return {candidateName, rank:rank-1}
+        if (!rank || rank < moveFromRank || rank > moveToRank) return {candidateName, rank}
+        if (rank === moveFromRank) return {candidateName, rank: moveToRank}
+        else return {candidateName, rank: rank - 1}
     }
     return rankings.map(setRank)
 }
 
 const moveRankLowerNumber = ({rankings, moveFromRank, moveToRank}) => {
     const setRank = ({candidateName, rank}) => {
-        if(!rank || rank < moveToRank || rank > moveFromRank) return {candidateName, rank}
-        if(rank === moveFromRank) return {candidateName, rank:moveToRank}
-        else return {candidateName, rank:rank+1}
+        if (!rank || rank < moveToRank || rank > moveFromRank) return {candidateName, rank}
+        if (rank === moveFromRank) return {candidateName, rank: moveToRank}
+        else return {candidateName, rank: rank + 1}
     }
     return rankings.map(setRank)
 }
 
 const moveCandidate = ({rankings, moveFromRank, moveToRank}) => {
-    if(moveFromRank < moveToRank) return moveRankGreaterNumber({rankings, moveFromRank, moveToRank})
-    if(moveFromRank > moveToRank) return moveRankLowerNumber({rankings, moveFromRank, moveToRank})
+    if (moveFromRank < moveToRank) return moveRankGreaterNumber({rankings, moveFromRank, moveToRank})
+    if (moveFromRank > moveToRank) return moveRankLowerNumber({rankings, moveFromRank, moveToRank})
     return rankings
 }
 
@@ -71,11 +75,11 @@ const selectCandidate = (state, event) => {
     const {candidateName, rank} = event
     const rankings = R.view(ballotModel.editedRankings, state)
     const moveFromRank = R.view(ballotModel.moveFromRank, state)
-    if(R.isNil(rank)) {
+    if (R.isNil(rank)) {
         const newRankings = addAfterLastRanked({rankings, candidateName})
         const sortedRankings = sortRankings(newRankings)
         return R.set(ballotModel.editedRankings, sortedRankings, state)
-    } else if(R.isNil(moveFromRank)) {
+    } else if (R.isNil(moveFromRank)) {
         return R.set(ballotModel.moveFromRank, rank, state)
     } else {
         const moveToRank = rank
@@ -96,7 +100,7 @@ const ballotReducer = {
     [ballotEvent.SELECT_CANDIDATE]: selectCandidate,
     [ballotEvent.CLEAR_BALLOT]: clearBallot,
     [ballotEvent.ERROR_ADDED]: errorAdded,
-    [ballotEvent.CLEAR_ERRORS]:clearErrors
+    [ballotEvent.CLEAR_ERRORS]: clearErrors
 }
 
 export default ballotReducer
