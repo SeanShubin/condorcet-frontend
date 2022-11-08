@@ -20,7 +20,8 @@ const ballotDispatch = {
         electionName,
         rankings
     }),
-    updateRank: ({candidateName, rank}) => ({type: ballotEvent.UPDATE_RANK, candidateName, rank}),
+    selectCandidate: ({candidateName, rank}) => ({type: ballotEvent.SELECT_CANDIDATE, candidateName, rank}),
+    clearBallot: () => ({type: ballotEvent.CLEAR_BALLOT}),
     errorAdded: message => ({type: ballotEvent.ERROR_ADDED, message}),
     clearErrors: () => ({type: ballotEvent.CLEAR_ERRORS})
 }

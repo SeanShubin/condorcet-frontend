@@ -6,6 +6,7 @@ const ballotModel = {
     electionName: lensPathWithDefault(['ballot', 'electionName']),
     originalRankings: lensPathWithDefault(['ballot', 'originalRankings'], []),
     editedRankings: lensPathWithDefault(['ballot', 'editedRankings'], []),
+    moveFromRank: lensPathWithDefault(['ballot', 'moveFromRank'], null),
     errors: lensPathWithDefault(['ballot', 'errors'], [])
 }
 

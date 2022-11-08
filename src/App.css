@@ -294,3 +294,17 @@
     white-space: nowrap;
     overflow-x: scroll;
 }
+
+.App .can-move {
+    text-decoration: none;
+    color: var(--navigate-text-foreground);
+    background-color: var(--navigate-text-background);
+}
+
+.App .move-from {
+    border: 3px solid var(--active2);
+}
+
+.App .move-to {
+    border: 2px dotted var(--active2);
+}

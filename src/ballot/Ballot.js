@@ -6,63 +6,67 @@ import {dashboardPagePath} from "../dashboard/dashboardConstant";
 import {isoDateToLocal} from "../library/date-time-util";
 import {Link} from "../library/uri-util";
 
-const rankToString = rank => {
-    const parsed = parseInt(rank)
-    if (isNaN(parsed)) {
-        return ''
+const RankedItem = ({rankedItem, selectCandidate, moveFromRank}) => {
+    const {candidateName, rank} = rankedItem
+    const onSelectCandidate = () => {
+        selectCandidate(rankedItem)
+    }
+    let moveClass
+    if(R.isNil(moveFromRank)) {
+        moveClass = 'can-move'
+    }else if(rankedItem.rank === moveFromRank){
+        moveClass = 'can-move move-from'
     } else {
-        return parsed.toString()
+        moveClass = 'can-move move-to'
     }
-}
-
-const stringToRank = s => {
-    const parsed = parseInt(s)
-    if (isNaN(parsed)) {
-        return null
-    } else {
-        return parsed
-    }
-}
-
-const Ranking = ({candidateName, rank, effectiveRank, updateRank}) => {
-    const onChangeRank = event => {
-        updateRank({candidateName, rank: stringToRank(event.target.value)})
-    }
-    const parsedRank = rankToString(rank)
-    return <Fragment key={candidateName}>
-        <input size={3} value={parsedRank} onChange={onChangeRank}/>
-        <span>{candidateName}</span>
+    return <Fragment>
+        <span>{rank}</span>
+        <span className={moveClass} onClick={onSelectCandidate}>{candidateName}</span>
     </Fragment>
 }
 
-const Rankings = ({rankings, updateRank}) => {
-    const createRanking = ({candidateName, rank, effectiveRank}) => {
-        return Ranking({candidateName, rank, effectiveRank, updateRank})
-    }
-    const list = R.map(createRanking, rankings)
+const RankedList = ({rankedList, selectCandidate, moveFromRank}) => {
+    const createRankedItem = rankedItem => <RankedItem key={rankedItem.candidateName} rankedItem={rankedItem} selectCandidate={selectCandidate} moveFromRank={moveFromRank}/>
+    const rankedItems = R.map(createRankedItem, rankedList)
+    if(rankedList.length === 0) return null
     return <>
-        <h2>Edit Rankings</h2>
-        <p>1 for first place 2 for second place, and so on</p>
-        <div className={"columns-2"}>{list}</div>
+        <h2>Ranked</h2>
+        <div className={"columns-2"}>
+            {rankedItems}
+        </div>
     </>
 }
 
-const EffectiveRanking = ({candidateName, rank, effectiveRank}) => {
-    return <Fragment key={candidateName}>
-        <span>{effectiveRank}</span>
-        <span>{candidateName}</span>
+const UnrankedItem = ({unrankedItem, selectCandidate}) => {
+    const {candidateName} = unrankedItem
+    const onSelectCandidate = () => {
+        selectCandidate(unrankedItem)
+    }
+    return <Fragment>
+        <span className={'can-move'} onClick={onSelectCandidate}>{candidateName}</span>
     </Fragment>
 }
 
-const EffectiveRankings = ({rankings}) => {
-    const sortedRankings = R.sortBy(R.prop('effectiveRank'), rankings)
-    const createEffectiveRanking = ({candidateName, rank, effectiveRank}) => {
-        return EffectiveRanking({candidateName, rank, effectiveRank})
-    }
-    const list = R.map(createEffectiveRanking, sortedRankings)
+const UnrankedList = ({unrankedList, selectCandidate}) => {
+    if(unrankedList.length === 0) return null
+    const createUnrankedItem = unrankedItem => <UnrankedItem key={unrankedItem.candidateName} unrankedItem={unrankedItem} selectCandidate={selectCandidate}/>
+    const unrankedItems = unrankedList.map(createUnrankedItem)
     return <>
-        <h2>Effective Rankings</h2>
-        <div className={"columns-2"}>{list}</div>
+        <h2>Unranked</h2>
+        <div className={"columns-1-outer"}>
+            {unrankedItems}
+        </div>
+    </>
+}
+
+const Rankings = ({rankings, selectCandidate, moveFromRank}) => {
+    const isRanked = ranking => ranking.rank
+    const [rankedList, unrankedList] = R.partition(isRanked, rankings)
+    return <>
+        <h2>Edit Rankings</h2>
+        <p>1 for first place 2 for second place, and so on</p>
+        <RankedList rankedList={rankedList} selectCandidate={selectCandidate} moveFromRank={moveFromRank}/>
+        <UnrankedList unrankedList={unrankedList} selectCandidate={selectCandidate}/>
     </>
 }
 
@@ -95,44 +99,24 @@ const BallotSummary = ({ballot}) => {
     </>
 }
 
-const effectiveRankingsFrom = rankings => {
-    const ranks = R.map(R.prop('rank'), rankings)
-    const notNullRanks = R.reject(R.isNil, ranks)
-    const distinctRanks = R.uniq(notNullRanks)
-    const distinctOrderedRanks = R.sortBy(R.identity, distinctRanks)
-    const normalized = R.range(1, distinctOrderedRanks.length + 1)
-    const newRankMap = R.zipObj(distinctOrderedRanks, normalized)
-    const lastRank = distinctOrderedRanks.length + 1
-    const defaultToLastRank = R.defaultTo(lastRank)
-
-    const toEffectiveRank = rank => {
-        const effectiveRank = defaultToLastRank(newRankMap[rank])
-        return effectiveRank
-    }
-
-    const updateRanking = ranking => {
-        const effectiveRank = toEffectiveRank(ranking.rank)
-        return R.assoc('effectiveRank', effectiveRank, ranking)
-    }
-
-    const effectiveRankings = R.map(updateRanking, rankings)
-    return effectiveRankings
-}
-
-const Ballot = ({
-                    voterName,
-                    electionName,
-                    ballot,
-                    originalRankings,
-                    editedRankings,
-                    errors,
-                    fetchBallotRequest,
-                    castBallotRequest,
-                    updateRank,
-                    globalSetUri
-                }) => {
+const Ballot = props => {
+    const {
+        voterName,
+        electionName,
+        ballot,
+        originalRankings,
+        editedRankings,
+        moveFromRank,
+        errors,
+        fetchBallotRequest,
+        castBallotRequest,
+        selectCandidate,
+        clearBallot,
+        globalSetUri
+    } = props
     const hasPendingEdits = !R.equals(originalRankings, editedRankings)
-    const effectiveRankings = effectiveRankingsFrom(editedRankings)
+    const rankIsNil = R.compose(R.isNil, R.prop('rank'))
+    const noneRanked = R.all(rankIsNil, editedRankings)
 
     const onClickCastBallot = event => {
         castBallotRequest({voterName, electionName, rankings: editedRankings})
@@ -140,15 +124,17 @@ const Ballot = ({
     const onClickDiscardChanges = event => {
         fetchBallotRequest({voterName, electionName})
     }
-
+    const onClickStartOver = event => {
+        clearBallot()
+    }
     return <div className={'Ballot columns-1-outer'}>
         <h1>Ballot</h1>
         <ErrorComponent errors={errors}/>
         <BallotSummary ballot={ballot}/>
-        <Rankings rankings={effectiveRankings} updateRank={updateRank}/>
-        <EffectiveRankings rankings={effectiveRankings}/>
+        <Rankings rankings={editedRankings} selectCandidate={selectCandidate} moveFromRank={moveFromRank}/>
         <button type={"submit"} onClick={onClickCastBallot} disabled={!hasPendingEdits}>Cast Ballot</button>
         <button type={"submit"} onClick={onClickDiscardChanges} disabled={!hasPendingEdits}>Discard Changes</button>
+        <button type={"submit"} onClick={onClickStartOver} disabled={noneRanked}>Clear Ballot</button>
         <hr/>
         <Link href={createElectionPagePath(electionName)} setUri={globalSetUri}>election {electionName}</Link>
         <Link href={dashboardPagePath} setUri={globalSetUri}>dashboard</Link>
