@@ -19,10 +19,10 @@ const RankedItem = ({rankedItem, selectCandidate, moveFromRank}) => {
     } else {
         moveClass = 'can-move move-to'
     }
-    return <Fragment>
+    return <div className={moveClass} onClick={onSelectCandidate}>
         <span>{rank}</span>
-        <span className={moveClass} onClick={onSelectCandidate}>{candidateName}</span>
-    </Fragment>
+        <span>{candidateName}</span>
+    </div>
 }
 
 const RankedList = ({rankedList, selectCandidate, moveFromRank}) => {
@@ -31,7 +31,7 @@ const RankedList = ({rankedList, selectCandidate, moveFromRank}) => {
     if(rankedList.length === 0) return null
     return <>
         <h2>Ranked</h2>
-        <div className={"columns-2"}>
+        <div className={"columns-1-outer"}>
             {rankedItems}
         </div>
     </>

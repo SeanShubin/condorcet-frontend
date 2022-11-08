@@ -299,6 +299,7 @@
     text-decoration: none;
     color: var(--navigate-text-foreground);
     background-color: var(--navigate-text-background);
+    border: 3px solid var(--background);
 }
 
 .App .move-from {
@@ -306,5 +307,9 @@
 }
 
 .App .move-to {
-    border: 2px dotted var(--active2);
+    border: 3px dotted var(--active2);
+}
+
+.App .can-move > * {
+    padding-right: 0.5rem;
 }
