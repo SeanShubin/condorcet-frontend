@@ -88,11 +88,6 @@ and be more explicit and intentional about what css styles are applied
   - https://github.com/chimurai/http-proxy-middleware
   - https://www.npmjs.com/package/http-proxy-middleware
 
-## Notes
-
-- should look into Json Web Token
-  - https://afteracademy.com/blog/implement-json-web-token-jwt-authentication-using-access-token-and-refresh-token
-
 ## Nginx
 config file is at /usr/local/etc/nginx/nginx.conf
 
@@ -110,3 +105,7 @@ location  /proxy {
     proxy_set_header   Host $host;
 }
 ```
+
+## Notes
+To pull out emails from table
+`Array.from(document.querySelectorAll('td:nth-child(3)')).map(element => element.innerText).forEach(email => console.log(email))`
